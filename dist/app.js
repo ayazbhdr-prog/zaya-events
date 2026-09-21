@@ -24,57 +24,110 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', () => { if(!scrollQueued) {scrollQueued = true; requestAnimationFrame(updateHeader);} }, {passive:true});
   updateHeader();
 
-  // Catalog: all names remain available with native, keyboard-operable buttons.
+  // Cards keep the same media surface when expanding into show details.
   const shows = window.ZAYA_SHOWS || [], list = $('#show-list'), dialog = $('#show-dialog');
-  const programSelect = $('#selected-program'); let selectedShow = null, lastTrigger = null;
-  shows.forEach(show => { const option = document.createElement('option'); option.value = show.title; option.textContent = show.title; programSelect.append(option); });
-  const renderShows = filter => {
+  const programSelect = $('#selected-program');
+  let selectedShow = null, lastTrigger = null, dialogTimeline = null, dialogClosing = false, pendingDialogFinish = null;
+  const canAnimate = () => !!window.gsap && !reducedMotion.matches;
+  const smallAssets = new Set(['pool-party.webp','theme-party.webp','live-music.webp']);
+  const posterHTML = show => {
+    const style = `--photo-position:${show.position || 'center'};--poster-accent:${show.accent}`;
+    if(show.image) {
+      const responsive = smallAssets.has(show.image) ? `srcset="assets/${show.image.replace('.webp','-small.webp')} 800w, assets/${show.image} 1600w" sizes="(max-width:760px) 88vw, (max-width:950px) 44vw, 29vw"` : '';
+      return `<span class="poster-surface art-photo" style="${style}"><img class="poster-photo" src="assets/${show.image}" ${responsive} alt="" width="1600" height="1200" loading="lazy"></span>`;
+    }
+    const initials = {african:'AA',drifters:'D',etiyopya:'E',prestij:'P'};
+    return `<span class="poster-surface art-${show.art}" style="${style}"><span class="poster-lines">${Array.from({length:7},(_,i)=>`<i style="--n:${i}"></i>`).join('')}</span><span class="poster-label">${initials[show.id]}</span><span class="poster-rule"></span><span class="poster-wordmark">ZAYA · SHOW COLLECTION</span></span>`;
+  };
+  const cardObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(!entry.isIntersecting) return;
+      cardObserver.unobserve(entry.target);
+      if(canAnimate()) gsap.to(entry.target,{opacity:1,y:0,duration:.65,delay:Number(entry.target.dataset.order)%3*.06,ease:'power3.out',clearProps:'opacity,transform'});
+      else {entry.target.style.opacity='';entry.target.style.transform='';}
+    });
+  },{rootMargin:'0px 0px 30px 0px',threshold:.08});
+  shows.forEach(show => {const option=document.createElement('option');option.value=show.title;option.textContent=show.title;programSelect.append(option);});
+  const renderShows = (filter, filtering = false) => {
+    cardObserver.disconnect();
+    if(window.gsap) gsap.killTweensOf(list.children);
     const visible = shows.filter(show => filter === 'all' || show.filter === filter);
     list.replaceChildren();
-    visible.forEach(show => {
-      const button = document.createElement('button'); button.type = 'button'; button.className = 'show-row'; button.dataset.show = show.id;
-      button.setAttribute('aria-label', `${show.title} — detayları incele`); button.setAttribute('aria-haspopup','dialog');
-      button.innerHTML = `<span class="show-number">${String(shows.indexOf(show)+1).padStart(2,'0')}</span><span><span class="show-name">${show.title}</span><span class="show-category">${show.category}</span></span><span class="show-arrow">${icon('arrow-up-right')}</span>`;
-      button.addEventListener('click', () => openShow(show, button));
-      list.append(button);
+    visible.forEach((show,index) => {
+      const button=document.createElement('button');button.type='button';button.className='show-card';button.dataset.show=show.id;button.dataset.order=String(index);
+      button.style.setProperty('--poster-accent',show.accent);
+      button.setAttribute('aria-label',`${show.title} — detayları incele`);button.setAttribute('aria-haspopup','dialog');
+      button.innerHTML=`<span class="card-art" aria-hidden="true">${posterHTML(show)}</span><span class="card-shade" aria-hidden="true"></span><span class="card-topline"><span class="card-number">${String(shows.indexOf(show)+1).padStart(2,'0')}</span><span class="card-category">${show.category}</span></span><span class="card-caption"><span class="card-title">${show.title}</span><span class="card-action">Şovu incele ${icon('arrow-up-right')}</span></span>`;
+      button.addEventListener('click',()=>openShow(show,button));list.append(button);
+      if(canAnimate()) {
+        gsap.set(button,{opacity:0,y:filtering?10:28});
+        if(filtering) gsap.to(button,{opacity:1,y:0,duration:.24,delay:Math.min(index,2)*.04,ease:'power2.out',clearProps:'opacity,transform'});
+        else cardObserver.observe(button);
+      }
     });
-    $('.catalog-count').textContent = `${visible.length} program`;
-    refreshIcons(); window.ScrollTrigger?.refresh();
-    if(window.gsap && !reducedMotion.matches) gsap.fromTo(list.children,{opacity:0,y:9},{opacity:1,y:0,duration:.4,stagger:.035,clearProps:'opacity,transform'});
+    $('.catalog-count').textContent=`${String(visible.length).padStart(2,'0')} program`;
+    refreshIcons();window.ScrollTrigger?.refresh();
   };
-  $$('.catalog-filters button').forEach(button => button.addEventListener('click', () => {
-    $$('.catalog-filters button').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-    renderShows(button.dataset.filter);
-    const photo = $('#catalog-photo');
-    const src = button.dataset.filter === 'muzik' ? 'live-music.webp' : button.dataset.filter === 'parti' ? 'theme-party.webp' : 'night.webp';
-    photo.src = `assets/${src}`;
-    photo.srcset = src === 'night.webp' ? '' : `assets/${src.replace('.webp','-small.webp')} 800w, assets/${src} 1600w`;
-    photo.sizes = '(max-width: 760px) 88vw, 42vw';
-    photo.alt = button.dataset.filter === 'muzik' ? 'Canlı müzik atmosferini gösteren temsili görsel' : 'Etkinlik atmosferini gösteren temsili görsel';
+  $$('.catalog-filters button').forEach(button=>button.addEventListener('click',()=>{
+    if(button.getAttribute('aria-pressed')==='true') return;
+    $$('.catalog-filters button').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+    renderShows(button.dataset.filter,true);
   }));
-  function openShow(show, trigger) {
-    selectedShow = show; lastTrigger = trigger;
-    $('#dialog-title').textContent = show.title; $('#dialog-category').textContent = show.category.toLocaleUpperCase('tr-TR');
-    $('#dialog-description').textContent = show.description;
-    const photo = $('#dialog-photo'), visual = $('.dialog-visual');
-    photo.hidden = !show.image; visual.classList.toggle('no-photo', !show.image);
-    if(show.image) {
-      photo.src = `assets/${show.image}`;
-      photo.srcset = show.image === 'night.webp' ? '' : `assets/${show.image.replace('.webp','-small.webp')} 800w, assets/${show.image} 1600w`;
-      photo.sizes = '(max-width: 760px) 92vw, 480px';
-    }
-    $('span',visual).textContent = show.image ? 'GÖRSEL TEMSİLİDİR · GERÇEK EKİP FOTOĞRAFI DEĞİLDİR' : 'ZAYA EVENTS · ŞOV KATALOĞU';
-    $('.dialog-tags').replaceChildren(...show.tags.map(tag => {const span = document.createElement('span'); span.textContent = tag; return span;}));
-    closeMenu(); dialog.showModal(); document.body.classList.add('dialog-open');
-    if(window.gsap && !reducedMotion.matches) gsap.fromTo(dialog,{opacity:0,y:18},{opacity:1,y:0,duration:.35,clearProps:'opacity,transform'});
+  function resetDialogMotion() {
+    dialogTimeline?.kill();dialogTimeline=null;
+    if(window.gsap) gsap.set([$('.dialog-visual'),$('.dialog-copy'),$('.dialog-close')],{clearProps:'transform,opacity'});
+    dialog.classList.remove('dialog-morphing');
   }
-  $('.dialog-close').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('click', e => { if(e.target === dialog){const r=dialog.getBoundingClientRect(); if(e.clientX<r.left || e.clientX>r.right || e.clientY<r.top || e.clientY>r.bottom) dialog.close();} });
-  dialog.addEventListener('close', () => {document.body.classList.remove('dialog-open'); lastTrigger?.focus({preventScroll:true});});
-  $('#select-show').addEventListener('click', () => {
-    if(!selectedShow) return; programSelect.value = selectedShow.title; lastTrigger = null; dialog.close();
-    $('#talep').scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});
-    $('input[name="venue"]').focus({preventScroll:true});
+  function openShow(show,trigger) {
+    if(dialog.open) return;
+    resetDialogMotion();dialogClosing=false;selectedShow=show;lastTrigger=trigger;
+    const sourceRect=$('.card-art',trigger).getBoundingClientRect();
+    $('#dialog-title').textContent=show.title;$('#dialog-category').textContent=show.category.toLocaleUpperCase('tr-TR');
+    $('#dialog-description').textContent=show.description;
+    const visual=$('.dialog-visual');$('#dialog-art').innerHTML=posterHTML(show);
+    $('.poster-photo',visual)?.setAttribute('loading','eager');
+    $('.poster-photo',visual)?.setAttribute('sizes','(max-width:760px) 92vw, 530px');
+    $('.dialog-image-note').textContent=show.image?'GÖRSEL TEMSİLİDİR · GERÇEK EKİP FOTOĞRAFI DEĞİLDİR':'GRAFİK TASARIM ÖNİZLEMESİ · ZAYA EVENTS';
+    $('.dialog-tags').replaceChildren(...show.tags.map(tag=>{const span=document.createElement('span');span.textContent=tag;return span;}));
+    closeMenu();dialog.showModal();dialog.scrollTop=0;document.body.classList.add('dialog-open');
+    if(canAnimate()) {
+      const target=visual.getBoundingClientRect();
+      dialog.classList.add('dialog-morphing');
+      dialogTimeline=gsap.timeline({onComplete:()=>{dialog.classList.remove('dialog-morphing');dialogTimeline=null;}});
+      dialogTimeline.fromTo(visual,{x:sourceRect.left-target.left,y:sourceRect.top-target.top,scaleX:sourceRect.width/target.width,scaleY:sourceRect.height/target.height},{x:0,y:0,scaleX:1,scaleY:1,duration:.52,ease:'power3.inOut',clearProps:'transform'},0)
+        .fromTo($('.dialog-copy'),{opacity:0,y:12},{opacity:1,y:0,duration:.2,ease:'power2.out',clearProps:'opacity,transform'},.32)
+        .fromTo($('.dialog-close'),{opacity:0},{opacity:1,duration:.16,clearProps:'opacity'},.32);
+    }
+  }
+  function closeShow({toForm=false}={}) {
+    if(!dialog.open||dialogClosing) return;
+    dialogClosing=true;dialogTimeline?.kill();dialogTimeline=null;
+    const finish=()=>{
+      pendingDialogFinish=null;resetDialogMotion();if(toForm) lastTrigger=null;
+      dialog.close();
+      if(toForm) {
+        $('#talep').scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});
+        $('input[name="venue"]').focus({preventScroll:true});
+      }
+    };
+    pendingDialogFinish=finish;
+    if(!canAnimate()) {finish();return;}
+    const visual=$('.dialog-visual'),target=lastTrigger?.getBoundingClientRect(),origin=visual.getBoundingClientRect();
+    const layoutLeft=origin.left-Number(gsap.getProperty(visual,'x')),layoutTop=origin.top-Number(gsap.getProperty(visual,'y'));
+    const returnToCard=!toForm&&target&&target.top<innerHeight&&target.bottom>0&&origin.top>=0;
+    dialog.classList.add('dialog-morphing');
+    dialogTimeline=gsap.timeline({onComplete:finish});
+    dialogTimeline.to([$('.dialog-copy'),$('.dialog-close')],{opacity:0,duration:.14},0);
+    if(returnToCard) dialogTimeline.to(visual,{x:target.left-layoutLeft,y:target.top-layoutTop,scaleX:target.width/visual.offsetWidth,scaleY:target.height/visual.offsetHeight,duration:.32,ease:'power3.inOut'},0);
+    else dialogTimeline.to(visual,{opacity:0,y:10,duration:.2,ease:'power2.in'},0);
+  }
+  $('.dialog-close').addEventListener('click',()=>closeShow());
+  dialog.addEventListener('cancel',e=>{e.preventDefault();closeShow();});
+  dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeShow();}});
+  dialog.addEventListener('close',()=>{pendingDialogFinish=null;resetDialogMotion();document.body.classList.remove('dialog-open');dialogClosing=false;lastTrigger?.focus({preventScroll:true});});
+  $('#select-show').addEventListener('click',()=>{if(!selectedShow)return;programSelect.value=selectedShow.title;closeShow({toForm:true});});
+  reducedMotion.addEventListener('change',e=>{
+    if(e.matches){cardObserver.disconnect();window.gsap?.killTweensOf(list.children);if(window.gsap)gsap.set(list.children,{clearProps:'opacity,transform'});if(dialogClosing&&pendingDialogFinish)pendingDialogFinish();else resetDialogMotion();}
   });
   renderShows('all');
 
@@ -142,7 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .from('.hero-bottom',{opacity:0,duration:.7},.85);
     gsap.to('.hero-visual',{yPercent:9,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
     $$('.reveal').forEach(el => gsap.from(el,{y:25,opacity:0,duration:.8,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}}));
-    gsap.from('.catalog-art',{clipPath:'inset(8% 2% 0 2%)',duration:1.2,ease:'power3.out',scrollTrigger:{trigger:'.catalog-art',start:'top 90%',once:true}});
     const ribbon=$('.ribbon-track');
     gsap.fromTo(ribbon,{x:10},{x:()=>-Math.max(45,ribbon.scrollWidth-window.innerWidth+20),ease:'none',scrollTrigger:{trigger:'.service-ribbon',start:'top bottom',end:'bottom top',scrub:1,invalidateOnRefresh:true}});
     if(!manualScene) sceneTrigger=ScrollTrigger.create({trigger:scene,start:'top 45%',end:'bottom 85%',onUpdate:self=>{if(manualScene)return;scene.style.setProperty('--night-mix',String(self.progress));updateSceneText(self.progress>.5?'night':'day');}});
