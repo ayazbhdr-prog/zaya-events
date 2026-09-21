@@ -11,3 +11,17 @@ window.ZAYA_SHOWS = [
   {id:'etiyopya',title:'Etiyopya',category:'Şov',filter:'sahne',image:null,icon:'globe-2',description:'Etiyopya gösterisini sezon programınız için değerlendirelim. İçerik, tarih ve sahne koşullarını tesisinizin ihtiyaçlarına göre birlikte netleştirelim.',tags:['Şov programı','Otel & Resort']},
   {id:'prestij',title:'Prestij',category:'Şov',filter:'sahne',image:null,icon:'star',description:'Prestij’i etkinlik programınız için birlikte planlayalım. Gösteri içeriği, tarih ve teknik ihtiyaçlar etkinliğinizin koşullarına göre netleştirilir.',tags:['Şov programı','Etkinlik']}
 ];
+
+// Presentation-only art direction; actual show media can replace these assets later.
+const showArt = {
+  fresno: {image:'hero-poster.webp',position:'74% 50%',art:'photo',accent:'#ff775d'},
+  colombia: {position:'85% 50%',art:'photo',accent:'#ff775d'},
+  african: {art:'orbit',accent:'#b9dfc6'},
+  party: {position:'52% 50%',art:'photo',accent:'#ffcf89'},
+  drifters: {art:'diagonal',accent:'#cbbfff'},
+  heal: {position:'22% 50%',art:'photo',accent:'#8dcddd'},
+  due: {position:'78% 50%',art:'photo',accent:'#8dcddd'},
+  etiyopya: {art:'interlace',accent:'#ffb090'},
+  prestij: {art:'rays',accent:'#edcf86'}
+};
+window.ZAYA_SHOWS.forEach(show => Object.assign(show, showArt[show.id]));
