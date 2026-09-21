@@ -29,7 +29,7 @@
 /* Nonrepresentational graphic covers distinguish shows whose photos come later. */
 .poster-label{position:absolute;top:23%;left:10%;font-family:Manrope,sans-serif;font-size:clamp(52px,6.7vw,104px);font-weight:500;letter-spacing:-.07em;line-height:1;color:var(--poster-accent);z-index:1}
 .poster-rule{position:absolute;left:10%;top:52%;height:1px;width:32px;background:var(--poster-accent)}
-.poster-wordmark{position:absolute;right:24px;top:23%;writing-mode:vertical-rl;font-size:10px;letter-spacing:.23em;color:var(--poster-accent)}
+.poster-wordmark{position:absolute;right:24px;top:23%;writing-mode:vertical-rl;font-size:11px;letter-spacing:.23em;color:var(--poster-accent)}
 .poster-lines{position:absolute;inset:0;opacity:.55;overflow:hidden}
 .poster-lines i{position:absolute;display:block;border:1px solid var(--poster-accent);opacity:.6}
 .art-orbit{background:#173f39}
@@ -56,7 +56,7 @@
 .dialog-art .poster-photo{transform:none}
 .dialog-visual.no-photo:before,.dialog-visual.no-photo:after{display:none}
 .dialog-visual:after{background:linear-gradient(0deg,#07151c99,transparent 38%);pointer-events:none}
-.dialog-visual .dialog-image-note{bottom:25px;left:26px;right:26px;font-size:10px;letter-spacing:.05em;line-height:1.6}
+.dialog-visual .dialog-image-note{bottom:25px;left:26px;right:26px;font-size:11px;letter-spacing:.05em;line-height:1.6}
 .dialog-copy{padding:75px 42px 40px;align-self:stretch;display:flex;flex-direction:column;justify-content:center;background:var(--ink);border-radius:0 6px 6px 0}
 .dialog-copy h2{font-size:clamp(34px,3.5vw,48px)}
 .dialog-copy>p:not(.eyebrow){font-size:16px;line-height:1.75}
@@ -95,8 +95,8 @@
   .show-dialog{width:92vw;max-height:91svh;overflow-y:auto}.show-dialog[open]{grid-template-columns:1fr}
   .dialog-visual{min-height:0;height:auto;aspect-ratio:4/5;max-height:none;border-radius:6px 6px 0 0}
   .dialog-art .poster-photo{object-position:var(--photo-position,center)}
-  .dialog-art .poster-label{top:22%;font-size:80px}.dialog-art .poster-wordmark{top:23%;font-size:9px}.dialog-art .poster-rule{display:none}
-  .dialog-visual .dialog-image-note{font-size:9px;left:23px;bottom:18px}
+  .dialog-art .poster-label{top:22%;font-size:80px}.dialog-art .poster-wordmark{top:23%;font-size:11px}.dialog-art .poster-rule{display:none}
+  .dialog-visual .dialog-image-note{font-size:11px;left:23px;bottom:18px}
   .dialog-copy{padding:29px 25px 32px;border-radius:0 0 6px 6px}.dialog-copy h2{font-size:36px;margin:16px 0}
   .dialog-copy>p:not(.eyebrow){font-size:15px}.dialog-copy .dialog-note{font-size:12px!important;margin:20px 0}
   .dialog-close{position:sticky;top:12px;right:auto;justify-self:end;grid-column:1;grid-row:1;height:44px;margin:12px 12px -56px 0}
@@ -108,3 +108,18 @@
   .dialog-copy{padding-inline:22px}.dialog-copy h2{font-size:32px}.dialog-visual{height:auto}
 }
 @media(prefers-reduced-motion:reduce){.poster-photo{transition:none}.show-card:hover .poster-photo{transform:none}.card-action svg{transition:none}.show-card:hover .card-action svg{transform:none}}
+
+/* On small screens only the content scrolls; the primary action remains visible. */
+.dialog-scroll{display:contents}
+.dialog-actions .button{width:100%;min-height:52px;border:0;font-size:14px}
+@media(max-width:760px){
+  .show-dialog[open]{display:flex;flex-direction:column;height:91svh;max-height:91svh;overflow:hidden;background:var(--ink)}
+  .show-dialog.dialog-morphing{overflow:hidden}
+  .dialog-scroll{display:block;min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;scroll-padding-block:64px 16px}
+  .dialog-visual{aspect-ratio:4/3;max-height:36svh;width:100%;border-radius:6px 6px 0 0}
+  .dialog-copy{padding:26px 25px 18px;display:block;border-radius:0}
+  .dialog-copy .dialog-note{margin-bottom:0}
+  .dialog-actions{flex:none;padding:14px 20px max(16px,env(safe-area-inset-bottom));background:var(--ink);border-top:1px solid #ffffff24;z-index:5}
+  .dialog-close{position:absolute;top:12px;right:12px;margin:0;z-index:6}
+  .dialog-visual .dialog-image-note{font-size:11px;left:20px;right:20px;bottom:14px}
+}
