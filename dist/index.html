@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111516">
+  <title>ZAYA Events — Gündüzden geceye</title>
+  <meta name="description" content="Marmaris merkezli ZAYA Events: otel ve resortlara sezonluk şov programları, pool partileri, kurumsal etkinlikler ve sahne prodüksiyonu.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23111516'/%3E%3Cpath d='M11 12h18L11 28h18' fill='none' stroke='%23ff775d' stroke-width='4'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="assets/lucide.min.js" defer></script>
+  <script src="assets/gsap.min.js" defer></script>
+  <script src="assets/ScrollTrigger.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#icerik">İçeriğe geç</a>
+  <header class="header" id="header">
+    <a class="wordmark" href="#baslangic" aria-label="ZAYA Events ana sayfa">ZAYA<span>EVENTS</span></a>
+    <nav class="desktop-nav" aria-label="Ana menü">
+      <a href="#sovlar">Deneyimler</a><a href="#hizmetler">Hizmetler</a><a href="#hakkimizda">ZAYA Hakkında</a>
+    </nav>
+    <a href="#iletisim" class="nav-cta">Birlikte planlayalım <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+    <button class="menu-toggle" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobile-nav"><i data-lucide="menu" aria-hidden="true"></i></button>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobil menü" hidden><a href="#sovlar">Deneyimler</a><a href="#hizmetler">Hizmetler</a><a href="#hakkimizda">ZAYA Hakkında</a><a href="#iletisim">Birlikte planlayalım</a></nav>
+  </header>
+  <main id="icerik">
+    <section class="hero" id="baslangic" aria-labelledby="hero-title">
+      <div class="hero-visual"><img src="assets/night.webp" alt="Açık hava otel sahnesinde dans performansı — temsili görsel" width="1536" height="1024" fetchpriority="high"></div>
+      <div class="hero-shade"></div>
+      <div class="hero-content">
+        <div class="eyebrow hero-eyebrow"><span class="small-rule"></span> MARMARİS · ŞOV & PRODÜKSİYON</div>
+        <h1 id="hero-title"><span class="line"><span>Gündüzden</span></span><span class="line"><span class="accent">geceye.</span></span></h1>
+        <p class="hero-description">Her anın bir ritmi var.<br>Biz onu sahneye taşıyoruz.</p>
+        <div class="hero-actions"><a class="button button-coral" href="#sovlar"><span>Deneyimleri keşfet</span><i data-lucide="arrow-down-right" aria-hidden="true"></i></a><span class="hero-service">Oteller, resortlar<br>ve özel etkinlikler için.</span></div>
+      </div>
+      <div class="hero-bottom"><a href="#sovlar" class="scroll-prompt"><span class="scroll-circle"><i data-lucide="arrow-down" aria-hidden="true"></i></span> HİKÂYEYE KATIL</a><div class="hero-location"><i data-lucide="map-pin" aria-hidden="true"></i> Marmaris, Türkiye</div></div>
+      <div class="hero-side-label" aria-hidden="true">LIVE THE MOMENT</div>
+    </section>
+    <div class="service-ribbon" aria-label="Şov çeşitleri"><div class="ribbon-track"><span>Dans şovları</span><i data-lucide="asterisk" aria-hidden="true"></i><span>Canlı müzik</span><i data-lucide="asterisk" aria-hidden="true"></i><span>Kültür geceleri</span><i data-lucide="asterisk" aria-hidden="true"></i><span>Pool partileri</span><i data-lucide="asterisk" aria-hidden="true"></i><span>Tema partileri</span><i data-lucide="asterisk" aria-hidden="true"></i></div></div>
+    <section class="experience section-pad" id="sovlar">
+      <div class="section-top"><p class="eyebrow"><span class="small-rule"></span> DENEYİMLERİMİZ</p><span class="section-index">01 / 04</span></div>
+      <div class="section-intro"><h2 class="reveal">Bir gün.<br><span class="muted-title">Binbir duygu.</span></h2><p class="reveal">Güneşin ilk enerjisinden gecenin son ritmine. Tesisinizin atmosferine ve misafirlerinize göre şekillenen eğlence deneyimleri.</p></div>
+      <div class="experience-grid">
+        <a class="experience-card day-card" href="#hizmetler"><div class="experience-image"><img src="assets/day.webp" alt="Marmaris'te gündüz havuz partisi — temsili görsel" width="1536" height="1024" loading="lazy"></div><div class="card-top"><span><i data-lucide="sun" aria-hidden="true"></i> GÜNDÜZ</span><span class="circle-arrow"><i data-lucide="arrow-up-right" aria-hidden="true"></i></span></div><div class="card-bottom"><p>Havuz başında başlar.</p><h3>Günün enerjisi.</h3></div></a>
+        <a class="experience-card night-card" href="#hizmetler"><div class="experience-image"><img src="assets/night.webp" alt="Gece sahne şovu — temsili görsel" width="1536" height="1024" loading="lazy"></div><div class="card-top"><span><i data-lucide="moon-star" aria-hidden="true"></i> GECE</span><span class="circle-arrow"><i data-lucide="arrow-up-right" aria-hidden="true"></i></span></div><div class="card-bottom"><p>Sahnede devam eder.</p><h3>Gecenin ritmi.</h3></div></a>
+      </div>
+    </section>
+    <section class="services section-pad" id="hizmetler"><div class="section-top"><p class="eyebrow"><span class="small-rule"></span> HİZMETLERİMİZ</p><span class="section-index">02 / 04</span></div><h2 class="reveal">Fikrinize ritim.<br>Etkinliğinize karakter.</h2><div class="service-list" id="service-list">
+      <details class="service-row" open><summary><span class="service-number">01</span><span class="service-icon"><i data-lucide="audio-lines" aria-hidden="true"></i></span><h3>Oteller & Resortlar</h3><span class="service-kind">SEZON BOYUNCA</span><span class="service-expand"><i data-lucide="plus" aria-hidden="true"></i></span></summary><div class="service-body"><p>Haftalık rotasyonla her akşam farklı bir gösteri. Dans şovları, canlı müzik, kültür geceleri ve tema partilerini tesisinizin misafir profiline ve sezonun temposuna göre bir araya getiriyoruz.</p><div class="service-tags"><span>Dans şovları</span><span>Canlı müzik</span><span>Tema partileri</span></div></div></details>
+      <details class="service-row"><summary><span class="service-number">02</span><span class="service-icon"><i data-lucide="sun" aria-hidden="true"></i></span><h3>Pool Partileri</h3><span class="service-kind">GÜNDÜZ PROGRAMLARI</span><span class="service-expand"><i data-lucide="plus" aria-hidden="true"></i></span></summary><div class="service-body"><p>Havuz başına hareket katan pool partileri ve gündüz etkinlikleri. Eğlenceyi tesisinizin atmosferine ve misafirlerinizin gün içindeki ritmine göre şekillendiriyoruz.</p><div class="service-tags"><span>Pool partileri</span><span>Gündüz etkinlikleri</span></div></div></details>
+      <details class="service-row"><summary><span class="service-number">03</span><span class="service-icon"><i data-lucide="sparkles" aria-hidden="true"></i></span><h3>Kurumsal Etkinlikler</h3><span class="service-kind">MARKANIZA ÖZEL</span><span class="service-expand"><i data-lucide="plus" aria-hidden="true"></i></span></summary><div class="service-body"><p>Lansman, kongre ve şirket etkinlikleri için markanıza özel şovlar ve koreografiler. Etkinliğinizin mesajını sahneye taşıyan performanslar hazırlıyoruz.</p><div class="service-tags"><span>Lansman</span><span>Kongre</span><span>Şirket etkinlikleri</span></div></div></details>
+      <details class="service-row"><summary><span class="service-number">04</span><span class="service-icon"><i data-lucide="music-2" aria-hidden="true"></i></span><h3>Gala & Özel Geceler</h3><span class="service-kind">GECEYE ÖZEL</span><span class="service-expand"><i data-lucide="plus" aria-hidden="true"></i></span></summary><div class="service-body"><p>Açılış performansından final gösterisine kadar, gecenin akışına göre tasarlanan sahne prodüksiyonları. Özel etkinliğinize karakter kazandıran bir gösteri programı.</p><div class="service-tags"><span>Gala geceleri</span><span>Özel etkinlikler</span></div></div></details>
+      <details class="service-row"><summary><span class="service-number">05</span><span class="service-icon"><i data-lucide="sliders-horizontal" aria-hidden="true"></i></span><h3>Teknik Prodüksiyon</h3><span class="service-kind">SAHNE ARKASINDA</span><span class="service-expand"><i data-lucide="plus" aria-hidden="true"></i></span></summary><div class="service-body"><p>Işık, ses, kostüm ve teknik ekip. Her gösterinin ihtiyaç duyduğu detayları prodüksiyonun bir parçası olarak, sahnenizin koşullarına göre planlıyoruz.</p><div class="service-tags"><span>Işık & ses</span><span>Kostüm</span><span>Teknik ekip</span></div></div></details>
+    </div></section>
+    <section class="about section-pad" id="hakkimizda"><div class="section-top"><p class="eyebrow"><span class="small-rule"></span> ZAYA HAKKINDA</p><span class="section-index">03 / 04</span></div><div class="about-layout"><h2 class="reveal">Her sahnenin<br>kendi hikâyesi var.</h2><div class="about-copy reveal"><p>ZAYA Events, Marmaris merkezli bir sahne prodüksiyon şirketidir. Dünyanın dört bir yanından sanatçılarla çalışıyor; otel animasyon programlarına, kurumsal etkinliklere ve gala gecelerine özgün şovlar kazandırıyoruz.</p><p>Her prodüksiyonu sahnenin ölçüsüne, misafir profiline ve sezonun temposuna göre uyarlıyoruz.</p><div class="about-signature"><span>ZAYA</span><i data-lucide="audio-lines" aria-hidden="true"></i></div></div></div></section>
+    <section class="contact section-pad" id="iletisim"><div class="section-top"><p class="eyebrow"><span class="small-rule"></span> BİRLİKTE PLANLAYALIM</p><span class="section-index">04 / 04</span></div><h2 class="reveal">Sıradaki güzel anı<br><em>birlikte hazırlayalım.</em></h2><div class="contact-bottom"><p>Bir sezon. Bir gece. Bir fikir.<br>ZAYA ile hayata geçsin.</p><p class="contact-note">İletişim bilgileri yakında.</p></div></section>
+  </main>
+  <footer><a class="wordmark" href="#baslangic">ZAYA<span>EVENTS</span></a><span>Marmaris · Şov & Prodüksiyon</span><a href="#baslangic" class="back-top">Başa dön <i data-lucide="arrow-up-right" aria-hidden="true"></i></a><p class="preview-note">Tasarım önizlemesi · Fotoğraflar temsilidir.</p></footer>
+</body>
+</html>
