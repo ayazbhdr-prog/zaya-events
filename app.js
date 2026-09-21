@@ -2,22 +2,23 @@ document.addEventListener('DOMContentLoaded', () => {
   'use strict';
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-  const icon = name => `<i data-lucide="${name}" aria-hidden="true"></i>`;
-  const refreshIcons = () => window.lucide?.createIcons({attrs:{'stroke-width':1.5}});
+  const icon = name => window.ZAYA_ICONS[name] || '';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const desktop = window.matchMedia('(min-width: 761px)');
   const header = $('.header'), menu = $('.menu-toggle'), mobileNav = $('.mobile-nav');
   const closeMenu = (focus = false) => {
+    menu.innerHTML = icon('menu');
     mobileNav.hidden = true; menu.setAttribute('aria-expanded', 'false'); menu.setAttribute('aria-label', 'Menüyü aç');
     if (focus) menu.focus();
   };
   menu.addEventListener('click', () => {
     const opening = mobileNav.hidden; mobileNav.hidden = !opening;
+    menu.innerHTML = icon(opening ? 'x' : 'menu');
     menu.setAttribute('aria-expanded', String(opening)); menu.setAttribute('aria-label', opening ? 'Menüyü kapat' : 'Menüyü aç');
   });
   $$('a', mobileNav).forEach(link => link.addEventListener('click', () => closeMenu()));
   document.addEventListener('keydown', e => { if(e.key === 'Escape' && !mobileNav.hidden) closeMenu(true); });
-  document.addEventListener('click', e => { if(!header.contains(e.target) && !mobileNav.hidden) closeMenu(); });
+  document.addEventListener('click', e => { if(!e.composedPath().includes(header) && !mobileNav.hidden) closeMenu(); });
   desktop.addEventListener('change', e => { if(e.matches) closeMenu(); });
   let scrollQueued = false;
   const updateHeader = () => { header.classList.toggle('is-scrolled', window.scrollY > 100); scrollQueued = false; };
@@ -27,6 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cards keep the same media surface when expanding into show details.
   const shows = window.ZAYA_SHOWS || [], list = $('#show-list'), dialog = $('#show-dialog');
   const programSelect = $('#selected-program');
+  const placeDialogAction = () => {
+    const actions = $('.dialog-actions');
+    (desktop.matches ? $('.dialog-copy') : actions).append($('#select-show'));
+    actions.hidden = desktop.matches;
+  };
+  placeDialogAction();
+  desktop.addEventListener('change', () => {if(dialogClosing && pendingDialogFinish) pendingDialogFinish(); else resetDialogMotion();placeDialogAction();});
   let selectedShow = null, lastTrigger = null, dialogTimeline = null, dialogClosing = false, pendingDialogFinish = null;
   const canAnimate = () => !!window.gsap && !reducedMotion.matches;
   const smallAssets = new Set(['pool-party.webp','theme-party.webp','live-music.webp']);
@@ -57,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const button=document.createElement('button');button.type='button';button.className='show-card';button.dataset.show=show.id;button.dataset.order=String(index);
       button.style.setProperty('--poster-accent',show.accent);
       button.setAttribute('aria-label',`${show.title} — detayları incele`);button.setAttribute('aria-haspopup','dialog');
-      button.innerHTML=`<span class="card-art" aria-hidden="true">${posterHTML(show)}</span><span class="card-shade" aria-hidden="true"></span><span class="card-topline"><span class="card-number">${String(shows.indexOf(show)+1).padStart(2,'0')}</span><span class="card-category">${show.category}</span></span><span class="card-caption"><span class="card-title">${show.title}</span><span class="card-action">Şovu incele ${icon('arrow-up-right')}</span></span>`;
+      button.innerHTML=`<span class="card-art" aria-hidden="true">${posterHTML(show)}</span><span class="card-shade" aria-hidden="true"></span><span class="card-topline"><span class="card-number">${String(shows.indexOf(show)+1).padStart(2,'0')}</span><span class="card-category">${({sahne:'Şov',muzik:'Canlı müzik',parti:'Parti'})[show.filter]}</span></span><span class="card-caption"><span class="card-title">${show.title}</span><span class="card-action">Şovu incele ${icon('arrow-up-right')}</span></span>`;
       button.addEventListener('click',()=>openShow(show,button));list.append(button);
       if(canAnimate()) {
         gsap.set(button,{opacity:0,y:filtering?10:28});
@@ -66,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
     $('.catalog-count').textContent=`${String(visible.length).padStart(2,'0')} program`;
-    refreshIcons();window.ScrollTrigger?.refresh();
+    window.ScrollTrigger?.refresh();
   };
   $$('.catalog-filters button').forEach(button=>button.addEventListener('click',()=>{
     if(button.getAttribute('aria-pressed')==='true') return;
@@ -75,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }));
   function resetDialogMotion() {
     dialogTimeline?.kill();dialogTimeline=null;
-    if(window.gsap) gsap.set([$('.dialog-visual'),$('.dialog-copy'),$('.dialog-close')],{clearProps:'transform,opacity'});
+    if(window.gsap) gsap.set([$('.dialog-visual'),$('.dialog-copy'),$('.dialog-close'),$('.dialog-actions')],{clearProps:'transform,opacity'});
     dialog.classList.remove('dialog-morphing');
   }
   function openShow(show,trigger) {
@@ -89,8 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
     $('.poster-photo',visual)?.setAttribute('sizes','(max-width:760px) 92vw, 530px');
     $('.dialog-image-note').textContent=show.image?'GÖRSEL TEMSİLİDİR · GERÇEK EKİP FOTOĞRAFI DEĞİLDİR':'GRAFİK TASARIM ÖNİZLEMESİ · ZAYA EVENTS';
     $('.dialog-tags').replaceChildren(...show.tags.map(tag=>{const span=document.createElement('span');span.textContent=tag;return span;}));
-    closeMenu();dialog.showModal();dialog.scrollTop=0;document.body.classList.add('dialog-open');
-    if(canAnimate()) {
+    closeMenu();dialog.showModal();dialog.scrollTop=0;$('.dialog-scroll').scrollTop=0;document.body.classList.add('dialog-open');
+    if(canAnimate() && !desktop.matches) {
+      dialogTimeline=gsap.timeline({onComplete:()=>{dialogTimeline=null;}})
+        .fromTo([visual,$('.dialog-copy')],{opacity:0,y:10},{opacity:1,y:0,duration:.24,ease:'power2.out',clearProps:'opacity,transform'});
+    } else if(canAnimate()) {
       const target=visual.getBoundingClientRect();
       dialog.classList.add('dialog-morphing');
       dialogTimeline=gsap.timeline({onComplete:()=>{dialog.classList.remove('dialog-morphing');dialogTimeline=null;}});
@@ -114,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!canAnimate()) {finish();return;}
     const visual=$('.dialog-visual'),target=lastTrigger?.getBoundingClientRect(),origin=visual.getBoundingClientRect();
     const layoutLeft=origin.left-Number(gsap.getProperty(visual,'x')),layoutTop=origin.top-Number(gsap.getProperty(visual,'y'));
-    const returnToCard=!toForm&&target&&target.top<innerHeight&&target.bottom>0&&origin.top>=0;
+    const returnToCard=desktop.matches&&!toForm&&target&&target.top<innerHeight&&target.bottom>0&&origin.top>=0;
     dialog.classList.add('dialog-morphing');
     dialogTimeline=gsap.timeline({onComplete:finish});
     dialogTimeline.to([$('.dialog-copy'),$('.dialog-close')],{opacity:0,duration:.14},0);
@@ -122,12 +133,13 @@ document.addEventListener('DOMContentLoaded', () => {
     else dialogTimeline.to(visual,{opacity:0,y:10,duration:.2,ease:'power2.in'},0);
   }
   $('.dialog-close').addEventListener('click',()=>closeShow());
+  dialog.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeShow();}});
   dialog.addEventListener('cancel',e=>{e.preventDefault();closeShow();});
   dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeShow();}});
   dialog.addEventListener('close',()=>{pendingDialogFinish=null;resetDialogMotion();document.body.classList.remove('dialog-open');dialogClosing=false;lastTrigger?.focus({preventScroll:true});});
   $('#select-show').addEventListener('click',()=>{if(!selectedShow)return;programSelect.value=selectedShow.title;closeShow({toForm:true});});
   reducedMotion.addEventListener('change',e=>{
-    if(e.matches){cardObserver.disconnect();window.gsap?.killTweensOf(list.children);if(window.gsap)gsap.set(list.children,{clearProps:'opacity,transform'});if(dialogClosing&&pendingDialogFinish)pendingDialogFinish();else resetDialogMotion();}
+    if(e.matches){sceneTextTween?.progress(1);cardObserver.disconnect();window.gsap?.killTweensOf(list.children);if(window.gsap)gsap.set(list.children,{clearProps:'opacity,transform'});if(dialogClosing&&pendingDialogFinish)pendingDialogFinish();else resetDialogMotion();}
   });
   renderShows('all');
 
@@ -150,10 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const syncVideoButton = () => {
     const playing = !video.paused;
     videoButton.innerHTML = `${icon(playing?'pause':'play')}<span>${playing?'FİLMİ DURAKLAT':'FİLMİ OYNAT'}</span>`;
-    videoButton.setAttribute('aria-label', playing?'Tanıtım videosunu duraklat':'Tanıtım videosunu oynat'); refreshIcons();
+    videoButton.setAttribute('aria-label', playing?'Tanıtım videosunu duraklat':'Tanıtım videosunu oynat');
   };
   const playVideo = async () => {
-    if(!video.src) video.src = video.dataset.src;
+    if(!video.src) video.src = (!desktop.matches && video.dataset.mobileSrc) || video.dataset.src;
     try {await video.play();} catch {videoWanted=false; syncVideoButton();}
   };
   videoButton.hidden = false;
@@ -166,13 +178,20 @@ document.addEventListener('DOMContentLoaded', () => {
   reducedMotion.addEventListener('change', e => { if(e.matches){videoWanted=false;video.pause();} });
 
   // One scroll-linked day/night transition; manual selection takes priority afterward.
-  const scene = $('.daynight'); let sceneTrigger = null, manualScene = false, sceneMode = 'day';
+  const scene = $('.daynight'); let sceneTrigger = null, manualScene = false, sceneMode = 'day', sceneTextTween = null;
   const updateSceneText = mode => {
     if(sceneMode === mode && scene.dataset.ready) return;
     sceneMode=mode; scene.dataset.time=mode; scene.dataset.ready='true';
     $$('.scene-switch button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.time===mode)));
-    $('#scene-description').innerHTML = mode==='day' ? 'Havuz başında müzik, dans ve yaz enerjisi.<br>Pool partileriyle günün temposunu değiştirin.' : 'Işıklar değişir. Enerji devam eder.<br>Tema partileriyle geceye kendi karakterini verin.';
-    $('#scene-cta').textContent = mode==='day'?'Gündüz programlarını keşfet':'Gece programlarını keşfet';
+    const applyText = () => {
+      $('#scene-description').innerHTML = mode==='day' ? 'Havuz başında müzik, dans ve yaz enerjisi.<br>Pool partileriyle günün temposunu değiştirin.' : 'Işıklar değişir. Enerji devam eder.<br>Tema partileriyle geceye kendi karakterini verin.';
+      $('#scene-cta').textContent = mode==='day'?'Pool partilerini keşfet':'Otel gece programlarını keşfet';
+    };
+    sceneTextTween?.kill();
+    if(canAnimate()) {
+      sceneTextTween=gsap.timeline().to($('#scene-description'),{opacity:0,duration:.12,onComplete:applyText})
+        .to($('#scene-description'),{opacity:1,duration:.2,clearProps:'opacity'});
+    } else applyText();
   };
   $$('.scene-switch button').forEach(button => button.addEventListener('click', () => {
     manualScene=true; sceneTrigger?.kill(); const mode=button.dataset.time; updateSceneText(mode);
@@ -181,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }));
   $('.scene-link').addEventListener('click', () => {const rows=$$('.service-row');rows[sceneMode==='day'?1:0].open=true;});
   $$('.service-row').forEach(row => row.addEventListener('toggle', () => window.ScrollTrigger?.refresh()));
-  refreshIcons();
+
 
   if(!window.gsap || !window.ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
@@ -197,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $$('.reveal').forEach(el => gsap.from(el,{y:25,opacity:0,duration:.8,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}}));
     const ribbon=$('.ribbon-track');
     gsap.fromTo(ribbon,{x:10},{x:()=>-Math.max(45,ribbon.scrollWidth-window.innerWidth+20),ease:'none',scrollTrigger:{trigger:'.service-ribbon',start:'top bottom',end:'bottom top',scrub:1,invalidateOnRefresh:true}});
-    if(!manualScene) sceneTrigger=ScrollTrigger.create({trigger:scene,start:'top 45%',end:'bottom 85%',onUpdate:self=>{if(manualScene)return;scene.style.setProperty('--night-mix',String(self.progress));updateSceneText(self.progress>.5?'night':'day');}});
+    if(!manualScene) sceneTrigger=ScrollTrigger.create({trigger:scene,start:'top 45%',end:'bottom 85%',onUpdate:self=>{if(manualScene)return;const mix=Math.max(0,Math.min(1,(self.progress-.38)/.24));scene.style.setProperty('--night-mix',String(mix));updateSceneText(self.progress>.5?'night':'day');}});
     return () => {sceneTrigger?.kill();};
   });
   document.fonts?.ready.then(() => ScrollTrigger.refresh());
