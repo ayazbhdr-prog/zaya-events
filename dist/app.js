@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   placeDialogAction();
   desktop.addEventListener('change', () => {if(dialogClosing && pendingDialogFinish) pendingDialogFinish(); else resetDialogMotion();placeDialogAction();});
+  let dialogShows = [];
   let selectedShow = null, lastTrigger = null, dialogTimeline = null, dialogClosing = false, pendingDialogFinish = null;
   const canAnimate = () => !!window.gsap && !reducedMotion.matches;
   const posterHTML = (show, full = false) => {
@@ -65,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
       else {entry.target.style.opacity='';entry.target.style.transform='';}
     });
   },{rootMargin:'0px 0px 30px 0px',threshold:.08});
-  shows.forEach(show => {const option=document.createElement('option');option.value=show.title;option.textContent=show.title;programSelect.append(option);});
+
   const renderShows = (filter, filtering = false) => {
     embla?.destroy();embla=null;$('.catalog-viewport').classList.remove('is-enhanced');
     cardObserver.disconnect();
@@ -78,17 +79,18 @@ document.addEventListener('DOMContentLoaded', () => {
     visibleShows=visible;carouselIndex=0;
     list.replaceChildren();
     visible.forEach((show,index) => {
-      const button=document.createElement('button');button.type='button';button.className='show-card';button.dataset.show=show.id;button.dataset.order=String(index);
+      const button=document.createElement('article');button.className='show-card';button.dataset.show=show.id;button.dataset.order=String(index);
       button.style.setProperty('--poster-accent',show.accent);
-      button.setAttribute('aria-label',`${show.title} — detayları incele`);button.setAttribute('aria-haspopup','dialog');
-      button.innerHTML=`<span class="card-art" aria-hidden="true">${posterHTML(show)}</span><span class="card-shade" aria-hidden="true"></span><span class="card-topline"><span class="card-number">${String(shows.indexOf(show)+1).padStart(2,'0')}</span><span class="card-category">${brandIcon(show.icon)}${escapeHTML(show.category)}</span></span><span class="card-caption"><span class="card-title">${escapeHTML(show.title)}</span><span class="card-facts">${factsHTML(show)}</span><span class="card-action"><span>${show.mediaType==='video'?brandIcon('play')+'Tanıtım & detaylar':show.mediaType==='pdf'?'Konsept & detaylar':'Programı incele'}</span>${brandIcon('arrow')}</span></span>`;
-      button.addEventListener('click',()=>openShow(show,button));list.append(button);
+
+      button.innerHTML=`<button type="button" class="show-details" aria-haspopup="dialog" aria-label="${escapeHTML(show.title)} — detayları incele"><span class="card-art" aria-hidden="true">${posterHTML(show)}</span><span class="card-shade" aria-hidden="true"></span><span class="card-topline"><span class="card-number">${String(shows.indexOf(show)+1).padStart(2,'0')}</span><span class="card-category">${brandIcon(show.icon)}${escapeHTML(show.category)}</span></span><span class="card-caption"><span class="card-title">${escapeHTML(show.title)}</span><span class="card-facts">${factsHTML(show)}</span><span class="card-action"><span>${show.mediaType==='video'?brandIcon('play')+'Tanıtım & detaylar':show.mediaType==='pdf'?'Konsept & detaylar':'Programı incele'}</span>${brandIcon('arrow')}</span></span></button><button type="button" class="card-add" data-program-id="${show.id}" aria-pressed="false" aria-label="${escapeHTML(show.title)} — programa ekle">+</button>`;
+      $('.show-details',button).addEventListener('click',()=>openShow(show,button));list.append(button);
       if(canAnimate() && desktop.matches) {
         gsap.set(button,{opacity:0,y:filtering?10:28});
         if(filtering) gsap.to(button,{opacity:1,y:0,duration:.24,delay:Math.min(index,2)*.04,ease:'power2.out',clearProps:'opacity,transform'});
         else cardObserver.observe(button);
       }
     });
+    window.ZAYA_PROGRAM?.refreshButtons();
     $('.catalog-count').textContent=`${String(visible.length).padStart(2,'0')} program`;
     list.scrollLeft=0;setupCarousel();updateCarousel();
     window.ScrollTrigger?.refresh();
@@ -140,17 +142,18 @@ document.addEventListener('DOMContentLoaded', () => {
     $('#show-rider').hidden=!show.rider.length;$('#show-rider').open=false;
     $('#rider-content').innerHTML=show.rider.map(group=>'<h3>'+escapeHTML(group.heading)+'</h3><ul>'+group.items.map(item=>'<li>'+escapeHTML(item)+'</li>').join('')+'</ul>').join('');
     $('.dialog-tags').replaceChildren(...show.tags.map(tag=>{const span=document.createElement('span');span.textContent=tag;return span;}));
-    const index=visibleShows.indexOf(show);
-    $('#show-position').textContent=`${String(index+1).padStart(2,'0')} / ${String(visibleShows.length).padStart(2,'0')}`;
-    $('#show-prev').disabled=index<=0;$('#show-next').disabled=index>=visibleShows.length-1;
+    $('#select-show').dataset.programId=show.id;$('#dialog-program-status').textContent='';window.ZAYA_PROGRAM?.refreshButtons();
+    const index=dialogShows.indexOf(show);
+    $('#show-position').textContent=`${String(index+1).padStart(2,'0')} / ${String(dialogShows.length).padStart(2,'0')}`;
+    $('#show-prev').disabled=index<=0;$('#show-next').disabled=index>=dialogShows.length-1;
   }
   function stepShow(direction) {
     if(!dialog.open || dialogClosing) return;
-    const index=visibleShows.indexOf(selectedShow)+direction;
-    if(index<0 || index>=visibleShows.length) return;
+    const index=dialogShows.indexOf(selectedShow)+direction;
+    if(index<0 || index>=dialogShows.length) return;
     resetDialogMotion();
-    const show=visibleShows[index];
-    lastTrigger=$(`[data-show="${show.id}"]`,list);
+    const show=dialogShows[index];
+    lastTrigger=$(`[data-show="${show.id}"]`,list)||lastTrigger;
     fillShow(show);$('.dialog-scroll').scrollTop=0;dialog.scrollTop=0;
     if(canAnimate()) {
       dialogTimeline=gsap.timeline()
@@ -193,10 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let carouselFrame=false;
   list.addEventListener('scroll',()=>{if(!carouselFrame){carouselFrame=true;requestAnimationFrame(()=>{updateCarousel();carouselFrame=false;});}},{passive:true});
   desktop.addEventListener('change',()=>{setupCarousel();if(!desktop.matches){cardObserver.disconnect();window.gsap?.killTweensOf(list.children);window.gsap?.set(list.children,{clearProps:'opacity,transform'});}});
-  function openShow(show,trigger) {
+  function openShow(show,trigger,context=visibleShows) {
     if(dialog.open) return;
-    resetDialogMotion();dialogClosing=false;selectedShow=show;lastTrigger=trigger;
-    const sourceRect=$('.card-art',trigger).getBoundingClientRect();
+    resetDialogMotion();dialogClosing=false;selectedShow=show;lastTrigger=trigger;dialogShows=context;
+    const sourceRect=($('.card-art',trigger)||trigger).getBoundingClientRect();
     fillShow(show);
     const visual=$('.dialog-visual');
     closeMenu();dialog.showModal();dialog.scrollTop=0;$('.dialog-scroll').scrollTop=0;document.body.classList.add('dialog-open');
@@ -235,24 +238,17 @@ document.addEventListener('DOMContentLoaded', () => {
     else dialogTimeline.to(visual,{opacity:0,y:10,duration:.2,ease:'power2.in'},0);
   }
   $('.dialog-close').addEventListener('click',()=>closeShow());
-  dialog.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeShow();}else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();stepShow(e.key==='ArrowRight'?1:-1);}});
+  dialog.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeShow();}else if(!e.target.closest('input,select,textarea,iframe')&&(e.key==='ArrowRight'||e.key==='ArrowLeft')){e.preventDefault();stepShow(e.key==='ArrowRight'?1:-1);}});
   dialog.addEventListener('cancel',e=>{e.preventDefault();closeShow();});
   dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeShow();}});
-  dialog.addEventListener('close',()=>{stopShowMedia();pendingDialogFinish=null;resetDialogMotion();document.body.classList.remove('dialog-open');dialogClosing=false;lastTrigger?.focus({preventScroll:true});});
-  $('#select-show').addEventListener('click',()=>{if(!selectedShow)return;programSelect.value=selectedShow.title;closeShow({toForm:true});});
+  dialog.addEventListener('close',()=>{stopShowMedia();pendingDialogFinish=null;resetDialogMotion();document.body.classList.remove('dialog-open');dialogClosing=false;(lastTrigger?.querySelector('.show-details')||lastTrigger)?.focus({preventScroll:true});});
+  $('#review-program').addEventListener('click',()=>closeShow({toForm:true}));
+  document.addEventListener('click',e=>{const trigger=e.target.closest('[data-open-show]');if(!trigger)return;const show=shows.find(s=>s.id===trigger.dataset.openShow);if(!show)return;openShow(show,trigger,shows);});
   reducedMotion.addEventListener('change',e=>{
     if(e.matches){sceneTextTween?.progress(1);cardObserver.disconnect();window.gsap?.killTweensOf(list.children);if(window.gsap)gsap.set(list.children,{clearProps:'opacity,transform'});if(dialogClosing&&pendingDialogFinish)pendingDialogFinish();else resetDialogMotion();}
   });
   renderShows('stage-show');
 
-  // The brief is local only: never imply that a request has been delivered.
-  $('#talep').addEventListener('submit', e => {
-    e.preventDefault(); const data = new FormData(e.currentTarget);
-    $('#brief-output').value = `Merhaba ZAYA,\n\nTesis / etkinlik: ${String(data.get('venue')).trim()}\nTarih / sezon: ${String(data.get('date')).trim()}\nİlgilendiğim program: ${data.get('program')}${String(data.get('note')).trim() ? '\nNot: '+String(data.get('note')).trim() : ''}\n\nProgram ve uygunluk bilgisi almak istiyorum.`;
-    $('#brief-whatsapp').href='https://wa.me/905322834079?text='+encodeURIComponent($('#brief-output').value);
-    $('.brief-result').hidden = false; $('#copy-status').textContent = ''; $('#brief-output').focus();
-    window.ScrollTrigger?.refresh();
-  });
   $('.copy-brief').addEventListener('click', async () => {
     try {await navigator.clipboard.writeText($('#brief-output').value); $('#copy-status').textContent='Talep metni kopyalandı.';}
     catch {$('#brief-output').focus(); $('#brief-output').select(); $('#copy-status').textContent='Metni seçip cihazınızın kopyala komutunu kullanabilirsiniz.';}
@@ -281,28 +277,31 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('visibilitychange', () => {if(document.hidden) video.pause(); else if(videoWanted && heroVisible) playVideo();});
   reducedMotion.addEventListener('change', e => { if(e.matches){videoWanted=false;video.pause();} });
 
-  // One scroll-linked day/night transition; manual selection takes priority afterward.
-  const scene = $('.daynight'); let sceneTrigger = null, manualScene = false, sceneMode = 'day', sceneTextTween = null;
-  const updateSceneText = mode => {
-    if(sceneMode === mode && scene.dataset.ready) return;
-    sceneMode=mode; scene.dataset.time=mode; scene.dataset.ready='true';
-    $$('.scene-switch button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.time===mode)));
-    const applyText = () => {
-      $('#scene-description').innerHTML = mode==='day' ? 'Havuz başında müzik, dans ve yaz enerjisi.<br>Pool partileriyle günün temposunu değiştirin.' : 'Işıklar değişir. Enerji devam eder.<br>Tema partileriyle geceye kendi karakterini verin.';
-      $('#scene-cta').textContent = mode==='day'?'Pool partilerini keşfet':'Otel gece programlarını keşfet';
+  // An illustrative day; manual selection takes priority over scroll choreography.
+  const scene=$('.daynight');let sceneTrigger=null,manualScene=false,sceneMode='day',sceneTextTween=null;
+  const moments=[
+    {id:'pink-pool-party',time:'11:00 / HAVUZ BAŞI',heading:'Güneşle başlar.<br><span>Ritimle devam eder.</span>',description:'Pink Pool Party ile havuz başında müzik, dans ve yaz enerjisi.',image:'assets/pool-party.webp'},
+    {id:'quovadis',time:'18:30 / GÜN BATIMI',heading:'Günün ışığı azalır.<br><span>Müzik yaklaşır.</span>',description:'Quovadis ile gün batımından akşama uzanan bir canlı müzik önerisi.',image:'assets/live-music.webp'},
+    {id:'colombia-rumbera',time:'21:30 / SAHNE',heading:'Işıklar sahnede.<br><span>Enerji herkeste.</span>',description:'Colombia Rumbera ile akşamın merkezine yerleşen renkli bir dans gösterisi.',image:'assets/hero-poster.webp'},
+    {id:'white-party',time:'22:30 / FİNAL',heading:'Gece burada<br><span>devam eder.</span>',description:'White Party ile sahneden partiye uzanan bir final önerisi.',image:'assets/theme-party.webp'}
+  ];
+  let currentMoment=0;
+  function setMoment(index,animate=true){
+    const moment=moments[index];if(!moment)return;
+    currentMoment=index;sceneMode=index<2?'day':'night';scene.dataset.time=sceneMode;scene.dataset.moment=String(index);
+    $$('.scene-timeline button').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.moment)===index)));
+    const apply=()=>{
+      $('#scene-kicker').textContent=moment.time;$('#daynight-title').innerHTML=moment.heading;$('#scene-description').textContent=moment.description;
+      $('#scene-add').dataset.programId=moment.id;$('#scene-details').dataset.openShow=moment.id;window.ZAYA_PROGRAM?.refreshButtons();
     };
     sceneTextTween?.kill();
-    if(canAnimate()) {
-      sceneTextTween=gsap.timeline().to($('#scene-description'),{opacity:0,duration:.12,onComplete:applyText})
-        .to($('#scene-description'),{opacity:1,duration:.2,clearProps:'opacity'});
-    } else applyText();
-  };
-  $$('.scene-switch button').forEach(button => button.addEventListener('click', () => {
-    manualScene=true; sceneTrigger?.kill(); const mode=button.dataset.time; updateSceneText(mode);
-    if(window.gsap && !reducedMotion.matches) gsap.to(scene,{'--night-mix':mode==='night'?1:0,duration:.9,ease:'power2.inOut',overwrite:true});
-    else scene.style.setProperty('--night-mix',mode==='night'?'1':'0');
-  }));
-  $('.scene-link').addEventListener('click', () => {const rows=$$('.service-row');rows[sceneMode==='day'?1:0].open=true;});
+    if(animate&&canAnimate())sceneTextTween=gsap.timeline().to($('.scene-content'),{opacity:.25,y:6,duration:.16,onComplete:apply}).to($('.scene-content'),{opacity:1,y:0,duration:.3,clearProps:'opacity,transform'});
+    else{apply();window.gsap?.set($('.scene-content'),{clearProps:'opacity,transform'});}
+    $$('.story-backdrop').forEach((img,i)=>img.classList.toggle('is-active',i===index));
+  }
+  const sceneImages=$('.daynight-images');sceneImages.replaceChildren();
+  moments.forEach((moment,index)=>{const img=document.createElement('img');img.className='story-backdrop'+(index===0?' is-active':'');img.src=moment.image;img.alt='';img.width=1600;img.height=1100;img.loading='lazy';sceneImages.append(img);});
+  $$('.scene-timeline button').forEach(button=>button.addEventListener('click',()=>{manualScene=true;sceneTrigger?.kill();setMoment(Number(button.dataset.moment));}));
   $$('.service-row').forEach(row => row.addEventListener('toggle', () => window.ScrollTrigger?.refresh()));
 
 
@@ -321,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .from('.hero-bottom',{opacity:0,duration:.35},1.1);
     gsap.to('.hero-visual',{yPercent:9,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
     $$('h2.reveal').forEach(el => gsap.from(el,{y:12,opacity:0,duration:.5,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}}));
-    if(!manualScene) sceneTrigger=ScrollTrigger.create({trigger:scene,start:'top 45%',end:'bottom 85%',onUpdate:self=>{if(manualScene)return;const mix=Math.max(0,Math.min(1,(self.progress-.38)/.24));scene.style.setProperty('--night-mix',String(mix));updateSceneText(self.progress>.5?'night':'day');}});
+    if(!manualScene) sceneTrigger=ScrollTrigger.create({trigger:scene,start:'top 30%',end:'bottom 45%',onUpdate:self=>{if(manualScene)return;const index=Math.min(3,Math.floor(self.progress*4));if(index!==currentMoment)setMoment(index);}});
     return () => {sceneTrigger?.kill();introReady=true;};
   });
   document.fonts?.ready.then(() => ScrollTrigger.refresh());
