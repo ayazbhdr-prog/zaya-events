@@ -3,6 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const icon = name => window.ZAYA_ICONS[name] || '';
+  const brandIcon = name => window.ZAYA_BRAND_ICONS[name] || '';
+  const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  $$('[data-brand-icon]').forEach(el => el.innerHTML = brandIcon(el.dataset.brandIcon));
+  $$('.service-icon').forEach((el,i) => el.innerHTML = brandIcon(['stage','pool','theme','music','stage'][i]));
+  const references = $('.references'), referenceButton = $('#references-toggle');
+  referenceButton.addEventListener('click', () => {
+    const paused = references.classList.toggle('is-paused');
+    referenceButton.setAttribute('aria-pressed',String(paused));
+    referenceButton.setAttribute('aria-label',paused?'Logo şeridini oynat':'Logo şeridini duraklat');
+    referenceButton.innerHTML=icon(paused?'play':'pause');
+  });
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const desktop = window.matchMedia('(min-width: 761px)');
   const header = $('.header'), menu = $('.menu-toggle'), mobileNav = $('.mobile-nav');
@@ -28,7 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cards keep the same media surface when expanding into show details.
   const shows = window.ZAYA_SHOWS || [], list = $('#show-list'), dialog = $('#show-dialog');
   const programSelect = $('#selected-program');
-  let visibleShows = shows, carouselIndex = 0, embla = null;
+  let visibleShows = shows, carouselIndex = 0, embla = null, activeFilter = 'stage-show';
+  const searchInput = $('#catalog-search');
+  const normalize = text => text.toLocaleLowerCase('tr-TR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ı/g,'i');
   const placeDialogAction = () => {
     const actions = $('.dialog-actions');
     (desktop.matches ? $('.dialog-copy') : actions).append($('#select-show'));
@@ -38,16 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
   desktop.addEventListener('change', () => {if(dialogClosing && pendingDialogFinish) pendingDialogFinish(); else resetDialogMotion();placeDialogAction();});
   let selectedShow = null, lastTrigger = null, dialogTimeline = null, dialogClosing = false, pendingDialogFinish = null;
   const canAnimate = () => !!window.gsap && !reducedMotion.matches;
-  const smallAssets = new Set(['pool-party.webp','theme-party.webp','live-music.webp']);
-  const posterHTML = show => {
-    const style = `--photo-position:${show.position || 'center'};--poster-accent:${show.accent}`;
-    if(show.image) {
-      const responsive = smallAssets.has(show.image) ? `srcset="assets/${show.image.replace('.webp','-small.webp')} 800w, assets/${show.image} 1600w" sizes="(max-width:760px) 88vw, (max-width:950px) 44vw, 29vw"` : '';
-      return `<span class="poster-surface art-photo" style="${style}"><img class="poster-photo" src="assets/${show.image}" ${responsive} alt="" width="1600" height="1200" loading="lazy"><span class="photo-motif motif-${show.id}" aria-hidden="true"></span></span>`;
-    }
-    const initials = {african:'AA',drifters:'D',etiyopya:'E',prestij:'P'};
-    return `<span class="poster-surface art-${show.art}" style="${style}"><span class="poster-lines">${Array.from({length:7},(_,i)=>`<i style="--n:${i}"></i>`).join('')}</span><span class="poster-label">${initials[show.id]}</span><span class="poster-rule"></span><span class="poster-wordmark">ZAYA · ŞOV KOLEKSİYONU</span></span>`;
+  const posterHTML = (show, full = false) => {
+    const style = `--poster-accent:${show.accent}`;
+    if(show.image) return `<span class="poster-surface art-photo" style="${style}"><img class="poster-photo" src="${full?show.image:show.thumbnail}" alt="" width="600" height="750" loading="${full?'eager':'lazy'}"></span>`;
+    return `<span class="poster-surface art-orbit" style="${style}"><span class="poster-lines">${Array.from({length:7},(_,i)=>`<i style="--n:${i}"></i>`).join('')}</span><span class="type-cover">SONAY<br>ÖZDEMİR<span>LIVE PERFORMANCE</span></span><span class="poster-wordmark">ZAYA · 2026 COLLECTION</span></span>`;
   };
+  const factsHTML = show => `${show.duration?`<span>${brandIcon('clock')}${show.duration} dk</span>`:''}${show.performers?`<span>${brandIcon('people')}${escapeHTML(show.performers)} kişi</span>`:''}${!show.duration&&!show.performers?`<span>${brandIcon(show.icon)}Konsept program</span>`:''}`;
   const cardObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if(!entry.isIntersecting) return;
@@ -61,14 +70,18 @@ document.addEventListener('DOMContentLoaded', () => {
     embla?.destroy();embla=null;$('.catalog-viewport').classList.remove('is-enhanced');
     cardObserver.disconnect();
     if(window.gsap) gsap.killTweensOf(list.children);
-    const visible = shows.filter(show => filter === 'all' || show.filter === filter);
+    activeFilter=filter;
+    const query=normalize(searchInput.value.trim());
+    const visible = shows.filter(show => (filter === 'all' || show.filter === filter) && (!query || normalize(show.title+' '+show.category).includes(query)));
+    $('.catalog-empty').hidden=visible.length>0;
+    $('.catalog-pager').hidden=visible.length===0;
     visibleShows=visible;carouselIndex=0;
     list.replaceChildren();
     visible.forEach((show,index) => {
       const button=document.createElement('button');button.type='button';button.className='show-card';button.dataset.show=show.id;button.dataset.order=String(index);
       button.style.setProperty('--poster-accent',show.accent);
       button.setAttribute('aria-label',`${show.title} — detayları incele`);button.setAttribute('aria-haspopup','dialog');
-      button.innerHTML=`<span class="card-art" aria-hidden="true">${posterHTML(show)}</span><span class="card-shade" aria-hidden="true"></span><span class="card-topline"><span class="card-number">${String(shows.indexOf(show)+1).padStart(2,'0')}</span><span class="card-category">${({sahne:'Şov',muzik:'Canlı müzik',parti:'Parti'})[show.filter]}</span></span><span class="card-caption"><span class="card-title">${show.title}</span><span class="card-action">Şovu incele ${icon('arrow-up-right')}</span></span>`;
+      button.innerHTML=`<span class="card-art" aria-hidden="true">${posterHTML(show)}</span><span class="card-shade" aria-hidden="true"></span><span class="card-topline"><span class="card-number">${String(shows.indexOf(show)+1).padStart(2,'0')}</span><span class="card-category">${brandIcon(show.icon)}${escapeHTML(show.category)}</span></span><span class="card-caption"><span class="card-title">${escapeHTML(show.title)}</span><span class="card-facts">${factsHTML(show)}</span><span class="card-action"><span>${show.mediaType==='video'?brandIcon('play')+'Tanıtım & detaylar':show.mediaType==='pdf'?'Konsept & detaylar':'Programı incele'}</span>${brandIcon('arrow')}</span></span>`;
       button.addEventListener('click',()=>openShow(show,button));list.append(button);
       if(canAnimate() && desktop.matches) {
         gsap.set(button,{opacity:0,y:filtering?10:28});
@@ -83,21 +96,49 @@ document.addEventListener('DOMContentLoaded', () => {
   $$('.catalog-filters button').forEach(button=>button.addEventListener('click',()=>{
     if(button.getAttribute('aria-pressed')==='true') return;
     $$('.catalog-filters button').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
-    renderShows(button.dataset.filter,true);
+    searchInput.value='';renderShows(button.dataset.filter,true);
   }));
+  searchInput.addEventListener('input',()=>{
+    if(searchInput.value.trim()) {activeFilter='all';$$('.catalog-filters button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter==='all')));}
+    renderShows(activeFilter,true);
+  });
+  $('#reset-search').addEventListener('click',()=>{searchInput.value='';activeFilter='all';$$('.catalog-filters button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter==='all')));renderShows('all',true);searchInput.focus();});
+  function stopShowMedia() {
+    $('#show-media').replaceChildren();$('#show-media').hidden=true;$('#stop-show-media').hidden=true;
+    $('.dialog-visual').classList.remove('is-playing-media');
+    $('#play-show-media').hidden=!selectedShow?.embedUrl;
+  }
+  $('#play-show-media').addEventListener('click',()=>{
+    if(!selectedShow?.embedUrl) return;
+    const frame=document.createElement('iframe');frame.id='show-media-frame';
+    frame.src=selectedShow.embedUrl;frame.title=selectedShow.title+(selectedShow.mediaType==='pdf'?' konsept dosyası':' tanıtım videosu');
+    frame.allow='autoplay; fullscreen; picture-in-picture';frame.allowFullscreen=true;
+    $('#show-media').replaceChildren(frame);$('#show-media').hidden=false;$('#stop-show-media').hidden=false;
+    $('#play-show-media').hidden=true;$('.dialog-visual').classList.add('is-playing-media');
+    $('#stop-show-media').focus({preventScroll:true});
+  });
+  $('#stop-show-media').addEventListener('click',()=>{stopShowMedia();$('#play-show-media').focus({preventScroll:true});});
   function resetDialogMotion() {
     dialogTimeline?.kill();dialogTimeline=null;
     if(window.gsap) gsap.set([$('.dialog-visual'),$('.dialog-copy'),$('.dialog-close'),$('.dialog-actions'),$('.dialog-art'),$('#dialog-title'),$('#dialog-description'),$('.dialog-tags')],{clearProps:'transform,opacity'});
     dialog.classList.remove('dialog-morphing');
   }
   function fillShow(show) {
-    selectedShow=show;
+    stopShowMedia();selectedShow=show;
     $('#dialog-title').textContent=show.title;$('#dialog-category').textContent=show.category.toLocaleUpperCase('tr-TR');
     $('#dialog-description').textContent=show.description;
-    const visual=$('.dialog-visual');$('#dialog-art').innerHTML=posterHTML(show);
+    const visual=$('.dialog-visual');$('#dialog-art').innerHTML=posterHTML(show,true);
     $('.poster-photo',visual)?.setAttribute('loading','eager');
     $('.poster-photo',visual)?.setAttribute('sizes','(max-width:760px) 92vw, 530px');
-    $('.dialog-image-note').textContent=show.image?'GÖRSEL TEMSİLİDİR · GERÇEK EKİP FOTOĞRAFI DEĞİLDİR':'GRAFİK TASARIM ÖNİZLEMESİ · ZAYA EVENTS';
+    $('.dialog-image-note').textContent=show.image?'2026 KATALOG GÖRSELİ':'ZAYA · LIVE PERFORMANCE';
+    $('#dialog-facts').innerHTML=factsHTML(show);
+    $('#play-show-media').hidden=!show.embedUrl;
+    $('#play-show-media').innerHTML=brandIcon(show.mediaType==='pdf'?'arrow':'play')+'<span>'+(show.mediaType==='pdf'?'Konsept dosyasını aç':'Tanıtımı izle')+'</span>';
+    $('#media-links').hidden=!show.driveUrl;
+    if(show.driveUrl) $('#drive-link').href=show.driveUrl;else $('#drive-link').removeAttribute('href');
+    $('#media-help').textContent=show.id==='pia'?'Katalog bağlantısındaki video: Ninjas Philipines Promo.':show.mediaType==='pdf'?'Konsept dosyasını burada veya Drive’da inceleyin.':'Oynatıcı açılmazsa bağlantıyı kullanabilirsiniz.';
+    $('#show-rider').hidden=!show.rider.length;$('#show-rider').open=false;
+    $('#rider-content').innerHTML=show.rider.map(group=>'<h3>'+escapeHTML(group.heading)+'</h3><ul>'+group.items.map(item=>'<li>'+escapeHTML(item)+'</li>').join('')+'</ul>').join('');
     $('.dialog-tags').replaceChildren(...show.tags.map(tag=>{const span=document.createElement('span');span.textContent=tag;return span;}));
     const index=visibleShows.indexOf(show);
     $('#show-position').textContent=`${String(index+1).padStart(2,'0')} / ${String(visibleShows.length).padStart(2,'0')}`;
@@ -127,13 +168,13 @@ document.addEventListener('DOMContentLoaded', () => {
       let distance=Infinity;
       cards.forEach((card,i)=>{const d=Math.abs(card.getBoundingClientRect().left-start);if(d<distance){distance=d;carouselIndex=i;}});
     }
-    $('#catalog-position').textContent=`${String(carouselIndex+1).padStart(2,'0')} / ${String(cards.length).padStart(2,'0')}`;
+    $('#catalog-position').textContent=`${String(cards.length?carouselIndex+1:0).padStart(2,'0')} / ${String(cards.length).padStart(2,'0')}`;
     $('#catalog-prev').disabled=carouselIndex===0;$('#catalog-next').disabled=carouselIndex>=cards.length-1;
   }
   function setupCarousel() {
     embla?.destroy();embla=null;
     const viewport=$('.catalog-viewport');viewport.classList.remove('is-enhanced');
-    if(!desktop.matches && window.EmblaCarousel) {
+    if(!desktop.matches && window.EmblaCarousel && list.children.length) {
       viewport.classList.add('is-enhanced');list.scrollLeft=0;
       embla=EmblaCarousel(viewport,{align:'start',containScroll:'keepSnaps',loop:false,duration:reducedMotion.matches?0:28,watchSlides:false});
       embla.on('select',updateCarousel).on('reInit',updateCarousel);
@@ -173,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function closeShow({toForm=false}={}) {
     if(!dialog.open||dialogClosing) return;
-    dialogClosing=true;dialogTimeline?.kill();dialogTimeline=null;
+    stopShowMedia();dialogClosing=true;dialogTimeline?.kill();dialogTimeline=null;
     const finish=()=>{
       pendingDialogFinish=null;resetDialogMotion();if(toForm) lastTrigger=null;
       dialog.close();
@@ -197,17 +238,18 @@ document.addEventListener('DOMContentLoaded', () => {
   dialog.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeShow();}else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();stepShow(e.key==='ArrowRight'?1:-1);}});
   dialog.addEventListener('cancel',e=>{e.preventDefault();closeShow();});
   dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeShow();}});
-  dialog.addEventListener('close',()=>{pendingDialogFinish=null;resetDialogMotion();document.body.classList.remove('dialog-open');dialogClosing=false;lastTrigger?.focus({preventScroll:true});});
+  dialog.addEventListener('close',()=>{stopShowMedia();pendingDialogFinish=null;resetDialogMotion();document.body.classList.remove('dialog-open');dialogClosing=false;lastTrigger?.focus({preventScroll:true});});
   $('#select-show').addEventListener('click',()=>{if(!selectedShow)return;programSelect.value=selectedShow.title;closeShow({toForm:true});});
   reducedMotion.addEventListener('change',e=>{
     if(e.matches){sceneTextTween?.progress(1);cardObserver.disconnect();window.gsap?.killTweensOf(list.children);if(window.gsap)gsap.set(list.children,{clearProps:'opacity,transform'});if(dialogClosing&&pendingDialogFinish)pendingDialogFinish();else resetDialogMotion();}
   });
-  renderShows('all');
+  renderShows('stage-show');
 
   // The brief is local only: never imply that a request has been delivered.
   $('#talep').addEventListener('submit', e => {
     e.preventDefault(); const data = new FormData(e.currentTarget);
-    $('#brief-output').value = `Merhaba ZAYA Events,\n\nTesis / etkinlik: ${String(data.get('venue')).trim()}\nTarih / sezon: ${String(data.get('date')).trim()}\nİlgilendiğim program: ${data.get('program')}${String(data.get('note')).trim() ? '\nNot: '+String(data.get('note')).trim() : ''}\n\nProgram ve uygunluk bilgisi almak istiyorum.`;
+    $('#brief-output').value = `Merhaba ZAYA,\n\nTesis / etkinlik: ${String(data.get('venue')).trim()}\nTarih / sezon: ${String(data.get('date')).trim()}\nİlgilendiğim program: ${data.get('program')}${String(data.get('note')).trim() ? '\nNot: '+String(data.get('note')).trim() : ''}\n\nProgram ve uygunluk bilgisi almak istiyorum.`;
+    $('#brief-whatsapp').href='https://wa.me/905322834079?text='+encodeURIComponent($('#brief-output').value);
     $('.brief-result').hidden = false; $('#copy-status').textContent = ''; $('#brief-output').focus();
     window.ScrollTrigger?.refresh();
   });
