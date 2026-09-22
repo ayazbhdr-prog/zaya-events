@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cards keep the same media surface when expanding into show details.
   const shows = window.ZAYA_SHOWS || [], list = $('#show-list'), dialog = $('#show-dialog');
   const programSelect = $('#selected-program');
+  let visibleShows = shows, carouselIndex = 0;
   const placeDialogAction = () => {
     const actions = $('.dialog-actions');
     (desktop.matches ? $('.dialog-copy') : actions).append($('#select-show'));
@@ -42,10 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const style = `--photo-position:${show.position || 'center'};--poster-accent:${show.accent}`;
     if(show.image) {
       const responsive = smallAssets.has(show.image) ? `srcset="assets/${show.image.replace('.webp','-small.webp')} 800w, assets/${show.image} 1600w" sizes="(max-width:760px) 88vw, (max-width:950px) 44vw, 29vw"` : '';
-      return `<span class="poster-surface art-photo" style="${style}"><img class="poster-photo" src="assets/${show.image}" ${responsive} alt="" width="1600" height="1200" loading="lazy"></span>`;
+      return `<span class="poster-surface art-photo" style="${style}"><img class="poster-photo" src="assets/${show.image}" ${responsive} alt="" width="1600" height="1200" loading="lazy"><span class="photo-motif motif-${show.id}" aria-hidden="true"></span></span>`;
     }
     const initials = {african:'AA',drifters:'D',etiyopya:'E',prestij:'P'};
-    return `<span class="poster-surface art-${show.art}" style="${style}"><span class="poster-lines">${Array.from({length:7},(_,i)=>`<i style="--n:${i}"></i>`).join('')}</span><span class="poster-label">${initials[show.id]}</span><span class="poster-rule"></span><span class="poster-wordmark">ZAYA · SHOW COLLECTION</span></span>`;
+    return `<span class="poster-surface art-${show.art}" style="${style}"><span class="poster-lines">${Array.from({length:7},(_,i)=>`<i style="--n:${i}"></i>`).join('')}</span><span class="poster-label">${initials[show.id]}</span><span class="poster-rule"></span><span class="poster-wordmark">ZAYA · ŞOV KOLEKSİYONU</span></span>`;
   };
   const cardObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cardObserver.disconnect();
     if(window.gsap) gsap.killTweensOf(list.children);
     const visible = shows.filter(show => filter === 'all' || show.filter === filter);
+    visibleShows=visible;carouselIndex=0;
     list.replaceChildren();
     visible.forEach((show,index) => {
       const button=document.createElement('button');button.type='button';button.className='show-card';button.dataset.show=show.id;button.dataset.order=String(index);
@@ -67,13 +69,14 @@ document.addEventListener('DOMContentLoaded', () => {
       button.setAttribute('aria-label',`${show.title} — detayları incele`);button.setAttribute('aria-haspopup','dialog');
       button.innerHTML=`<span class="card-art" aria-hidden="true">${posterHTML(show)}</span><span class="card-shade" aria-hidden="true"></span><span class="card-topline"><span class="card-number">${String(shows.indexOf(show)+1).padStart(2,'0')}</span><span class="card-category">${({sahne:'Şov',muzik:'Canlı müzik',parti:'Parti'})[show.filter]}</span></span><span class="card-caption"><span class="card-title">${show.title}</span><span class="card-action">Şovu incele ${icon('arrow-up-right')}</span></span>`;
       button.addEventListener('click',()=>openShow(show,button));list.append(button);
-      if(canAnimate()) {
+      if(canAnimate() && desktop.matches) {
         gsap.set(button,{opacity:0,y:filtering?10:28});
         if(filtering) gsap.to(button,{opacity:1,y:0,duration:.24,delay:Math.min(index,2)*.04,ease:'power2.out',clearProps:'opacity,transform'});
         else cardObserver.observe(button);
       }
     });
     $('.catalog-count').textContent=`${String(visible.length).padStart(2,'0')} program`;
+    list.scrollLeft=0;updateCarousel();
     window.ScrollTrigger?.refresh();
   };
   $$('.catalog-filters button').forEach(button=>button.addEventListener('click',()=>{
@@ -83,13 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }));
   function resetDialogMotion() {
     dialogTimeline?.kill();dialogTimeline=null;
-    if(window.gsap) gsap.set([$('.dialog-visual'),$('.dialog-copy'),$('.dialog-close'),$('.dialog-actions')],{clearProps:'transform,opacity'});
+    if(window.gsap) gsap.set([$('.dialog-visual'),$('.dialog-copy'),$('.dialog-close'),$('.dialog-actions'),$('.dialog-art'),$('#dialog-title'),$('#dialog-description')],{clearProps:'transform,opacity'});
     dialog.classList.remove('dialog-morphing');
   }
-  function openShow(show,trigger) {
-    if(dialog.open) return;
-    resetDialogMotion();dialogClosing=false;selectedShow=show;lastTrigger=trigger;
-    const sourceRect=$('.card-art',trigger).getBoundingClientRect();
+  function fillShow(show) {
+    selectedShow=show;
     $('#dialog-title').textContent=show.title;$('#dialog-category').textContent=show.category.toLocaleUpperCase('tr-TR');
     $('#dialog-description').textContent=show.description;
     const visual=$('.dialog-visual');$('#dialog-art').innerHTML=posterHTML(show);
@@ -97,6 +98,47 @@ document.addEventListener('DOMContentLoaded', () => {
     $('.poster-photo',visual)?.setAttribute('sizes','(max-width:760px) 92vw, 530px');
     $('.dialog-image-note').textContent=show.image?'GÖRSEL TEMSİLİDİR · GERÇEK EKİP FOTOĞRAFI DEĞİLDİR':'GRAFİK TASARIM ÖNİZLEMESİ · ZAYA EVENTS';
     $('.dialog-tags').replaceChildren(...show.tags.map(tag=>{const span=document.createElement('span');span.textContent=tag;return span;}));
+    const index=visibleShows.indexOf(show);
+    $('#show-position').textContent=`${String(index+1).padStart(2,'0')} / ${String(visibleShows.length).padStart(2,'0')}`;
+    $('#show-prev').disabled=index<=0;$('#show-next').disabled=index>=visibleShows.length-1;
+  }
+  function stepShow(direction) {
+    if(!dialog.open || dialogClosing) return;
+    const index=visibleShows.indexOf(selectedShow)+direction;
+    if(index<0 || index>=visibleShows.length) return;
+    resetDialogMotion();
+    const show=visibleShows[index];
+    lastTrigger=$(`[data-show="${show.id}"]`,list);
+    fillShow(show);$('.dialog-scroll').scrollTop=0;dialog.scrollTop=0;
+    if(canAnimate()) dialogTimeline=gsap.fromTo([$('.dialog-art'),$('#dialog-title'),$('#dialog-description')],{opacity:0,x:direction*12},{opacity:1,x:0,duration:.3,ease:'power2.out',clearProps:'opacity,transform'});
+  }
+  $('#show-prev').addEventListener('click',()=>stepShow(-1));
+  $('#show-next').addEventListener('click',()=>stepShow(1));
+  function updateCarousel() {
+    const cards=[...list.children];
+    if(cards.length && !desktop.matches) {
+      const start=list.getBoundingClientRect().left+parseFloat(getComputedStyle(list).paddingLeft);
+      let distance=Infinity;
+      cards.forEach((card,i)=>{const d=Math.abs(card.getBoundingClientRect().left-start);if(d<distance){distance=d;carouselIndex=i;}});
+    }
+    $('#catalog-position').textContent=`${String(carouselIndex+1).padStart(2,'0')} / ${String(cards.length).padStart(2,'0')}`;
+    $('#catalog-prev').disabled=carouselIndex===0;$('#catalog-next').disabled=carouselIndex>=cards.length-1;
+  }
+  const stepCard=direction=>{
+    const target=list.children[Math.max(0,Math.min(list.children.length-1,carouselIndex+direction))];
+    if(target) list.scrollTo({left:list.scrollLeft+target.getBoundingClientRect().left-list.getBoundingClientRect().left-parseFloat(getComputedStyle(list).paddingLeft),behavior:reducedMotion.matches?'instant':'smooth'});
+  };
+  $('#catalog-prev').addEventListener('click',()=>stepCard(-1));
+  $('#catalog-next').addEventListener('click',()=>stepCard(1));
+  let carouselFrame=false;
+  list.addEventListener('scroll',()=>{if(!carouselFrame){carouselFrame=true;requestAnimationFrame(()=>{updateCarousel();carouselFrame=false;});}},{passive:true});
+  desktop.addEventListener('change',()=>{updateCarousel();if(!desktop.matches){cardObserver.disconnect();window.gsap?.killTweensOf(list.children);window.gsap?.set(list.children,{clearProps:'opacity,transform'});}});
+  function openShow(show,trigger) {
+    if(dialog.open) return;
+    resetDialogMotion();dialogClosing=false;selectedShow=show;lastTrigger=trigger;
+    const sourceRect=$('.card-art',trigger).getBoundingClientRect();
+    fillShow(show);
+    const visual=$('.dialog-visual');
     closeMenu();dialog.showModal();dialog.scrollTop=0;$('.dialog-scroll').scrollTop=0;document.body.classList.add('dialog-open');
     if(canAnimate() && !desktop.matches) {
       dialogTimeline=gsap.timeline({onComplete:()=>{dialogTimeline=null;}})
@@ -133,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     else dialogTimeline.to(visual,{opacity:0,y:10,duration:.2,ease:'power2.in'},0);
   }
   $('.dialog-close').addEventListener('click',()=>closeShow());
-  dialog.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeShow();}});
+  dialog.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeShow();}else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();stepShow(e.key==='ArrowRight'?1:-1);}});
   dialog.addEventListener('cancel',e=>{e.preventDefault();closeShow();});
   dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeShow();}});
   dialog.addEventListener('close',()=>{pendingDialogFinish=null;resetDialogMotion();document.body.classList.remove('dialog-open');dialogClosing=false;lastTrigger?.focus({preventScroll:true});});
@@ -213,9 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .from('.hero-actions',{opacity:0,y:15,duration:.7},.7)
       .from('.hero-bottom',{opacity:0,duration:.7},.85);
     gsap.to('.hero-visual',{yPercent:9,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
-    $$('.reveal').forEach(el => gsap.from(el,{y:25,opacity:0,duration:.8,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}}));
-    const ribbon=$('.ribbon-track');
-    gsap.fromTo(ribbon,{x:10},{x:()=>-Math.max(45,ribbon.scrollWidth-window.innerWidth+20),ease:'none',scrollTrigger:{trigger:'.service-ribbon',start:'top bottom',end:'bottom top',scrub:1,invalidateOnRefresh:true}});
+    $$('h2.reveal').forEach(el => gsap.from(el,{y:12,opacity:0,duration:.5,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}}));
     if(!manualScene) sceneTrigger=ScrollTrigger.create({trigger:scene,start:'top 45%',end:'bottom 85%',onUpdate:self=>{if(manualScene)return;const mix=Math.max(0,Math.min(1,(self.progress-.38)/.24));scene.style.setProperty('--night-mix',String(mix));updateSceneText(self.progress>.5?'night':'day');}});
     return () => {sceneTrigger?.kill();};
   });
