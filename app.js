@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cards keep the same media surface when expanding into show details.
   const shows = window.ZAYA_SHOWS || [], list = $('#show-list'), dialog = $('#show-dialog');
   const programSelect = $('#selected-program');
-  let visibleShows = shows, carouselIndex = 0;
+  let visibleShows = shows, carouselIndex = 0, embla = null;
   const placeDialogAction = () => {
     const actions = $('.dialog-actions');
     (desktop.matches ? $('.dialog-copy') : actions).append($('#select-show'));
@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   },{rootMargin:'0px 0px 30px 0px',threshold:.08});
   shows.forEach(show => {const option=document.createElement('option');option.value=show.title;option.textContent=show.title;programSelect.append(option);});
   const renderShows = (filter, filtering = false) => {
+    embla?.destroy();embla=null;$('.catalog-viewport').classList.remove('is-enhanced');
     cardObserver.disconnect();
     if(window.gsap) gsap.killTweensOf(list.children);
     const visible = shows.filter(show => filter === 'all' || show.filter === filter);
@@ -76,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
     $('.catalog-count').textContent=`${String(visible.length).padStart(2,'0')} program`;
-    list.scrollLeft=0;updateCarousel();
+    list.scrollLeft=0;setupCarousel();updateCarousel();
     window.ScrollTrigger?.refresh();
   };
   $$('.catalog-filters button').forEach(button=>button.addEventListener('click',()=>{
@@ -86,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }));
   function resetDialogMotion() {
     dialogTimeline?.kill();dialogTimeline=null;
-    if(window.gsap) gsap.set([$('.dialog-visual'),$('.dialog-copy'),$('.dialog-close'),$('.dialog-actions'),$('.dialog-art'),$('#dialog-title'),$('#dialog-description')],{clearProps:'transform,opacity'});
+    if(window.gsap) gsap.set([$('.dialog-visual'),$('.dialog-copy'),$('.dialog-close'),$('.dialog-actions'),$('.dialog-art'),$('#dialog-title'),$('#dialog-description'),$('.dialog-tags')],{clearProps:'transform,opacity'});
     dialog.classList.remove('dialog-morphing');
   }
   function fillShow(show) {
@@ -110,13 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const show=visibleShows[index];
     lastTrigger=$(`[data-show="${show.id}"]`,list);
     fillShow(show);$('.dialog-scroll').scrollTop=0;dialog.scrollTop=0;
-    if(canAnimate()) dialogTimeline=gsap.fromTo([$('.dialog-art'),$('#dialog-title'),$('#dialog-description')],{opacity:0,x:direction*12},{opacity:1,x:0,duration:.3,ease:'power2.out',clearProps:'opacity,transform'});
+    if(canAnimate()) {
+      dialogTimeline=gsap.timeline()
+        .fromTo($('.dialog-art'),{opacity:0,x:direction*26,scale:1.035},{opacity:1,x:0,scale:1,duration:.45,ease:'power3.out',clearProps:'opacity,transform'},0)
+        .fromTo([$('#dialog-title'),$('#dialog-description'),$('.dialog-tags')],{opacity:0,y:10},{opacity:1,y:0,duration:.3,stagger:.04,ease:'power3.out',clearProps:'opacity,transform'},.08);
+    }
   }
   $('#show-prev').addEventListener('click',()=>stepShow(-1));
   $('#show-next').addEventListener('click',()=>stepShow(1));
   function updateCarousel() {
     const cards=[...list.children];
-    if(cards.length && !desktop.matches) {
+    if(embla) carouselIndex=embla.selectedScrollSnap();
+    else if(cards.length && !desktop.matches) {
       const start=list.getBoundingClientRect().left+parseFloat(getComputedStyle(list).paddingLeft);
       let distance=Infinity;
       cards.forEach((card,i)=>{const d=Math.abs(card.getBoundingClientRect().left-start);if(d<distance){distance=d;carouselIndex=i;}});
@@ -124,7 +130,20 @@ document.addEventListener('DOMContentLoaded', () => {
     $('#catalog-position').textContent=`${String(carouselIndex+1).padStart(2,'0')} / ${String(cards.length).padStart(2,'0')}`;
     $('#catalog-prev').disabled=carouselIndex===0;$('#catalog-next').disabled=carouselIndex>=cards.length-1;
   }
+  function setupCarousel() {
+    embla?.destroy();embla=null;
+    const viewport=$('.catalog-viewport');viewport.classList.remove('is-enhanced');
+    if(!desktop.matches && window.EmblaCarousel) {
+      viewport.classList.add('is-enhanced');list.scrollLeft=0;
+      embla=EmblaCarousel(viewport,{align:'start',containScroll:'keepSnaps',loop:false,duration:reducedMotion.matches?0:28,watchSlides:false});
+      embla.on('select',updateCarousel).on('reInit',updateCarousel);
+    }
+    updateCarousel();
+  }
+  reducedMotion.addEventListener('change',()=>{embla?.reInit({duration:reducedMotion.matches?0:28});});
   const stepCard=direction=>{
+    if(embla){direction>0?embla.scrollNext(reducedMotion.matches):embla.scrollPrev(reducedMotion.matches);return;}
+
     const target=list.children[Math.max(0,Math.min(list.children.length-1,carouselIndex+direction))];
     if(target) list.scrollTo({left:list.scrollLeft+target.getBoundingClientRect().left-list.getBoundingClientRect().left-parseFloat(getComputedStyle(list).paddingLeft),behavior:reducedMotion.matches?'instant':'smooth'});
   };
@@ -132,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('#catalog-next').addEventListener('click',()=>stepCard(1));
   let carouselFrame=false;
   list.addEventListener('scroll',()=>{if(!carouselFrame){carouselFrame=true;requestAnimationFrame(()=>{updateCarousel();carouselFrame=false;});}},{passive:true});
-  desktop.addEventListener('change',()=>{updateCarousel();if(!desktop.matches){cardObserver.disconnect();window.gsap?.killTweensOf(list.children);window.gsap?.set(list.children,{clearProps:'opacity,transform'});}});
+  desktop.addEventListener('change',()=>{setupCarousel();if(!desktop.matches){cardObserver.disconnect();window.gsap?.killTweensOf(list.children);window.gsap?.set(list.children,{clearProps:'opacity,transform'});}});
   function openShow(show,trigger) {
     if(dialog.open) return;
     resetDialogMotion();dialogClosing=false;selectedShow=show;lastTrigger=trigger;
@@ -142,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     closeMenu();dialog.showModal();dialog.scrollTop=0;$('.dialog-scroll').scrollTop=0;document.body.classList.add('dialog-open');
     if(canAnimate() && !desktop.matches) {
       dialogTimeline=gsap.timeline({onComplete:()=>{dialogTimeline=null;}})
-        .fromTo([visual,$('.dialog-copy')],{opacity:0,y:10},{opacity:1,y:0,duration:.24,ease:'power2.out',clearProps:'opacity,transform'});
+        .fromTo([visual,$('.dialog-copy')],{opacity:0,y:10},{opacity:1,y:0,duration:.35,ease:'power3.out',clearProps:'opacity,transform'});
     } else if(canAnimate()) {
       const target=visual.getBoundingClientRect();
       dialog.classList.add('dialog-morphing');
@@ -200,13 +219,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Background video is optional, silent and pausable. Loading is avoided for reduced motion/data saving.
   const video = $('#hero-video'), videoButton = $('.video-toggle');
   let videoWanted = !reducedMotion.matches && !navigator.connection?.saveData;
-  let heroVisible = true;
+  let heroVisible = true, introReady = !canAnimate();
   const syncVideoButton = () => {
     const playing = !video.paused;
     videoButton.innerHTML = `${icon(playing?'pause':'play')}<span>${playing?'FİLMİ DURAKLAT':'FİLMİ OYNAT'}</span>`;
     videoButton.setAttribute('aria-label', playing?'Tanıtım videosunu duraklat':'Tanıtım videosunu oynat');
   };
   const playVideo = async () => {
+    if(!introReady) return;
     if(!video.src) video.src = (!desktop.matches && video.dataset.mobileSrc) || video.dataset.src;
     try {await video.play();} catch {videoWanted=false; syncVideoButton();}
   };
@@ -244,20 +264,23 @@ document.addEventListener('DOMContentLoaded', () => {
   $$('.service-row').forEach(row => row.addEventListener('toggle', () => window.ScrollTrigger?.refresh()));
 
 
-  if(!window.gsap || !window.ScrollTrigger) return;
+  if(!window.gsap || !window.ScrollTrigger) {introReady=true;return;}
   gsap.registerPlugin(ScrollTrigger);
   const motion=gsap.matchMedia();
   motion.add('(prefers-reduced-motion: no-preference)', () => {
-    const intro=gsap.timeline({defaults:{ease:'power3.out'}});
-    intro.from('.hero-eyebrow',{opacity:0,y:12,duration:.65},.1)
-      .from('.hero h1 .line > span',{yPercent:112,rotate:1.5,duration:1.15,stagger:.12},.12)
-      .from('.hero-description',{opacity:0,y:18,duration:.75},.5)
-      .from('.hero-actions',{opacity:0,y:15,duration:.7},.7)
-      .from('.hero-bottom',{opacity:0,duration:.7},.85);
+    const finishIntro=()=>{introReady=true;if(videoWanted && heroVisible && !document.hidden)playVideo();};
+    const intro=gsap.timeline({defaults:{ease:'power3.out'},onComplete:finishIntro});
+    intro.fromTo('.hero-dawn',{clipPath:'inset(0% 0% 0% 0%)'},{clipPath:'inset(0% 0% 100% 0%)',duration:1.1,ease:'power2.inOut'},.28)
+      .from('.hero-eyebrow',{opacity:0,y:10,duration:.45},.05)
+      .from('.hero h1 .line:first-child > span',{yPercent:112,duration:.75},.12)
+      .from('.hero h1 .line:last-child > span',{yPercent:112,duration:.75},.55)
+      .from('.hero-description',{opacity:0,y:12,duration:.45},.85)
+      .from('.hero-actions',{opacity:0,y:10,duration:.45},1.0)
+      .from('.hero-bottom',{opacity:0,duration:.35},1.1);
     gsap.to('.hero-visual',{yPercent:9,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
     $$('h2.reveal').forEach(el => gsap.from(el,{y:12,opacity:0,duration:.5,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}}));
     if(!manualScene) sceneTrigger=ScrollTrigger.create({trigger:scene,start:'top 45%',end:'bottom 85%',onUpdate:self=>{if(manualScene)return;const mix=Math.max(0,Math.min(1,(self.progress-.38)/.24));scene.style.setProperty('--night-mix',String(mix));updateSceneText(self.progress>.5?'night':'day');}});
-    return () => {sceneTrigger?.kill();};
+    return () => {sceneTrigger?.kill();introReady=true;};
   });
   document.fonts?.ready.then(() => ScrollTrigger.refresh());
   window.addEventListener('load', () => ScrollTrigger.refresh(), {once:true});
