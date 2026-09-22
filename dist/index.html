@@ -11,15 +11,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="base.css?v=6">
-  <link rel="stylesheet" href="styles.css?v=6">
-  <link rel="stylesheet" href="catalog.css?v=6">
-  <link rel="stylesheet" href="direction.css?v=6">
-  <script src="assets/icons.js?v=6" defer></script>
+  <link rel="stylesheet" href="base.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="catalog.css?v=7">
+  <link rel="stylesheet" href="direction.css?v=7">
+  <script src="assets/icons.js?v=7" defer></script>
   <script src="assets/gsap.min.js" defer></script>
   <script src="assets/ScrollTrigger.min.js" defer></script>
-  <script src="shows.js?v=6" defer></script>
-  <script src="app.js?v=6" defer></script>
+  <script src="shows.js?v=7" defer></script>
+  <script src="assets/embla-carousel.umd.js" defer></script>
+  <script src="app.js?v=7" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#icerik">İçeriğe geç</a>
@@ -50,7 +51,7 @@
       <div class="section-top"><p class="eyebrow"><span class="small-rule"></span> ŞOV KATALOĞU</p><span class="section-index phase-mark"><i aria-hidden="true"></i>GÜNDÜZ</span></div>
       <div class="section-intro"><h2 id="catalog-title" class="reveal">Her sahnede<br><span class="muted-title">başka bir enerji.</span></h2><p class="reveal">Dans, akrobasi, canlı müzik ve parti performansları. Tesisinizin programına birlikte ritim katalım.</p></div>
       <div class="catalog-toolbar"><div class="catalog-filters" role="group" aria-label="Şovları filtrele"><button type="button" data-filter="all" aria-pressed="true">Tümü</button><button type="button" data-filter="sahne" aria-pressed="false">Şov</button><button type="button" data-filter="muzik" aria-pressed="false">Canlı müzik</button><button type="button" data-filter="parti" aria-pressed="false">Parti</button></div><span class="catalog-count" role="status" aria-live="polite"></span></div>
-      <div class="show-grid" id="show-list" aria-label="Şov koleksiyonu"></div>
+      <div class="catalog-viewport"><div class="show-grid" id="show-list" aria-label="Şov koleksiyonu"></div></div>
       <div class="catalog-pager"><span>Yeni bir enerji keşfet</span><div><button type="button" id="catalog-prev" aria-label="Önceki kart">←</button><output id="catalog-position" aria-live="polite">01 / 09</output><button type="button" id="catalog-next" aria-label="Sonraki kart">→</button></div></div>
       <noscript><p>Fresno Style · Colombia Rumbera · African Acrobats · Party Dancers · Drifters · Heal Me Band · Due Band · Etiyopya · Prestij</p></noscript>
       <div class="catalog-bottom"><p>Different cultures.<br><span>Same energy.</span></p><div><span>Görseller ve grafikler temsilidir.</span><span>Şov seçimi, tarih ve sahne koşullarına göre planlanır.</span></div></div>

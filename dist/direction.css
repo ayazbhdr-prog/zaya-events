@@ -12,7 +12,7 @@
 .hero-horizon i:after{content:'';position:absolute;right:0;top:-5px;width:11px;height:11px;border:1px solid var(--coral);border-radius:50%;background:var(--ink)}
 .hero-dawn{position:absolute;inset:0;background:linear-gradient(90deg,#10262380,#10262320),url('assets/pool-party.webp') center/cover;z-index:1;pointer-events:none;clip-path:inset(0 0 100% 0)}
 .hero-shade{z-index:1}
-@media(prefers-reduced-motion:no-preference){.hero-dawn{animation:day-opens 1.6s cubic-bezier(.7,0,.2,1) both}@keyframes day-opens{0%,15%{clip-path:inset(0)}100%{clip-path:inset(0 0 100% 0)}}}
+
 .service-ribbon{background:var(--sand);color:var(--ink);padding:30px 6%;border-bottom:1px solid #11151620}
 .ribbon-track{width:100%;min-width:0;justify-content:space-between;gap:25px;padding:0;white-space:normal}
 .ribbon-track span{font-size:15px;letter-spacing:.02em}
@@ -82,3 +82,12 @@
 }
 @media(max-width:380px){.hero-content{padding-top:153px}.hero-description strong{font-size:20px}.hero-actions{align-items:flex-start;flex-direction:column}.hero{height:850px}.catalog-pager>span{display:none}.catalog-pager{justify-content:flex-end}.section-top .phase-mark{display:none}.card-category{padding:7px 10px;font-size:11px}}
 @media(prefers-reduced-motion:reduce){.hero-dawn{display:none}.show-grid{scroll-behavior:auto}}
+
+/* Embla progressively enhances native scrolling on narrow screens. */
+.catalog-viewport{min-width:0}
+@media(max-width:760px){
+ .catalog-viewport.is-enhanced{overflow:hidden;margin-inline:-6vw;padding:8px 6vw 16px}
+ .catalog-viewport.is-enhanced .show-grid{overflow:visible;width:100%;margin:0;padding:0;scroll-snap-type:none;touch-action:pan-y pinch-zoom;user-select:none}
+ .catalog-viewport.is-enhanced .show-card{scroll-snap-align:none;flex-shrink:0}
+ .catalog-viewport.is-enhanced .poster-photo{-webkit-user-drag:none}
+}
