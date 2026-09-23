@@ -1,0 +1,56 @@
+/* ZAYA colour: stage red used as an accent on ink and paper, never as a large field.
+   --coral keeps its name so older stylesheets pick up the new red without edits. */
+:root{
+  --red:#E11D2E;        /* fills, buttons, lines */
+  --red-bright:#FF3B4A; /* red text and thin marks on dark surfaces */
+  --red-deep:#B5121F;   /* red text on paper */
+  --coral:var(--red);
+}
+
+::selection{color:#fff}
+
+/* Anything filled with red carries white text. */
+.button-coral,
+.service-ribbon,
+.flick-add:hover,.flick-add.is-selected,
+.card-add:hover,.card-add.is-selected,
+.service-row:hover .service-icon,.service-row[open] .service-icon,
+.scroll-prompt:hover .scroll-circle{color:#fff}
+.button-coral:hover{background:var(--red-deep)}
+
+/* Red as text on dark surfaces uses the brighter tint so small type stays readable. */
+.accent,
+.hero-season span,
+.hero-collection:hover,
+.dialog-copy .eyebrow,
+.daynight[data-time="night"] .scene-content h2 span,
+.scene-timeline button[aria-pressed=true]>span,
+.service-row:hover h3,.service-row[open] h3{color:var(--red-bright)}
+.service-row summary:hover .service-icon{color:#fff}
+.show-card:focus-visible,.flick-open:focus-visible,.show-details:focus-visible{outline-color:var(--red-bright)}
+.catalog a:focus-visible,.catalog button:focus-visible{outline-color:var(--red-deep)}
+.dialog-visual.no-photo{background:radial-gradient(ellipse at 15% 80%,#e11d2e55,transparent 65%),#153e41}
+
+/* Home closing call: dark stage, red accent. */
+.home-cta{background:#0c1011;color:var(--paper)}
+.home-cta .eyebrow{color:#d7ddd6}
+.home-cta h2 em{color:var(--red-bright)}
+.home-cta p{color:#c9d1ca}
+.home-cta .button-ink{background:var(--red);color:#fff}
+.home-cta .button-ink:hover{background:var(--red-deep)}
+.home-cta .showcase-all{color:var(--paper);border-bottom-color:#ffffff4d}
+.home-channels{border-top-color:#ffffff24}
+.home-channels small{color:#9aa69e}
+.home-channels a{color:var(--paper);border-bottom-color:#ffffff40}
+.home-channels a:hover{color:var(--red-bright)}
+
+/* Planner contact: paper ground so the form reads cleanly, red only for emphasis. */
+.contact{background:var(--paper);color:var(--ink)}
+.contact h2 em{color:var(--red-deep)}
+.contact .small-rule{background:var(--ink)}
+.brief-form,.brief-result{border-top-color:#1115162e}
+.contact-channels{border-top-color:#1115162e;border-bottom-color:#1115162e}
+.form-grid input,.form-grid select{background:#fff;border-bottom-color:#11151652}
+.form-grid input::placeholder{color:#6b7570}
+.brief-result textarea{background:#fff;border-color:#1115162e}
+.contact :focus-visible{outline-color:var(--red-deep)}

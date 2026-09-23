@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111516">
+  <title>Şovlar — ZAYA Events</title>
+  <meta name="description" content="ZAYA Events 2026 koleksiyonu: 33 program, canlı müzik, sahne şovları, tema ve pool partileri.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" type="image/svg+xml" href="assets/brand/zaya-mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="preload" href="assets/fonts/zodiak-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/zodiak-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="base.css?v=16">
+  <link rel="stylesheet" href="styles.css?v=16">
+  <link rel="stylesheet" href="catalog.css?v=16">
+  <link rel="stylesheet" href="direction.css?v=16">
+  <link rel="stylesheet" href="collection.css?v=16">
+  <link rel="stylesheet" href="program.css?v=16">
+  <link rel="stylesheet" href="type.css?v=16">
+  <link rel="stylesheet" href="brand.css?v=16">
+  <link rel="stylesheet" href="editorial.css?v=16">
+  <script src="assets/icons.js?v=16" defer></script>
+  <script src="assets/brand/icons.js?v=16" defer></script>
+  <script src="assets/gsap.min.js?v=16" defer></script>
+  <script src="assets/ScrollTrigger.min.js?v=16" defer></script>
+  <script src="assets/lenis.min.js?v=16" defer></script>
+  <script src="shows.js?v=17" defer></script>
+  <script src="program-model.js?v=16" defer></script>
+  <script src="shell.js?v=16" defer></script>
+  <script src="catalog.js?v=16" defer></script>
+  <script src="program.js?v=16" defer></script>
+</head>
+<body data-page="shows">
+  <a class="skip-link" href="#icerik">İçeriğe geç</a>
+  <header class="header" id="header">
+    <a class="wordmark" href="index.html" data-nav="home" aria-label="ZAYA Events ana sayfa">ZAYA<span>EVENTS</span></a>
+    <nav class="desktop-nav" aria-label="Ana menü">
+      <a href="program.html#hafta">Örnek hafta</a><a href="sovlar.html" data-nav="shows">Şovlar</a><a href="index.html#neden-zaya">Neden ZAYA</a>
+    </nav>
+    <a href="program.html#talep" data-nav="program" class="nav-cta">Programım <span class="nav-program-count" data-program-count>0</span> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a>
+    <button class="menu-toggle" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobile-nav"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobil menü" hidden><a href="program.html#hafta">Örnek hafta</a><a href="sovlar.html" data-nav="shows">Şovlar</a><a href="index.html#neden-zaya">Neden ZAYA</a><a href="program.html#talep" data-nav="program">Birlikte planlayalım</a></nav>
+  </header>
+  <main id="icerik">
+<section class="catalog section-pad" id="sovlar" aria-labelledby="catalog-title">
+      <div class="section-top"><p class="eyebrow"><span class="small-rule"></span> 2026 KOLEKSİYONU</p><span class="section-index phase-mark"><i aria-hidden="true"></i>33 PROGRAM / 05 KATEGORİ</span></div>
+      <div class="section-intro"><h2 id="catalog-title" class="reveal">Her sahnede<br><span class="muted-title">başka bir enerji.</span></h2><p class="reveal">Canlı müzikten akrobasiye, havuz başından çocuk festivallerine. Kendi programınızı keşfedin; tanıtımları burada izleyin.</p></div>
+      <div class="catalog-toolbar"><div class="catalog-filters" role="group" aria-label="Şovları filtrele"><button type="button" data-filter="stage-show" aria-pressed="true">Sahne şovları<span class="filter-count">08</span></button><button type="button" data-filter="live-music" aria-pressed="false">Canlı müzik<span class="filter-count">13</span></button><button type="button" data-filter="theme-party" aria-pressed="false">Tema partileri<span class="filter-count">05</span></button><button type="button" data-filter="pool-party" aria-pressed="false">Pool partileri<span class="filter-count">03</span></button><button type="button" data-filter="kids" aria-pressed="false">Çocuk programları<span class="filter-count">04</span></button><button type="button" data-filter="all" aria-pressed="false">Tümü<span class="filter-count">33</span></button></div></div><div class="catalog-subtoolbar"><label class="catalog-search"><span data-brand-icon="search"></span><input type="search" id="catalog-search" placeholder="Program veya sanatçı ara" aria-label="Program veya sanatçı ara" autocomplete="off"></label><span class="catalog-count" role="status" aria-live="polite"></span></div>
+      <div class="catalog-viewport"><div class="show-grid" id="show-list" aria-label="Şov koleksiyonu"></div></div>
+      <div class="catalog-empty" hidden><p>Bu aramaya uygun program bulunamadı.</p><button type="button" id="reset-search">Tüm programları göster ↗</button></div><div class="catalog-pager"><span>Yeni bir enerji keşfet</span><div><button type="button" id="catalog-prev" aria-label="Önceki kart">←</button><output id="catalog-position" aria-live="polite">01 / 09</output><button type="button" id="catalog-next" aria-label="Sonraki kart">→</button></div></div>
+      <noscript><p>Drifters · Heal Me Band · Drawing Planets · Cingar · 13 Cover · Matrock · Ex Band · Sonay Özdemir · Şirket · Aslı Kurnaz · Quovadis · Fevzi & Burçak · Doğuş Çetin · Colombia Rumbera · Turkish Folk Dance · Fresno Dance Show · Kenyan Acrobats · Etiopian Dreams · African Warriors · Alice Wonderland · PIA · White Party · Retro Party · Atlantis Party · Totem Party · Cappadocia Party · Pink Pool Party · Duck Pool Party · Hawaii Pool Party · Cany Land Kids Festival · Kids Festival Circus · Kids Show — Kung Fu Panda · Kids Show — Madagascar</p></noscript>
+      <div class="catalog-bottom"><p>Different cultures.<br><span>Same energy.</span></p><div><span>Katalog görselleri tanıtım amaçlıdır; sahne kurulumu değişebilir.</span><span>Şov seçimi, tarih ve sahne koşullarına göre planlanır.</span></div></div>
+    </section>
+  </main>
+  <dialog class="show-dialog" id="show-dialog" aria-labelledby="dialog-title"><button type="button" class="dialog-close" aria-label="Şov detayını kapat"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button><div class="dialog-scroll"><div class="dialog-visual"><div class="dialog-art" id="dialog-art"></div><span class="dialog-image-note">2026 KATALOG GÖRSELİ</span><button type="button" class="media-launch" id="play-show-media" hidden><span data-brand-icon="play"></span><span>Tanıtımı izle</span></button><div class="media-frame-wrap" id="show-media" hidden></div><button type="button" class="media-return" id="stop-show-media" hidden>← Görsele dön</button></div><div class="dialog-copy"><nav class="dialog-pager" aria-label="Şovlar arasında gezin"><button type="button" id="show-prev" aria-label="Önceki şov">←</button><span id="show-position" aria-live="polite"></span><button type="button" id="show-next" aria-label="Sonraki şov">→</button></nav><p class="eyebrow" id="dialog-category"></p><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="show-facts" id="dialog-facts"></div><div class="media-links" id="media-links" hidden><a id="drive-link" target="_blank" rel="noopener">Drive’da aç ↗</a><small id="media-help">Oynatıcı açılmazsa bağlantıyı kullanabilirsiniz.</small></div><details class="show-rider" id="show-rider" hidden><summary>Program & teknik detaylar <span>+</span></summary><div id="rider-content"></div></details><div class="dialog-tags"></div><p class="dialog-note">Tarih, gösteri içeriği ve teknik ihtiyaçlar programınıza göre birlikte netleştirilir.</p><p class="dialog-program-status" id="dialog-program-status" role="status"></p><button type="button" class="dialog-draft-link" id="review-program">Program taslağımı incele ↗</button><button class="button button-coral" id="select-show" type="button">Programa ekle <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></button></div></div><div class="dialog-actions" hidden></div></dialog>
+  <div id="program-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div><aside class="program-dock" id="program-dock" aria-label="Program taslağı" hidden><a href="program.html#talep" data-nav="program"><span class="dock-count" data-program-count>0</span><span>Programım<small>Taslağı incele</small></span><span aria-hidden="true">↗</span></a></aside>
+  <footer><a class="wordmark" href="index.html" data-nav="home">ZAYA<span>EVENTS</span></a><span>Marmaris · Şov & Prodüksiyon</span><a href="index.html" data-nav="home" class="back-top">Başa dön <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a><p class="preview-note">© 2026 ZAYA Events · Katalog görselleri tanıtım amaçlıdır.</p></footer>
+</body>
+</html>

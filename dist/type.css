@@ -1,0 +1,30 @@
+/* Display typography: Zodiak for headlines, italic for the second beat of a line.
+   Body copy and interface text keep DM Sans / Manrope. */
+@font-face{font-family:'Zodiak';src:url('assets/fonts/zodiak-regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Zodiak';src:url('assets/fonts/zodiak-italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}
+
+:root{--display:'Zodiak',Georgia,'Times New Roman',serif}
+
+/* Headlines */
+.hero h1,
+main h2,
+.dialog-copy h2{font-family:var(--display);font-weight:400;letter-spacing:-.025em}
+
+/* Hero: roman first line, italic accent second line */
+.hero h1{line-height:.96;letter-spacing:-.035em}
+.hero h1 .accent{font-style:italic;letter-spacing:-.045em;padding-right:.06em}
+
+/* The second line of a section title turns italic — the house rhythm. */
+main h2 span,
+main h2 em,
+main h2 .muted-title{font-style:italic;letter-spacing:-.035em}
+.home-cta h2 em{font-style:italic}
+
+/* Serif needs a touch more air than the old grotesk. */
+main h2{line-height:1.06}
+.showcase-top h2{letter-spacing:-.03em}
+.scene-content h2{line-height:1.02}
+
+/* Large numerals and time stamps read better in the display face. */
+.scene-timeline button>span,
+.trust-stats strong{font-family:var(--display);font-weight:400;letter-spacing:-.02em}
