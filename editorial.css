@@ -1,0 +1,88 @@
+/* Editorial layer: numbers and type instead of pictograms.
+   Loaded last; overrides the older icon-based controls. */
+
+/* ---------- Catalogue filters: a Dock-like shelf of words ----------
+   Frosted shelf, words grow toward the pointer, a red dot marks the selection. */
+.catalog .catalog-toolbar{border-bottom:0;padding:6px 0 10px;margin-bottom:26px}
+.catalog .catalog-filters{
+  position:relative;display:inline-flex;flex-wrap:nowrap;gap:2px;padding:8px 10px;border-radius:22px;
+  background:rgba(255,255,255,.55);border:1px solid rgba(17,21,22,.08);
+  box-shadow:0 12px 32px rgba(17,21,22,.07),inset 0 1px 0 rgba(255,255,255,.8);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}
+.catalog .catalog-filters button,
+.catalog .catalog-filters button[aria-pressed=true],
+.catalog .catalog-filters button:hover:not([aria-pressed=true]){
+  display:inline-flex;align-items:baseline;gap:7px;background:none;border:0;border-radius:14px;
+  padding:11px 17px 17px;min-height:48px;font-size:15px;font-weight:400;letter-spacing:-.01em;
+  color:#5f6964;white-space:nowrap;transform-origin:50% 100%;will-change:transform;transition:color .25s}
+.catalog .catalog-filters button:hover,
+.catalog .catalog-filters button[aria-pressed=true]{color:var(--ink)}
+.catalog .catalog-filters button[aria-pressed=true]{font-weight:500}
+.catalog .catalog-filters .filter-count{
+  align-self:auto;margin:0;opacity:1;font-family:inherit;font-style:normal;font-weight:400;font-size:12px;
+  color:#a0a8a2;font-variant-numeric:tabular-nums}
+.catalog .catalog-filters button[aria-pressed=true] .filter-count{color:#6b7570}
+.filter-indicator{position:absolute;left:0;bottom:7px;width:5px;height:5px;border-radius:50%;background:var(--red);pointer-events:none;will-change:transform}
+
+/* ---------- Services: a numbered editorial list ---------- */
+.service-row summary{gap:30px;padding:36px 4px;min-height:0;align-items:baseline}
+.service-row .service-number{display:block;min-width:46px;font-family:var(--display);font-style:italic;font-size:22px;color:#6f7b74;transition:color .35s}
+.service-row h3,
+.service-row:hover h3,
+.service-row[open] h3{font-family:var(--display);font-weight:400;font-size:clamp(30px,3.3vw,48px);letter-spacing:-.025em;line-height:1.1;color:var(--paper);transition:transform .5s var(--ease)}
+.service-row[open] h3{font-style:italic}
+.service-row:hover .service-number,
+.service-row[open] .service-number{color:var(--red-bright)}
+.service-row .service-kind{align-self:center;font-size:11px;letter-spacing:.14em;color:#9aa69e}
+.service-row .service-expand{align-self:center}
+.service-body{padding:0 80px 38px 80px}
+.service-body p{font-size:17px}
+@media(hover:hover) and (pointer:fine){.service-row:hover h3{transform:translateX(10px)}}
+
+/* ---------- Why ZAYA points: numerals replace pictograms ---------- */
+.why-num{flex:0 0 auto;min-width:40px;font-family:var(--display);font-style:italic;font-size:26px;line-height:1;color:var(--red-deep)}
+
+/* ---------- Facts read as a sentence: 40 dk · 14 kişi ---------- */
+.card-facts span,.flick-facts span,.show-facts span{gap:0}
+.card-facts span+span::before,
+.flick-facts span+span::before,
+.show-facts span+span::before{content:'·';margin:0 9px 0 1px;opacity:.6}
+.card-facts,.flick-facts,.show-facts{gap:0}
+
+/* ---------- Category labels without a glyph ---------- */
+.card-category,.flick-category{gap:0;letter-spacing:.06em;text-transform:uppercase;font-size:11px}
+
+@media(max-width:760px){
+  .catalog .catalog-filters{padding:6px 8px}
+  .catalog .catalog-filters button,
+  .catalog .catalog-filters button[aria-pressed=true]{font-size:14px;padding:10px 13px 16px;min-height:46px}
+  .service-row summary{gap:16px;padding:26px 0}
+  .service-row .service-number{display:block;min-width:30px;font-size:18px}
+  .service-row h3,.service-row:hover h3,.service-row[open] h3{font-size:27px}
+  .service-body{padding:0 4px 28px 46px}
+  .service-body p{font-size:15px}
+}
+@media(max-width:380px){
+  .service-row h3,.service-row:hover h3,.service-row[open] h3{font-size:24px}
+  .service-body{padding-left:0}
+}
+@media(prefers-reduced-motion:reduce){.service-row h3{transition:none}}
+
+/* ---------- Wordmark: ZAYA / EVENTS set in type, no pictogram ---------- */
+.wordmark{width:auto;display:inline-flex;flex-direction:column;align-items:center;line-height:1;
+  font-family:Manrope,sans-serif;font-weight:500;font-size:30px;letter-spacing:.14em;padding-left:.14em;color:var(--paper)}
+.wordmark span{display:block;margin-top:7px;padding-left:.62em;font-family:'DM Sans',sans-serif;font-weight:500;font-size:9.5px;letter-spacing:.62em;opacity:.85}
+.header.is-scrolled .wordmark{font-size:26px}
+.header.is-scrolled .wordmark span{font-size:8.5px;margin-top:6px}
+.about-signature .wordmark{color:var(--ink);font-size:26px}
+@media(max-width:760px){.wordmark{font-size:25px}.wordmark span{font-size:8.5px;margin-top:6px}}
+
+/* ---------- Hero signature line ---------- */
+.hero-signature{display:flex;flex-direction:column;gap:2px;max-width:520px}
+.hero-signature span{font-size:clamp(19px,1.6vw,23px);line-height:1.4;letter-spacing:-.015em;color:#e4e9e5}
+.hero-signature em{font-family:var(--display);font-style:italic;font-size:clamp(26px,2.3vw,34px);line-height:1.2;letter-spacing:-.02em;color:var(--paper)}
+@media(max-width:760px){.hero-signature span{font-size:18px}.hero-signature em{font-size:26px}}
+
+/* Hero is film only: no poster photo, no fade-in swap. */
+.hero-visual video{opacity:1!important;transition:none}
+.hero-visual{background:#07151c}

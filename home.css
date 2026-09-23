@@ -1,0 +1,95 @@
+/* Home page: the curated show strip and the closing call. */
+.showcase{background:var(--paper);color:var(--ink);padding:96px max(7%,calc((100% - 1500px)/2))}
+.showcase-top{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:44px}
+.showcase-top h2{font-size:clamp(40px,4.4vw,68px);line-height:1.08;letter-spacing:-.05em}
+.showcase-top h2 span{color:#5b7164;display:block}
+.showcase-intro{max-width:360px;font-size:15px;line-height:1.75;color:#4a574f}
+.showcase-all{display:inline-flex;align-items:center;gap:12px;margin-top:18px;font-size:14px;border-bottom:1px solid #1115163d;padding-bottom:8px;color:var(--ink)}
+.showcase-all svg{width:18px;height:18px;transition:transform .25s var(--ease)}
+.showcase-all:hover svg{transform:translate(3px,-3px)}
+
+.showcase-strip{display:flex;gap:10px;height:min(620px,70vh);min-height:430px}
+.flick-card{position:relative;flex:0 1 96px;min-width:96px;border-radius:6px;overflow:hidden;background:#12262b;transition:flex-grow .55s var(--ease),flex-basis .55s var(--ease),min-width .55s var(--ease)}
+.flick-card.is-open{flex:1 1 auto;min-width:0}
+.flick-open{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:pointer;text-align:left;color:#fff;display:block}
+.flick-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(3px) saturate(.8) brightness(.72);transform:scale(1.06);transition:filter .6s var(--ease),transform .8s var(--ease)}
+/* Rack focus: the opened card pulls sharp, the others stay soft. */
+.is-open .flick-image{filter:blur(0) saturate(1) brightness(1);transform:scale(1.01)}
+.flick-shade{position:absolute;inset:0;background:linear-gradient(180deg,#0612175e,transparent 32%,#06121733 52%,#061217ed 100%)}
+.flick-spine{position:absolute;left:50%;bottom:28px;transform:translateX(-50%) rotate(180deg);writing-mode:vertical-rl;font-family:Manrope,sans-serif;font-size:15px;letter-spacing:-.01em;white-space:nowrap;opacity:1;transition:opacity .3s}
+.is-open .flick-spine{opacity:0;pointer-events:none}
+.flick-body{position:absolute;left:30px;right:30px;bottom:28px;opacity:0;transform:translateY(10px);transition:opacity .35s .12s,transform .45s .12s var(--ease);pointer-events:none}
+.is-open .flick-body{opacity:1;transform:none}
+.flick-index{position:absolute;top:-370px;left:0;font-size:12px;letter-spacing:.08em;opacity:.85}
+.flick-category{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.04em;border:1px solid #ffffff45;background:#071a2052;backdrop-filter:blur(10px);border-radius:24px;padding:7px 13px}
+.flick-category svg{width:15px;height:15px;color:var(--poster-accent,var(--coral))}
+.flick-title{display:block;font-family:Manrope,sans-serif;font-size:clamp(28px,2.6vw,42px);font-weight:500;letter-spacing:-.045em;line-height:1.05;margin:14px 0 10px;text-wrap:balance}
+.flick-facts{display:flex;gap:16px;font-size:13px;color:#e6ece6}
+.flick-facts span{display:inline-flex;align-items:center;gap:7px}
+.flick-facts svg{width:15px;height:15px;opacity:.85}
+.flick-action{display:flex;align-items:center;gap:10px;margin-top:18px;padding-top:15px;border-top:1px solid #ffffff4d;font-size:13px}
+.flick-action svg{width:18px;height:18px}
+.flick-action svg:last-child{margin-left:auto;transition:transform .25s}
+.flick-card:hover .flick-action svg:last-child{transform:translate(3px,-3px)}
+.flick-add{position:absolute;top:16px;right:16px;z-index:2;width:44px;height:44px;border-radius:50%;border:1px solid #ffffff5c;background:#07131866;backdrop-filter:blur(10px);color:#fff;font-size:20px;line-height:1;cursor:pointer;opacity:0;transition:opacity .3s,background .25s,border-color .25s}
+.is-open .flick-add,.flick-add:focus-visible{opacity:1}
+.flick-add:hover{background:var(--coral);border-color:var(--coral);color:var(--ink)}
+.flick-add.is-selected{opacity:1;background:var(--coral);border-color:var(--coral);color:var(--ink)}
+.flick-open:focus-visible{outline:3px solid #ab3826;outline-offset:-3px}
+
+/* Closing call to action, in place of the form that now lives on the planner page. */
+.home-cta{background:var(--coral);color:var(--ink);padding:110px max(7%,calc((100% - 1500px)/2))}
+.home-cta h2{font-size:clamp(43px,5.4vw,82px);line-height:1.08;max-width:1100px}
+.home-cta h2 em{font-style:italic}
+.home-cta-grid{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:34px;margin-top:44px}
+.home-cta p{font-size:17px;line-height:1.7;max-width:420px}
+.home-cta-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.home-cta .button-ink{min-height:58px;font-size:15px}
+.home-channels{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:38px;padding-top:26px;border-top:1px solid #6428134d}
+.home-channels a{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-size:15px;font-weight:500;color:var(--ink);border-bottom:1px solid #64281359}
+.home-channels small{display:block;font-size:12px;letter-spacing:.07em;color:#6c3226;margin-bottom:4px}
+.home-channels div{display:flex;flex-direction:column;justify-content:flex-end}
+
+@media(max-width:1100px){
+  .showcase{padding-block:74px}
+  .showcase-strip{height:min(540px,64vh)}
+  .flick-card{flex-basis:78px;min-width:78px}
+  .flick-body{left:22px;right:22px}
+}
+@media(max-width:760px){
+  .showcase{padding:58px 6%}
+  .showcase-top{flex-direction:column;align-items:flex-start;gap:18px;margin-bottom:26px}
+  .showcase-strip{display:grid;grid-auto-flow:column;grid-auto-columns:82%;gap:14px;height:auto;min-height:0;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:0;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+  .flick-card{flex:none;min-width:0;aspect-ratio:4/5;scroll-snap-align:start}
+  .flick-card .flick-body{opacity:1;transform:none}
+  .flick-card .flick-image{filter:none;transform:none}
+  .flick-spine{display:none}
+  .flick-add{opacity:1}
+  .flick-body{left:20px;right:20px;bottom:22px}
+  .flick-title{font-size:30px}
+  .home-cta{padding:64px 6%}
+  .home-cta-grid{margin-top:28px}
+  .home-channels{gap:16px;flex-direction:column;align-items:flex-start}
+}
+@media(prefers-reduced-motion:reduce){
+  .flick-card,.flick-image,.flick-body,.flick-spine{transition:none}
+}
+
+/* Sample week as a held horizontal sequence (desktop enhancement). */
+.week-section.is-horizontal{min-height:100svh;height:100svh;padding-block:clamp(40px,6vh,72px);display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.week-section.is-horizontal .section-intro{margin-bottom:clamp(18px,3vh,34px)}
+.week-section.is-horizontal .section-intro h2{font-size:clamp(34px,3.4vw,52px)}
+.week-section.is-horizontal .week-viewport{overflow:visible;width:100%;flex:1 1 auto;min-height:0}
+.week-section.is-horizontal .week-grid{display:flex;width:max-content;height:100%;gap:22px;grid-template-columns:none;will-change:transform}
+.week-section.is-horizontal .week-day{flex:0 0 clamp(250px,21vw,320px);height:100%;display:flex;flex-direction:column;min-height:0}
+.week-section.is-horizontal .week-cover{aspect-ratio:auto;flex:1 1 auto;min-height:0}
+.week-section.is-horizontal .week-cover img{height:100%;width:100%;object-fit:cover}
+.week-section.is-horizontal .week-show{font-size:21px}
+.week-section.is-horizontal .week-category{font-size:12px;margin:12px 0 6px}
+.week-section.is-horizontal .week-duration{font-size:12px;margin-top:8px}
+.week-progress{display:none}
+.week-section.is-horizontal .week-progress{display:block;height:1px;background:#ffffff33;margin-top:clamp(16px,2.5vh,30px);flex:0 0 auto}
+.week-section.is-horizontal .week-progress span{display:block;height:3px;margin-top:-1px;background:var(--coral);transform-origin:left;transform:scaleX(.06)}
+.week-section.is-horizontal .week-bottom{border-top:0;margin-top:clamp(12px,2vh,22px);padding-top:0;flex:0 0 auto;justify-content:flex-start;gap:28px}
+/* Keep the week action clear of the floating draft badge. */
+.has-program .week-section.is-horizontal .week-bottom{padding-right:270px}
