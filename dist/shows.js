@@ -4,7 +4,7 @@ window.ZAYA_SHOWS = [
     "id": "drifters",
     "title": "Drifters",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": "assets/catalog/images/drifters.webp",
@@ -20,14 +20,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "heal-me-band",
     "title": "Heal Me Band",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": "assets/catalog/images/heal-me-band.webp",
@@ -43,14 +43,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "drawing-planets",
     "title": "Drawing Planets",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": "assets/catalog/images/drawing-planets.webp",
@@ -66,14 +66,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "cingar",
     "title": "Cingar",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": "assets/catalog/images/cingar.webp",
@@ -89,14 +89,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "13-cover",
     "title": "13 Cover",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": "assets/catalog/images/13-cover.webp",
@@ -112,14 +112,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "matrock",
     "title": "Matrock",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": "assets/catalog/images/matrock.webp",
@@ -135,14 +135,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "ex-band",
     "title": "Ex Band",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": "assets/catalog/images/ex-band.webp",
@@ -158,14 +158,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "sonay-ozdemir",
     "title": "Sonay Özdemir",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": null,
@@ -181,14 +181,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "sirket",
     "title": "Şirket",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": "assets/catalog/images/sirket.webp",
@@ -204,14 +204,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "asli-kurnaz",
     "title": "Aslı Kurnaz",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": "assets/catalog/images/asli-kurnaz.webp",
@@ -227,14 +227,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "quovadis",
     "title": "Quovadis",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": "assets/catalog/images/quovadis.webp",
@@ -250,14 +250,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "fevzi-burcak",
     "title": "Fevzi & Burçak",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": "assets/catalog/images/fevzi-burcak.webp",
@@ -273,14 +273,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "dogus-cetin",
     "title": "Doğuş Çetin",
     "filter": "live-music",
-    "category": "Canlı müzik",
+    "category": "Canlı Müzik",
     "icon": "music",
     "accent": "#cdce9d",
     "image": "assets/catalog/images/dogus-cetin.webp",
@@ -296,14 +296,14 @@ window.ZAYA_SHOWS = [
     "description": "Canlı müziğin enerjisini otelinizin akşam programına taşıyın.",
     "tags": [
       "Canlı müzik",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "colombia-rumbera",
     "title": "Colombia Rumbera",
     "filter": "stage-show",
-    "category": "Sahne şovları",
+    "category": "Sahne Şovları",
     "icon": "stage",
     "accent": "#f3b68c",
     "image": "assets/catalog/images/colombia-rumbera.webp?v=2",
@@ -319,14 +319,14 @@ window.ZAYA_SHOWS = [
     "description": "Kolombiya ritimleriyle renklenen bir dans gösterisi.",
     "tags": [
       "Sahne şovları",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "turkish-folk-dance",
     "title": "Turkish Folk Dance",
     "filter": "stage-show",
-    "category": "Sahne şovları",
+    "category": "Sahne Şovları",
     "icon": "stage",
     "accent": "#f3b68c",
     "image": "assets/catalog/images/turkish-folk-dance.webp",
@@ -342,14 +342,14 @@ window.ZAYA_SHOWS = [
     "description": "Türk halk danslarını sahnenize taşıyan kültürel bir gösteri.",
     "tags": [
       "Sahne şovları",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "fresno-dance-show",
     "title": "Fresno Dance Show",
     "filter": "stage-show",
-    "category": "Sahne şovları",
+    "category": "Sahne Şovları",
     "icon": "stage",
     "accent": "#f3b68c",
     "image": "assets/catalog/images/fresno-dance-show.webp",
@@ -365,14 +365,14 @@ window.ZAYA_SHOWS = [
     "description": "Akşam programınızın merkezine yerleşen bir sahne performansı.",
     "tags": [
       "Sahne şovları",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "kenyan-acrobats",
     "title": "Kenyan Acrobats",
     "filter": "stage-show",
-    "category": "Sahne şovları",
+    "category": "Sahne Şovları",
     "icon": "stage",
     "accent": "#f3b68c",
     "image": "assets/catalog/images/kenyan-acrobats.webp?v=2",
@@ -388,19 +388,19 @@ window.ZAYA_SHOWS = [
     "description": "Akrobasi ve hareketin bir araya geldiği bir sahne programı.",
     "tags": [
       "Sahne şovları",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
-    "id": "etiopian-dreams",
-    "title": "Etiopian Dreams",
+    "id": "ethiopian-acrobats",
+    "title": "Ethiopian Acrobats",
     "filter": "stage-show",
-    "category": "Sahne şovları",
+    "category": "Sahne Şovları",
     "icon": "stage",
     "accent": "#f3b68c",
-    "image": "assets/catalog/images/etiopian-dreams.webp",
-    "thumbnail": "assets/catalog/images/etiopian-dreams-thumb.webp",
-    "imageAlt": "Etiopian Dreams katalog görseli",
+    "image": "assets/catalog/images/ethiopian-acrobats.webp?v=2",
+    "thumbnail": "assets/catalog/images/ethiopian-acrobats-thumb.webp?v=2",
+    "imageAlt": "Ethiopian Acrobats katalog görseli",
     "duration": 40,
     "performers": "12",
     "rider": [],
@@ -411,14 +411,14 @@ window.ZAYA_SHOWS = [
     "description": "Akşam programınızın merkezine yerleşen bir sahne performansı.",
     "tags": [
       "Sahne şovları",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "african-warriors",
     "title": "African Warriors",
     "filter": "stage-show",
-    "category": "Sahne şovları",
+    "category": "Sahne Şovları",
     "icon": "stage",
     "accent": "#f3b68c",
     "image": "assets/catalog/images/african-warriors.webp",
@@ -434,14 +434,14 @@ window.ZAYA_SHOWS = [
     "description": "Akşam programınızın merkezine yerleşen bir sahne performansı.",
     "tags": [
       "Sahne şovları",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "alice-wonderland",
     "title": "Alice Wonderland",
     "filter": "stage-show",
-    "category": "Sahne şovları",
+    "category": "Sahne Şovları",
     "icon": "stage",
     "accent": "#f3b68c",
     "image": "assets/catalog/images/alice-wonderland.webp",
@@ -457,14 +457,14 @@ window.ZAYA_SHOWS = [
     "description": "Alice Wonderland temasıyla kurgulanan bir sahne gösterisi.",
     "tags": [
       "Sahne şovları",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "pia",
     "title": "PIA",
     "filter": "stage-show",
-    "category": "Sahne şovları",
+    "category": "Sahne Şovları",
     "icon": "stage",
     "accent": "#f3b68c",
     "image": "assets/catalog/images/pia.webp",
@@ -480,14 +480,14 @@ window.ZAYA_SHOWS = [
     "description": "Akşam programınızın merkezine yerleşen bir sahne performansı.",
     "tags": [
       "Sahne şovları",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "white-party",
     "title": "White Party",
     "filter": "theme-party",
-    "category": "Tema partileri",
+    "category": "Tema Geceleri",
     "icon": "theme",
     "accent": "#ccaae5",
     "image": "assets/catalog/images/white-party.webp",
@@ -521,14 +521,14 @@ window.ZAYA_SHOWS = [
     "description": "Dekor, dans ve müziği aynı konseptte bir araya getiren tematik parti.",
     "tags": [
       "Tema partileri",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "retro-party",
     "title": "Retro Party",
     "filter": "theme-party",
-    "category": "Tema partileri",
+    "category": "Tema Geceleri",
     "icon": "theme",
     "accent": "#ccaae5",
     "image": "assets/catalog/images/retro-party.webp",
@@ -563,14 +563,14 @@ window.ZAYA_SHOWS = [
     "description": "Dekor, dans ve müziği aynı konseptte bir araya getiren tematik parti.",
     "tags": [
       "Tema partileri",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "atlantis-party",
     "title": "Atlantis Party",
     "filter": "theme-party",
-    "category": "Tema partileri",
+    "category": "Tema Geceleri",
     "icon": "theme",
     "accent": "#ccaae5",
     "image": "assets/catalog/images/atlantis-party.webp",
@@ -606,14 +606,14 @@ window.ZAYA_SHOWS = [
     "description": "Dekor, dans ve müziği aynı konseptte bir araya getiren tematik parti.",
     "tags": [
       "Tema partileri",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "totem-party",
     "title": "Totem Party",
     "filter": "theme-party",
-    "category": "Tema partileri",
+    "category": "Tema Geceleri",
     "icon": "theme",
     "accent": "#ccaae5",
     "image": "assets/catalog/images/totem-party.webp",
@@ -648,14 +648,14 @@ window.ZAYA_SHOWS = [
     "description": "Dekor, dans ve müziği aynı konseptte bir araya getiren tematik parti.",
     "tags": [
       "Tema partileri",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "cappadocia-party",
     "title": "Cappadocia Party",
     "filter": "theme-party",
-    "category": "Tema partileri",
+    "category": "Tema Geceleri",
     "icon": "theme",
     "accent": "#ccaae5",
     "image": "assets/catalog/images/cappadocia-party.webp",
@@ -691,14 +691,14 @@ window.ZAYA_SHOWS = [
     "description": "Dekor, dans ve müziği aynı konseptte bir araya getiren tematik parti.",
     "tags": [
       "Tema partileri",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "pink-pool-party",
     "title": "Pink Pool Party",
     "filter": "pool-party",
-    "category": "Pool partileri",
+    "category": "Pool Partiler",
     "icon": "pool",
     "accent": "#90d7d8",
     "image": "assets/catalog/images/pink-pool-party.webp",
@@ -730,14 +730,14 @@ window.ZAYA_SHOWS = [
     "description": "Havuz başında dans, müzik ve yaz enerjisi.",
     "tags": [
       "Pool partileri",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "duck-pool-party",
     "title": "Duck Pool Party",
     "filter": "pool-party",
-    "category": "Pool partileri",
+    "category": "Pool Partiler",
     "icon": "pool",
     "accent": "#90d7d8",
     "image": "assets/catalog/images/duck-pool-party.webp",
@@ -766,14 +766,14 @@ window.ZAYA_SHOWS = [
     "description": "Havuz başında dans, müzik ve yaz enerjisi.",
     "tags": [
       "Pool partileri",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "hawaii-pool-party",
     "title": "Hawaii Pool Party",
     "filter": "pool-party",
-    "category": "Pool partileri",
+    "category": "Pool Partiler",
     "icon": "pool",
     "accent": "#90d7d8",
     "image": "assets/catalog/images/hawaii-pool-party.webp",
@@ -804,14 +804,14 @@ window.ZAYA_SHOWS = [
     "description": "Havuz başında dans, müzik ve yaz enerjisi.",
     "tags": [
       "Pool partileri",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "cany-land-kids-festival",
     "title": "Cany Land Kids Festival",
     "filter": "kids",
-    "category": "Çocuk programları",
+    "category": "Çocuk Dünyası",
     "icon": "kids",
     "accent": "#f4cb69",
     "image": "assets/catalog/images/cany-land-kids-festival.webp",
@@ -871,14 +871,14 @@ window.ZAYA_SHOWS = [
     "description": "Küçük misafirler için renkli bir eğlence programı.",
     "tags": [
       "Çocuk programları",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "kids-festival-circus",
     "title": "Kids Festival Circus",
     "filter": "kids",
-    "category": "Çocuk programları",
+    "category": "Çocuk Dünyası",
     "icon": "kids",
     "accent": "#f4cb69",
     "image": "assets/catalog/images/kids-festival-circus.webp",
@@ -931,14 +931,14 @@ window.ZAYA_SHOWS = [
     "description": "Küçük misafirler için renkli bir eğlence programı.",
     "tags": [
       "Çocuk programları",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "kids-show-kung-fu-panda",
     "title": "Kids Show — Kung Fu Panda",
     "filter": "kids",
-    "category": "Çocuk programları",
+    "category": "Çocuk Dünyası",
     "icon": "kids",
     "accent": "#f4cb69",
     "image": "assets/catalog/images/kids-show-kung-fu-panda.webp",
@@ -954,14 +954,14 @@ window.ZAYA_SHOWS = [
     "description": "Kung Fu Panda temalı çocuk gösterisi.",
     "tags": [
       "Çocuk programları",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   },
   {
     "id": "kids-show-madagascar",
     "title": "Kids Show — Madagascar",
     "filter": "kids",
-    "category": "Çocuk programları",
+    "category": "Çocuk Dünyası",
     "icon": "kids",
     "accent": "#f4cb69",
     "image": "assets/catalog/images/kids-show-madagascar.webp",
@@ -977,7 +977,7 @@ window.ZAYA_SHOWS = [
     "description": "Madagascar temalı çocuk gösterisi.",
     "tags": [
       "Çocuk programları",
-      "2026 koleksiyonu"
+      "2027 koleksiyonu"
     ]
   }
 ];
