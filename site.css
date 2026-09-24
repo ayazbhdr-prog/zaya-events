@@ -947,3 +947,4 @@ body[data-page="shows"] .header:not(.is-scrolled) .lang-switch{background:#1d1d1
 body[data-page="shows"] .header:not(.is-scrolled) .lang-switch span.on{background:#1d1d1f;color:#fff}
 .lang-switch-mobile{display:none}
 @media(max-width:760px){.header>.lang-switch{display:none}.mobile-nav .lang-switch-mobile{display:inline-flex;align-self:flex-start;margin:14px 0 0}}
+.hero-visual video{object-fit:cover}
