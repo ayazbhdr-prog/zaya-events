@@ -7,9 +7,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // The hero film plays once on load and rests on its last frame.
   const video = $('#hero-video');
   let introReady = true;
-  if(video && !reducedMotion.matches && !navigator.connection?.saveData) {
-    video.src = (!desktop.matches && video.dataset.mobileSrc) || video.dataset.src;
-    video.play().catch(()=>{});
+  if(video) {
+    // The first frame of the film is always there (poster), so the hero is never black —
+    // even when autoplay is blocked (iPhone Low Power Mode, reduced motion, data saver).
+    const small = !desktop.matches;
+    video.poster = small ? 'assets/hero-first-mobile.webp' : 'assets/hero-first.webp';
+    video.src = (small && video.dataset.mobileSrc) || video.dataset.src;
+    const mayPlay = !reducedMotion.matches && !navigator.connection?.saveData;
+    if(mayPlay) {
+      const attempt = () => video.play().catch(() => {});
+      attempt();
+      // Some browsers only allow playback after the page becomes visible or first interaction.
+      document.addEventListener('visibilitychange', () => { if(!document.hidden && video.currentTime === 0) attempt(); });
+      ['pointerdown','touchstart','keydown'].forEach(ev => window.addEventListener(ev, () => { if(video.paused && !video.ended) attempt(); }, {once:true, passive:true}));
+    } else {
+      video.removeAttribute('autoplay'); video.preload = 'metadata';
+    }
   }
   const playVideo = () => {};
   let videoWanted = false, heroVisible = true;
