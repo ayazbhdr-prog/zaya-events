@@ -45,7 +45,24 @@ document.addEventListener('DOMContentLoaded', () => {
   new IntersectionObserver(([e])=>{sceneOnScreen=e.isIntersecting;startScene();},{threshold:.35}).observe(scene);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)clearInterval(sceneTimer);else startScene();});
   $$('.scene-timeline button').forEach(button=>button.addEventListener('click',()=>{setMoment(Number(button.dataset.moment));startScene();}));
-  $$('.service-row').forEach(row => row.addEventListener('toggle', () => window.ScrollTrigger?.refresh()));
+  // Services accordion: one open at a time, bodies slide open and closed.
+  const serviceRows=$$('.service-row');
+  const bodyOf=row=>row.querySelector('.service-body');
+  const closeRow=row=>{
+    if(!row.open) return;
+    if(!canAnimate()) {row.open=false;return;}
+    const body=bodyOf(row);
+    gsap.fromTo(body,{height:body.offsetHeight,opacity:1},{height:0,opacity:0,duration:.45,ease:'power3.inOut',onComplete:()=>{row.open=false;gsap.set(body,{clearProps:'height,opacity'});window.ScrollTrigger?.refresh();}});
+  };
+  const openRow=row=>{
+    serviceRows.forEach(other=>{if(other!==row) closeRow(other);});
+    row.open=true;
+    if(canAnimate()) gsap.fromTo(bodyOf(row),{height:0,opacity:0},{height:'auto',opacity:1,duration:.55,ease:'power3.out',onComplete:()=>window.ScrollTrigger?.refresh()});
+  };
+  serviceRows.forEach(row=>row.querySelector('summary').addEventListener('click',e=>{
+    e.preventDefault();
+    row.open?closeRow(row):openRow(row);
+  }));
   if(!window.gsap || !window.ScrollTrigger) {introReady=true;return;}
   const motion=gsap.matchMedia();
   motion.add('(prefers-reduced-motion: no-preference)', () => {
@@ -55,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .from('.hero h1 .line:first-child > span',{yPercent:112,duration:.75},.12)
       .from('.hero h1 .line:last-child > span',{yPercent:112,duration:.75},.55)
       .from('.hero-description',{opacity:0,y:12,duration:.45},.85)
-      .from('.hero-actions',{opacity:0,y:10,duration:.45},1.0)
       .from('.hero-bottom',{opacity:0,duration:.35},1.1);
     gsap.to('.hero-visual',{yPercent:9,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
     

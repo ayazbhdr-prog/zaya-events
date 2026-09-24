@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const posterHTML = (show, full = false) => {
     const style = `--poster-accent:${show.accent}`;
     if(show.image) return `<span class="poster-surface art-photo" style="${style}"><img class="poster-photo" src="${full?show.image:show.thumbnail}" alt="" width="600" height="750" loading="${full?'eager':'lazy'}"></span>`;
-    return `<span class="poster-surface art-orbit" style="${style}"><span class="poster-lines">${Array.from({length:7},(_,i)=>`<i style="--n:${i}"></i>`).join('')}</span><span class="type-cover">SONAY<br>ÖZDEMİR<span>LIVE PERFORMANCE</span></span><span class="poster-wordmark">ZAYA · 2026 COLLECTION</span></span>`;
+    return `<span class="poster-surface art-orbit" style="${style}"><span class="poster-lines">${Array.from({length:7},(_,i)=>`<i style="--n:${i}"></i>`).join('')}</span><span class="type-cover">SONAY<br>ÖZDEMİR<span>LIVE PERFORMANCE</span></span><span class="poster-wordmark">ZAYA · 2027 COLLECTION</span></span>`;
   };
   // Rack focus: things arrive out of focus and sharpen. Lighter on small screens.
   const BLUR = () => desktop.matches ? 'blur(10px)' : 'blur(5px)';
@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const button=document.createElement('article');button.className='show-card';button.dataset.show=show.id;button.dataset.order=String(index);
       button.style.setProperty('--poster-accent',show.accent);
 
-      button.innerHTML=`<button type="button" class="show-details" aria-haspopup="dialog" aria-label="${escapeHTML(show.title)} — detayları incele"><span class="card-art" aria-hidden="true">${posterHTML(show)}</span><span class="card-shade" aria-hidden="true"></span><span class="card-topline"><span class="card-number">${String(shows.indexOf(show)+1).padStart(2,'0')}</span><span class="card-category">${escapeHTML(show.category)}</span></span><span class="card-caption"><span class="card-title">${escapeHTML(show.title)}</span><span class="card-facts">${factsHTML(show)}</span><span class="card-action"><span>${show.mediaType==='video'?brandIcon('play')+'Tanıtım & detaylar':show.mediaType==='pdf'?'Konsept & detaylar':'Programı incele'}</span>${brandIcon('arrow')}</span></span></button><button type="button" class="card-add" data-program-id="${show.id}" aria-pressed="false" aria-label="${escapeHTML(show.title)} — programa ekle">+</button>`;
-      $('.show-details',button).addEventListener('click',()=>openShow(show,button));list.append(button);
+      button.innerHTML=`<button type="button" class="show-details" aria-haspopup="dialog" aria-label="${escapeHTML(show.title)} — detayları incele"><span class="card-art" aria-hidden="true">${posterHTML(show)}</span><span class="card-shade" aria-hidden="true"></span><span class="card-topline"><span class="card-number">${String(shows.indexOf(show)+1).padStart(2,'0')}</span><span class="card-category">${escapeHTML(show.category)}</span></span><span class="card-caption"><span class="card-title">${escapeHTML(show.title)}</span><span class="card-facts">${factsHTML(show)}</span><span class="card-action"><span>${show.mediaType==='video'?brandIcon('play')+'Şovu incele':show.mediaType==='pdf'?'Konsept & detaylar':'Programı incele'}</span>${brandIcon('arrow')}</span></span></button><button type="button" class="card-add" data-program-id="${show.id}" aria-pressed="false" aria-label="${escapeHTML(show.title)} — programa ekle">+</button>`;
+      $('.show-details',button).addEventListener('click',()=>{location.href='sov.html?id='+encodeURIComponent(show.id);});list.append(button);
       if(canAnimate() && desktop.matches) {
         gsap.set(button,{opacity:0,y:filtering?8:28,filter:BLUR()});
         if(filtering) gsap.to(button,{opacity:1,y:0,filter:SHARP,duration:.38,delay:Math.min(index,3)*.045,ease:'power2.out',clearProps:'opacity,transform,filter'});
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
       exitTween=gsap.to(outgoing,{opacity:0,filter:BLUR(),y:-6,duration:.18,stagger:.015,ease:'power1.in',onComplete:()=>{exitTween=null;renderShows(pressedFilter(),true);}});
     } else renderShows(button.dataset.filter,true);
   }));
-  // Dock-like filters: a red dot sits under the selected word, and words swell toward the pointer.
+  // Segmented control: a white pill slides under the selected filter.
   const filterBar=$('.catalog-filters');
   if(hasCatalog && filterBar) {
     const indicator=document.createElement('span');
@@ -89,37 +89,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const placeIndicator=(animate)=>{
       const active=$('button[aria-pressed="true"]',filterBar);
       if(!active) return;
-      const x=active.offsetLeft+active.offsetWidth/2-2.5;
-      if(animate && canAnimate()) gsap.to(indicator,{x,duration:.5,ease:'power3.inOut',overwrite:true});
-      else if(window.gsap) gsap.set(indicator,{x});
-      else indicator.style.transform=`translateX(${x}px)`;
+      const to={x:active.offsetLeft,width:active.offsetWidth};
+      if(animate && canAnimate()) gsap.to(indicator,{...to,duration:.55,ease:'expo.out',overwrite:true});
+      else if(window.gsap) gsap.set(indicator,to);
+      else {indicator.style.transform=`translateX(${to.x}px)`;indicator.style.width=to.width+'px';}
     };
     new MutationObserver(()=>placeIndicator(true)).observe(filterBar,{subtree:true,attributes:true,attributeFilter:['aria-pressed']});
     placeIndicator(false);
     document.fonts?.ready.then(()=>placeIndicator(false));
     window.addEventListener('resize',()=>placeIndicator(false),{passive:true});
-
-    // Magnification: pointer devices only, gentle, and off for reduced motion.
-    const finePointer=window.matchMedia('(hover:hover) and (pointer:fine)');
-    if(window.gsap && finePointer.matches) {
-      const words=$$('button',filterBar);
-      // quickTo needs real properties; the 'scale' shorthand silently does nothing.
-      const scaleTo=words.map(word=>{
-        const x=gsap.quickTo(word,'scaleX',{duration:.35,ease:'power3.out'});
-        const y=gsap.quickTo(word,'scaleY',{duration:.35,ease:'power3.out'});
-        return value=>{x(value);y(value);};
-      });
-      const MAX=.14;
-      filterBar.addEventListener('pointermove',e=>{
-        if(reducedMotion.matches) return;
-        words.forEach((word,i)=>{
-          const r=word.getBoundingClientRect();
-          const distance=(e.clientX-(r.left+r.width/2))/(r.width*1.15);
-          scaleTo[i](1+MAX*Math.exp(-distance*distance));
-        });
-      });
-      filterBar.addEventListener('pointerleave',()=>scaleTo.forEach(set=>set(1)));
-    }
   }
   if(searchInput) searchInput.addEventListener('input',()=>{
     cancelExit();
@@ -154,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const visual=$('.dialog-visual');$('#dialog-art').innerHTML=posterHTML(show,true);
     $('.poster-photo',visual)?.setAttribute('loading','eager');
     $('.poster-photo',visual)?.setAttribute('sizes','(max-width:760px) 92vw, 530px');
-    $('.dialog-image-note').textContent=show.image?'2026 KATALOG GÖRSELİ':'ZAYA · LIVE PERFORMANCE';
+    $('.dialog-image-note').textContent=show.image?'2027 KATALOG GÖRSELİ':'ZAYA · LIVE PERFORMANCE';
     $('#dialog-facts').innerHTML=factsHTML(show);
     $('#play-show-media').hidden=!show.embedUrl;
     $('#play-show-media').innerHTML=brandIcon(show.mediaType==='pdf'?'arrow':'play')+'<span>'+(show.mediaType==='pdf'?'Konsept dosyasını aç':'Tanıtımı izle')+'</span>';
@@ -179,8 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fillShow(show);$('.dialog-scroll').scrollTop=0;dialog.scrollTop=0;
     if(canAnimate()) {
       dialogTimeline=gsap.timeline()
-        .fromTo($('.dialog-art'),{opacity:0,x:direction*26,scale:1.035,filter:'blur(14px)'},{opacity:1,x:0,scale:1,filter:SHARP,duration:.5,ease:'power3.out',clearProps:'opacity,transform,filter'},0)
-        .fromTo([$('#dialog-title'),$('#dialog-description'),$('.dialog-tags')],{opacity:0,y:10,filter:'blur(6px)'},{opacity:1,y:0,filter:SHARP,duration:.34,stagger:.04,ease:'power3.out',clearProps:'opacity,transform,filter'},.08);
+        .fromTo($('.dialog-art'),{opacity:0,x:direction*26,scale:1.035,filter:'blur(8px)'},{opacity:1,x:0,scale:1,filter:SHARP,duration:.32,ease:'power3.out',clearProps:'opacity,transform,filter'},0)
+        .fromTo([$('#dialog-title'),$('#dialog-description'),$('.dialog-tags')],{opacity:0,y:10,filter:'blur(6px)'},{opacity:1,y:0,filter:SHARP,duration:.24,stagger:.03,ease:'power3.out',clearProps:'opacity,transform,filter'},.04);
     }
   }
   $('#show-prev').addEventListener('click',()=>stepShow(-1));
@@ -255,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const visual=$('.dialog-visual'),target=lastTrigger?.getBoundingClientRect(),origin=visual.getBoundingClientRect();
     const layoutLeft=origin.left-Number(gsap.getProperty(visual,'x')),layoutTop=origin.top-Number(gsap.getProperty(visual,'y'));
     const returnToCard=desktop.matches&&!toForm&&target&&target.top<innerHeight&&target.bottom>0&&origin.top>=0;
-    dialog.classList.add('dialog-morphing');
+    dialog.classList.add('dialog-morphing','is-closing');
     dialogTimeline=gsap.timeline({onComplete:finish});
     dialogTimeline.to([$('.dialog-copy'),$('.dialog-close')],{opacity:0,duration:.14},0);
     if(returnToCard) dialogTimeline.to(visual,{x:target.left-layoutLeft,y:target.top-layoutTop,scaleX:target.width/visual.offsetWidth,scaleY:target.height/visual.offsetHeight,duration:.32,ease:'power3.inOut'},0);
@@ -265,12 +243,16 @@ document.addEventListener('DOMContentLoaded', () => {
   dialog.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeShow();}else if(!e.target.closest('input,select,textarea,iframe')&&(e.key==='ArrowRight'||e.key==='ArrowLeft')){e.preventDefault();stepShow(e.key==='ArrowRight'?1:-1);}});
   dialog.addEventListener('cancel',e=>{e.preventDefault();closeShow();});
   dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeShow();}});
-  dialog.addEventListener('close',()=>{stopShowMedia();pendingDialogFinish=null;resetDialogMotion();document.body.classList.remove('dialog-open');dialogClosing=false;(lastTrigger?.querySelector?.('.show-details, .flick-open')||lastTrigger)?.focus?.({preventScroll:true});});
+  dialog.addEventListener('close',()=>{dialog.classList.remove('is-closing');stopShowMedia();pendingDialogFinish=null;resetDialogMotion();document.body.classList.remove('dialog-open');dialogClosing=false;(lastTrigger?.querySelector?.('.show-details, .flick-open')||lastTrigger)?.focus?.({preventScroll:true});});
   $('#review-program')?.addEventListener('click',()=>closeShow({toForm:true}));
   document.addEventListener('click',e=>{const trigger=e.target.closest('[data-open-show]');if(!trigger)return;const show=shows.find(s=>s.id===trigger.dataset.openShow);if(!show)return;openShow(show,trigger,shows);});
   reducedMotion.addEventListener('change',e=>{
     if(e.matches){cardObserver.disconnect();if(hasCatalog)window.gsap?.killTweensOf(list.children);if(window.gsap&&hasCatalog)gsap.set(list.children,{clearProps:'opacity,transform'});if(dialogClosing&&pendingDialogFinish)pendingDialogFinish();else resetDialogMotion();}
   });
-  if(hasCatalog) renderShows('stage-show'); else visibleShows = shows;
+  // sovlar.html?kategori=<filter> opens on that category.
+  const wanted=new URLSearchParams(location.search).get('kategori');
+  const startFilter=hasCatalog&&wanted&&$(`.catalog-filters button[data-filter="${CSS.escape(wanted)}"]`)?wanted:'stage-show';
+  if(hasCatalog) $$('.catalog-filters button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===startFilter)));
+  if(hasCatalog) renderShows(startFilter); else visibleShows = shows;
   window.ZAYA_SHOWCASE = {open: (id, trigger) => {const show=shows.find(s=>s.id===id);if(show)openShow(show,trigger||$(`[data-show="${id}"]`)||document.body,shows);}};
 });
