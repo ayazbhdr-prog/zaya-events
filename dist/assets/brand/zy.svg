@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 4160 1924" role="img" aria-label="ZAYA ZY refined ribbon"><defs><path id="outline" d="M272 1905 C160 1885 63 1807 30 1693 C-1 1590 30 1480 150 1413 L1668 445 C1290 427 944 404 694 404 C402 404 204 450 23 584 C150 293 470 20 770 20 C1000 20 1270 16 1560 16 L1790 16 C1990 16 2130 115 2250 264 C2380 428 2523 623 2667 801 C2850 601 3030 382 3235 180 C3364 54 3520 16 3695 16 L4122 16 C3930 88 3787 218 3652 368 C3420 632 3170 931 2941 1184 C2972 1240 2988 1305 2988 1360 L2988 1908 L320 1908 Q292 1908 272 1905 Z M647 1517 C638 1526 644 1532 679 1532 L1374 1528 L2000 1528 C2180 1528 2324 1471 2398 1387 C2424 1357 2443 1325 2464 1280 C2300 1063 2161 869 2033 702 C1795 854 1468 1043 1150 1230 L647 1517 Z" fill-rule="evenodd" clip-rule="evenodd"/>
+<clipPath id="outer"><use xlink:href="#outline"/></clipPath>
+<clipPath id="topUnder"><path d="M1532 -132L1572 -4Q1684 148 1804 380L2100 796L1044 1308L1044 -132Z"/></clipPath>
+<clipPath id="yUnder"><path d="M2624 764L2964 1176L3284 908L2924 508Z"/></clipPath>
+<clipPath id="leftUnder"><path d="M1124 1248L232 1756C208 1788 208 1852 256 1904L292 1988L1444 1988L1444 1248Z"/></clipPath>
+<clipPath id="rightUnder"><path d="M2464 1280C2532 1356 2588 1460 2584 1568C2580 1708 2524 1828 2436 1912H2080Z"/></clipPath>
+<filter id="soft" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="34"/></filter></defs><use xlink:href="#outline" fill="#C91B2C"/><g clip-path="url(#outer)" fill="none" stroke="#891225" stroke-width="110" filter="none">
+<g clip-path="url(#topUnder)"><path d="M1572 -4Q1684 148 1804 380L2100 796" filter="url(#soft)"/></g>
+<g clip-path="url(#yUnder)"><path d="M2624 764L2964 1176" filter="url(#soft)" opacity=".82"/></g>
+<g clip-path="url(#leftUnder)"><path d="M1124 1248L232 1756C208 1788 208 1852 256 1904" filter="url(#soft)"/></g>
+<g clip-path="url(#rightUnder)"><path d="M2464 1280C2532 1356 2588 1460 2584 1568C2580 1708 2524 1828 2436 1912" filter="url(#soft)" stroke-width="150"/></g></g></svg>

@@ -98,6 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
     placeIndicator(false);
     document.fonts?.ready.then(()=>placeIndicator(false));
     window.addEventListener('resize',()=>placeIndicator(false),{passive:true});
+    // Late font/layout changes resize the buttons: keep the pill glued to the active one.
+    if(window.ResizeObserver) new ResizeObserver(()=>placeIndicator(false)).observe(filterBar);
+    window.addEventListener('load',()=>placeIndicator(false));
   }
   if(searchInput) searchInput.addEventListener('input',()=>{
     cancelExit();

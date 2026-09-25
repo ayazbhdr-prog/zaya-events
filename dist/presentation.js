@@ -57,7 +57,7 @@
     if (src) return src;
     const words = String(show.title).split(/\s+/);
     const lines = words.map((w, i) => `<text x="40" y="${560 + i * 76 - (words.length - 1) * 76}" font-family="-apple-system,Helvetica,Arial" font-size="68" font-weight="700" letter-spacing="-3" fill="#f5f5f7">${w.replace(/[<&>]/g, '')}</text>`).join('');
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750"><rect width="600" height="750" fill="#1d1d1f"/><circle cx="470" cy="160" r="220" fill="#E11D2E" opacity=".18"/>${lines}<text x="40" y="690" font-family="-apple-system,Helvetica,Arial" font-size="18" font-weight="600" letter-spacing="3" fill="#86868b">ZAYA EVENTS</text></svg>`;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750"><rect width="600" height="750" fill="#1d1d1f"/><circle cx="470" cy="160" r="220" fill="#E31B2D" opacity=".18"/>${lines}<text x="40" y="690" font-family="-apple-system,Helvetica,Arial" font-size="18" font-weight="600" letter-spacing="3" fill="#86868b">ZAYA EVENTS</text></svg>`;
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
 

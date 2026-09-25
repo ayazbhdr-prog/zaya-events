@@ -7,21 +7,21 @@
   <title>Şovlar — ZAYA Events</title>
   <meta name="description" content="ZAYA Events 2027 koleksiyonu: 33 program, canlı müzik, sahne şovları, tema ve pool partileri.">
   <meta name="robots" content="noindex,nofollow">
-  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg?v=4">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="site.css?v=45">
+  <link rel="stylesheet" href="site.css?v=57">
   <script src="assets/icons.js?v=20" defer></script>
   <script src="assets/brand/icons.js?v=20" defer></script>
   <script src="assets/gsap.min.js?v=20" defer></script>
   <script src="assets/ScrollTrigger.min.js?v=20" defer></script>
   <script src="assets/lenis.min.js?v=20" defer></script>
-  <script src="shows.js?v=32" defer></script>
+  <script src="shows.js?v=36" defer></script>
   <script src="program-model.js?v=20" defer></script>
   <script src="shell.js?v=20" defer></script>
-  <script src="i18n.js?v=2" defer></script>
-  <script src="catalog.js?v=31" defer></script>
+  <script src="i18n.js?v=10" defer></script>
+  <script src="catalog.js?v=32" defer></script>
   <script src="program.js?v=20" defer></script>
 </head>
 <body data-page="shows" class="no-planner">
@@ -29,11 +29,11 @@
   <header class="header" id="header">
     <a class="wordmark" href="index.html" data-nav="home" aria-label="ZAYA Events ana sayfa">ZAYA<span>EVENTS</span></a>
     <nav class="desktop-nav" aria-label="Ana menü">
-      <a href="sovlar.html" data-nav="shows">Şovlar</a><a href="index.html#hizmetler">Hizmetler</a><a href="index.html#hakkimizda">Hakkında</a><a href="index.html#iletisim">İletişim</a>
+      <a href="sovlar.html" data-nav="shows">Şovlar</a><a href="hizmetler.html" data-nav="services">Hizmetler</a><a href="hakkinda.html" data-nav="about">Hakkında</a><a href="iletisim.html" data-nav="contact">İletişim</a>
     </nav>
     
     <button class="menu-toggle" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobile-nav"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button>
-    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobil menü" hidden><a href="sovlar.html" data-nav="shows">Şovlar</a><a href="index.html#hizmetler">Hizmetler</a><a href="index.html#hakkimizda">Hakkında</a><a href="index.html#iletisim">İletişim</a></nav>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobil menü" hidden><a href="sovlar.html" data-nav="shows">Şovlar</a><a href="hizmetler.html" data-nav="services">Hizmetler</a><a href="hakkinda.html" data-nav="about">Hakkında</a><a href="iletisim.html" data-nav="contact">İletişim</a></nav>
   </header>
   <main id="icerik">
 <section class="catalog section-pad" id="sovlar" aria-labelledby="catalog-title">
@@ -42,7 +42,7 @@
       <div class="catalog-toolbar"><div class="catalog-filters" role="group" aria-label="Şovları filtrele"><button type="button" data-filter="stage-show" aria-pressed="true">Sahne Şovları<span class="filter-count">08</span></button><button type="button" data-filter="live-music" aria-pressed="false">Canlı Müzik<span class="filter-count">13</span></button><button type="button" data-filter="theme-party" aria-pressed="false">Tema Geceleri<span class="filter-count">05</span></button><button type="button" data-filter="pool-party" aria-pressed="false">Pool Partiler<span class="filter-count">03</span></button><button type="button" data-filter="kids" aria-pressed="false">Çocuk Dünyası<span class="filter-count">04</span></button><button type="button" data-filter="all" aria-pressed="false">Tümü<span class="filter-count">33</span></button></div></div><div class="catalog-subtoolbar"><label class="catalog-search"><span data-brand-icon="search"></span><input type="search" id="catalog-search" placeholder="Program veya sanatçı ara" aria-label="Program veya sanatçı ara" autocomplete="off"></label><span class="catalog-count" role="status" aria-live="polite"></span></div>
       <div class="catalog-viewport"><div class="show-grid" id="show-list" aria-label="Şov koleksiyonu"></div></div>
       <div class="catalog-empty" hidden><p>Bu aramaya uygun program bulunamadı.</p><button type="button" id="reset-search">Tüm programları göster ↗</button></div><div class="catalog-pager"><span>Yeni bir enerji keşfet</span><div><button type="button" id="catalog-prev" aria-label="Önceki kart">←</button><output id="catalog-position" aria-live="polite">01 / 09</output><button type="button" id="catalog-next" aria-label="Sonraki kart">→</button></div></div>
-      <noscript><p>Drifters · Heal Me Band · Drawing Planets · Cingar · 13 Cover · Matrock · Ex Band · Sonay Özdemir · Şirket · Aslı Kurnaz · Quovadis · Fevzi & Burçak · Doğuş Çetin · Colombia Rumbera · Turkish Folk Dance · Fresno Dance Show · Kenyan Acrobats · Ethiopian Acrobats · African Warriors · Alice Wonderland · PIA · White Party · Retro Party · Atlantis Party · Totem Party · Cappadocia Party · Pink Pool Party · Duck Pool Party · Hawaii Pool Party · Cany Land Kids Festival · Kids Festival Circus · Kids Show — Kung Fu Panda · Kids Show — Madagascar</p></noscript>
+      <noscript><p>Drifters · Heal Me Band · Drawing Planets · Cingar · 13 Cover · Matrock · Ex Band · Sonay Özdemir · Şirket · Aslı Kurnaz · Quovadis · Fevzi & Burçak · Doğuş Çetin · Colombia Rumbera · Türk Gecesi · Fresno Dance Show · Kenyan Acrobats · Ethiopian Acrobats · African Warriors · Alice Wonderland · PIA · White Party · Retro Party · Atlantis Party · Totem Party · Cappadocia Party · Pink Pool Party · Duck Pool Party · Hawaii Pool Party · Cany Land Kids Festival · Kids Festival Circus · Kids Show — Kung Fu Panda · Kids Show — Madagascar</p></noscript>
       <div class="catalog-bottom"><p>Different cultures.<br><span>Same energy.</span></p><div><span>Katalog görselleri tanıtım amaçlıdır; sahne kurulumu değişebilir.</span><span>Şov seçimi, tarih ve sahne koşullarına göre planlanır.</span></div></div>
     </section>
   </main>

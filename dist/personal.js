@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     doc.className = 'print-quote';
     doc.setAttribute('aria-hidden', 'true');
     doc.innerHTML = `
-      <header><div class="pq-mark">ZAYA<span>EVENTS</span></div><div class="pq-meta"><strong>Teklif</strong>${data.d ? `<span>${P.niceDate(data.d)}</span>` : ''}</div></header>
+      <header><div class="pq-brand"><img src="assets/brand/zy.svg?v=2" alt=""><div class="pq-mark">ZAYA<span>EVENTS</span></div></div><div class="pq-meta"><strong>Teklif</strong>${data.d ? `<span>${P.niceDate(data.d)}</span>` : ''}</div></header>
       <h1>${e(data.h)}</h1>
       ${data.n ? `<p class="pq-note">${e(data.n)}</p>` : ''}
       <table>
