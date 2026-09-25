@@ -28,7 +28,7 @@
     '© 2026 ZAYA Events · Katalog görselleri tanıtım amaçlıdır.': '© 2026 ZAYA Events · Catalogue images are for presentation purposes.',
     // hero
     'ŞOV & PRODÜKSİYON': 'SHOWS & PRODUCTION', 'Gündüzden': 'From day', 'geceye.': 'to night.',
-    'Misafir tatili unutur.': 'Guests forget the holiday.', 'O geceyi unutmaz.': 'Never that night.',
+    'Misafir tatili unutur.': 'Guests forget the holiday.', 'O anı unutmaz.': 'Never that moment.',
     'THE COLLECTION': 'THE COLLECTION', '33 program · 5 ayrı dünya ↗': '33 shows · 5 worlds ↗', 'Koleksiyonu keşfet ↗': 'Explore the collection ↗', 'Tüm şovları gör': 'See all shows',
     'ZAYA Events — Gündüzden geceye': 'ZAYA Events — From day to night',
     // references
@@ -81,10 +81,10 @@
     'katalog programı': 'catalogue shows', 'program kategorisi': 'categories', 'canlı müzik seçeneği': 'live music acts', 'sahne şovu': 'stage shows', '2027 koleksiyonundan': 'from the 2027 collection',
     // about
     'ZAYA bir kulisin içinde doğdu. Kostüm askılarının arasında, perde açılmadan önceki o birkaç saniyede. Otel sahnelerinde çok gece geçirdik ve aynı şovun bir otelde ayakta alkışlandığını, başka bir otelde yarım salona oynandığını defalarca gördük.': 'ZAYA was born backstage. Between costume rails, in the few seconds before the curtain opens. We have spent many nights on hotel stages, and time and again we watched the same show earn a standing ovation in one hotel and play to a half-empty room in another.',
-    "Fark çoğu zaman şovda değildi. Doğru gecede, doğru saatte, doğru misafirin karşısına çıkıp çıkmamasındaydı. ZAYA Events'i bu yüzden kurduk. Seçtiğiniz her şovun doğru geceye denk gelmesi için.": "The difference was rarely the show. It was whether it met the right guests, on the right night, at the right hour. That is why we founded ZAYA Events. So that every show you choose lands on the right night.",
+    "Fark çoğu zaman şovda değildi. Doğru günde, doğru saatte, doğru misafirin karşısına çıkıp çıkmamasındaydı. ZAYA Events'i bu yüzden kurduk. Seçtiğiniz her şovun doğru ana denk gelmesi için.": "The difference was rarely the show. It was whether it met the right guests, on the right day, at the right hour. That is why we founded ZAYA Events. So that every show you choose lands at the right moment.",
     "Sahneye çıkan ekiplerimiz farklı yerlerden geliyor. Kolombiyalı dansçılar, Kenyalı ve Etiyopyalı akrobatlar, Anadolu'nun dört bir yanından halk dansçıları, akşamı taşıyan müzisyenler. Hepsi aynı prova disipliniyle hazırlanıyor.": 'Our casts come from many places. Colombian dancers, Kenyan and Ethiopian acrobats, folk dancers from every corner of Anatolia, musicians who carry the evening. All of them are prepared with the same rehearsal discipline.',
     'Sezon başlamadan sahnenizi görmeye geliyoruz. Ölçüsünü alıyor, ışığına bakıyor, misafirinizi tanıyoruz. Sezon başladığında da ortadan kaybolmuyoruz. Bir gece bir şey aksarsa telefonu açan yine biz oluyoruz.': "Before the season starts, we come to see your stage. We measure it, look at its light and get to know your guests. And once the season begins we don't disappear. If something goes wrong one night, we are still the ones who pick up the phone.",
-    'Misafir tatili unutur, o geceyi unutmaz. Biz o gece için çalışıyoruz.': 'Guests forget the holiday. They never forget that night. That night is what we work for.',
+    'Misafir tatili unutur, o anı unutmaz. Biz o an için çalışıyoruz.': 'Guests forget the holiday. They never forget that moment. That moment is what we work for.',
     'Sezondan önce sahnenizi yerinde görüyor, programı ölçüsüne ve misafir profilinize göre seçiyoruz.': 'Before the season we visit your stage and choose the programme for its size and your guest profile.',
     'Provadan geçmiş ekipler': 'Rehearsed casts',
     'Her ekip sahneye çıkmadan önce bizim provamızdan geçer. Ağustostaki gösteri, mayıstaki kadar temiz olur.': 'Every cast goes through our rehearsal before it goes on stage. The August show is as clean as the one in May.',
