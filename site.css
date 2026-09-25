@@ -1020,3 +1020,8 @@ body[data-page="shows"]:not(.show-detail) .catalog{padding-top:calc(104px + 36px
 .filter-indicator{background:#C91B2C;box-shadow:0 2px 10px #c91b2c33}
 .contact-person{display:flex;flex-direction:column;gap:6px;font-size:21px;font-weight:600;letter-spacing:-.02em;color:#f5f5f7}
 .contact-person small{font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--grey-1)}
+
+/* Footer: mark only, so the lockup never appears twice on short pages */
+footer .wordmark,footer>.wordmark{font-size:0;letter-spacing:0;column-gap:0}
+footer .wordmark>span{display:none}
+footer .wordmark::before{width:56px;margin-right:0}
