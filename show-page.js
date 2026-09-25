@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <dl class="sp-facts">${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
           ${show.embedUrl ? `<button type="button" class="sp-play" id="sp-play"><span aria-hidden="true">▶</span>${show.mediaType === 'pdf' ? 'Konsepti incele' : 'Tanıtımı izle'}</button>` : ''}
         </div>
-        <figure class="sp-poster"><img src="${cover(show, true)}" alt="${e(show.imageAlt || show.title)}" width="1024" height="1280"></figure>
+        <figure class="sp-poster">${show.loop ? `<video class="sp-loop" src="${show.loop}" poster="${cover(show, true)}" autoplay muted loop playsinline preload="auto" aria-label="${e(show.title)} sahneden kesit"></video>` : `<img src="${cover(show, true)}" alt="${e(show.imageAlt || show.title)}" width="1024" height="1280">`}</figure>
       </div>
     </section>
 
@@ -53,8 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
       <ul class="sp-moments" aria-label="En iyi olduğu anlar">${story.moments.map(m => `<li>${e(m)}</li>`).join('')}</ul>
     </section>
 
+    ${show.rider && show.rider.length ? `<section class="sp-rider" aria-label="Kurulum">
+      <p class="eyebrow">KURULUM</p>
+      <div class="sp-rider-grid">${show.rider.map(g => `<div><h2>${e(g.heading === 'Kurulum' ? 'Standart kurulum' : g.heading)}</h2><ul>${g.items.map(i => `<li>${e(i)}</li>`).join('')}</ul></div>`).join('')}</div>
+      ${show.riderNote ? `<p class="sp-rider-note">${e(show.riderNote)}</p>` : ''}
+    </section>` : ''}
+
     ${show.embedUrl ? `<section class="sp-media" id="sp-media" aria-label="Tanıtım">
-      <div class="sp-media-frame" id="sp-media-frame"><button type="button" class="sp-media-start" id="sp-media-start"><img src="${cover(show, true)}" alt=""><span><span aria-hidden="true">▶</span> ${show.mediaType === 'pdf' ? 'Konsept dosyasını aç' : 'Tanıtım videosunu oynat'}</span></button></div>
+      <div class="sp-media-frame" id="sp-media-frame"><button type="button" class="sp-media-start" id="sp-media-start">${show.loopWide ? `<video src="${show.loopWide}" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>` : `<img src="${cover(show, true)}" alt="">`}<span><span aria-hidden="true">▶</span> ${show.mediaType === 'pdf' ? 'Konsept dosyasını aç' : 'Tanıtım videosunu oynat'}</span></button></div>
     </section>` : ''}
 
     ${related.length ? `<section class="sp-related">

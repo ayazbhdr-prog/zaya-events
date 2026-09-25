@@ -301,6 +301,7 @@ window.ZAYA_SHOWS = [
   },
   {
     "id": "colombia-rumbera",
+    "loopWide": "assets/video/colombia-rumbera-loop.mp4",
     "title": "Colombia Rumbera",
     "filter": "stage-show",
     "category": "Sahne Şovları",
@@ -329,8 +330,8 @@ window.ZAYA_SHOWS = [
     "category": "Sahne Şovları",
     "icon": "stage",
     "accent": "#f3b68c",
-    "image": "assets/catalog/images/turkish-folk-dance.webp",
-    "thumbnail": "assets/catalog/images/turkish-folk-dance-thumb.webp",
+    "image": "assets/catalog/images/turkish-folk-dance.webp?v=3",
+    "thumbnail": "assets/catalog/images/turkish-folk-dance-thumb.webp?v=3",
     "imageAlt": "Türk Gecesi katalog görseli",
     "duration": 40,
     "performers": "13",
@@ -490,8 +491,8 @@ window.ZAYA_SHOWS = [
     "category": "Tema Geceleri",
     "icon": "theme",
     "accent": "#ccaae5",
-    "image": "assets/catalog/images/white-party.webp",
-    "thumbnail": "assets/catalog/images/white-party-thumb.webp",
+    "image": "assets/catalog/images/white-party.webp?v=3",
+    "thumbnail": "assets/catalog/images/white-party-thumb.webp?v=3",
     "imageAlt": "White Party katalog görseli",
     "duration": null,
     "performers": null,
@@ -512,8 +513,17 @@ window.ZAYA_SHOWS = [
           "2 adet karbon makinesi (CO₂)",
           "4 kişilik dans grubu"
         ]
+      },
+      {
+        "heading": "Opsiyonel ekler",
+        "items": [
+          "Mim sanatçıları",
+          "Canlı saksafon",
+          "Genişletilmiş dans grubu"
+        ]
       }
     ],
+    "riderNote": "Kadro ve dekor tesisinize ve bütçenize göre genişletilebilir.",
     "sourcePage": 29,
     "driveUrl": "https://drive.google.com/file/d/18G_XT7E3oMo8IEKQmWDAEUwJ2I64p9er/view?usp=sharing",
     "embedUrl": "https://drive.google.com/file/d/18G_XT7E3oMo8IEKQmWDAEUwJ2I64p9er/preview",
