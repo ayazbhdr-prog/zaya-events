@@ -20,12 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   strip.innerHTML = CATEGORIES.map((cat, index) => `
     <article class="flick-card${index === 0 ? ' is-open' : ''}" data-filter="${cat.filter}">
-      <button type="button" class="flick-open" data-index="${index}" aria-expanded="${index === 0}" aria-label="${escapeHTML(cat.title)} — ${cat.count} program">
+      <button type="button" class="flick-open" data-index="${index}" aria-expanded="${index === 0}" aria-label="${escapeHTML(cat.title)}">
         <img class="flick-image" src="${cat.show.thumbnail || cat.show.image}" alt="" width="600" height="750" loading="lazy" decoding="async">
         <span class="flick-shade" aria-hidden="true"></span>
         <span class="flick-spine" aria-hidden="true">${escapeHTML(cat.title)}</span>
         <span class="flick-body">
-          <span class="flick-category">${cat.count} program</span>
           <span class="flick-title">${escapeHTML(cat.title)}</span>
           <span class="flick-facts"><span>${escapeHTML(cat.line)}</span></span>
           <span class="flick-action">Kategoriyi incele${brandIcon('arrow')}</span>
@@ -35,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const cards = $$('.flick-card', strip);
   let openIndex = 0;
+  let hoverTimer;
 
   const setOpen = index => {
     if (index === openIndex) return;
@@ -49,7 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const trigger = $('.flick-open', card);
     // Pointer only previews; the click still opens the show.
     if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
-      card.addEventListener('pointerenter', () => setOpen(index));
+      // Hover intent: sweeping across the strip should not flip every card on the way.
+      card.addEventListener('pointerenter', () => { clearTimeout(hoverTimer); hoverTimer = setTimeout(() => setOpen(index), 160); });
+      card.addEventListener('pointerleave', () => clearTimeout(hoverTimer));
     }
     trigger.addEventListener('focus', () => setOpen(index));
     trigger.addEventListener('click', () => {

@@ -8,9 +8,9 @@ window.ZAYA_STORIES = {
     moments: ['Latin gecesi', 'Haftanın açılışı', 'Ana sahne']
   },
   'turkish-folk-dance': {
-    tagline: 'Anadolu’nun dört bir yanı, tek bir sahnede.',
-    story: ['Turkish Folk Dance, farklı yörelerin halk danslarını özgün kostümler ve canlı ritimlerle sahneye taşıyan bir kültür gösterisi. Zeybekten horona, her bölüm ayrı bir coğrafyanın hikâyesini anlatır.', 'Yabancı misafirler için Türkiye’yi en kısa yoldan tanıtan akşam; yerli misafirler içinse gurur veren bir an. Türk gecesinin doğal merkezi.'],
-    moments: ['Türk gecesi', 'Kültür akşamı', 'Gala açılışı']
+    tagline: 'Bir akşamda bütün Anadolu.',
+    story: ['Türk Gecesi iki gösteriden kurulu. Önce oryantal: ışıklar kısılır, darbuka girer, sahne birkaç dakikada ısınır. Ardından halk oyunları başlar; zeybekten horona, her yöre kendi kostümü ve kendi müziğiyle sahneye çıkar.', 'Gecenin sonunda sahne misafirlere açılır ve halay kurulur. Yabancı misafirler için Türkiye’yi en kısa yoldan anlatan akşam, yerli misafirler için de gurur duyulan bir gece. Haftalık programın en sevilen akşamlarından biri.'],
+    moments: ['Türk gecesi', 'Oryantal', 'Halk oyunları']
   },
   'fresno-dance-show': {
     tagline: 'Hip hop enerjisi, sahne disipliniyle.',

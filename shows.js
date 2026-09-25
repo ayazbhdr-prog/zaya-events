@@ -324,14 +324,14 @@ window.ZAYA_SHOWS = [
   },
   {
     "id": "turkish-folk-dance",
-    "title": "Turkish Folk Dance",
+    "title": "Türk Gecesi",
     "filter": "stage-show",
     "category": "Sahne Şovları",
     "icon": "stage",
     "accent": "#f3b68c",
     "image": "assets/catalog/images/turkish-folk-dance.webp",
     "thumbnail": "assets/catalog/images/turkish-folk-dance-thumb.webp",
-    "imageAlt": "Turkish Folk Dance katalog görseli",
+    "imageAlt": "Türk Gecesi katalog görseli",
     "duration": 40,
     "performers": "13",
     "rider": [],
@@ -339,7 +339,7 @@ window.ZAYA_SHOWS = [
     "driveUrl": "https://drive.google.com/file/d/1d1wemj-huD_hS-PoPrj-TvE4vzBQPpwB/view",
     "embedUrl": "https://drive.google.com/file/d/1d1wemj-huD_hS-PoPrj-TvE4vzBQPpwB/preview",
     "mediaType": "video",
-    "description": "Türk halk danslarını sahnenize taşıyan kültürel bir gösteri.",
+    "description": "Oryantal ve Türk halk oyunları gösterileriyle bir Türk gecesi.",
     "tags": [
       "Sahne şovları",
       "2027 koleksiyonu"

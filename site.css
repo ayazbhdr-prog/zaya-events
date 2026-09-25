@@ -426,9 +426,9 @@ main h2{line-height:1.06}
 /* ZAYA colour: stage red used as an accent on ink and paper, never as a large field.
    --coral keeps its name so older stylesheets pick up the new red without edits. */
 :root{
-  --red:#E11D2E;        /* fills, buttons, lines */
+  --red:#E31B2D;        /* fills, buttons, lines */
   --red-bright:#FF3B4A; /* red text and thin marks on dark surfaces */
-  --red-deep:#B5121F;   /* red text on paper */
+  --red-deep:#A3142A;   /* red text on paper */
   --coral:var(--red);
 }
 
@@ -454,7 +454,7 @@ main h2{line-height:1.06}
 .service-row summary:hover .service-icon{color:#fff}
 .show-card:focus-visible,.flick-open:focus-visible,.show-details:focus-visible{outline-color:var(--red-bright)}
 .catalog a:focus-visible,.catalog button:focus-visible{outline-color:var(--red-deep)}
-.dialog-visual.no-photo{background:radial-gradient(ellipse at 15% 80%,#e11d2e55,transparent 65%),#153e41}
+.dialog-visual.no-photo{background:radial-gradient(ellipse at 15% 80%,#E31B2D55,transparent 65%),#153e41}
 
 /* Home closing call: dark stage, red accent. */
 .home-cta{background:#0c1011;color:var(--paper)}
@@ -604,7 +604,7 @@ body[data-page="shows"] .header:not(.is-scrolled) .menu-toggle{color:var(--ink);
 
 /* ===== show-page.css ===== */
 /* Show page — cinematic, Apple-grade: blurred poster backdrop, big type, the poster as an object. */
-.show-page{background:#000;color:#f5f5f7}
+.show-page{background:#08090B;color:#f5f5f7}
 
 .sp-hero{position:relative;overflow:hidden;min-height:100svh;display:flex;align-items:center;padding:140px max(7%,calc((100% - 1400px)/2)) 90px}
 .sp-backdrop{position:absolute;inset:-8%;z-index:0}
@@ -636,7 +636,7 @@ body[data-page="shows"] .header:not(.is-scrolled) .menu-toggle{color:var(--ink);
 .sp-media{padding:0 max(7%,calc((100% - 1400px)/2)) 110px}
 .sp-media-frame{position:relative;aspect-ratio:16/9;border-radius:24px;overflow:hidden;background:#1d1d1f}
 .sp-media-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.sp-media-start{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;cursor:pointer;background:#000}
+.sp-media-start{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;cursor:pointer;background:#08090B}
 .sp-media-start img{width:100%;height:100%;object-fit:cover;filter:blur(24px) brightness(.5);transform:scale(1.1)}
 .sp-media-start>span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:12px;padding:18px 30px;border-radius:999px;background:#ffffffe6;color:#1d1d1f;font:600 17px/1 var(--sans);transition:transform .4s var(--ease-soft)}
 .sp-media-start:hover>span{transform:translate(-50%,-50%) scale(1.05)}
@@ -655,7 +655,7 @@ body[data-page="shows"] .header:not(.is-scrolled) .menu-toggle{color:var(--ink);
 .sp-card-text strong{font-size:26px;font-weight:700;letter-spacing:-.035em}
 @media(hover:hover){.sp-card:hover{transform:translateY(-4px);box-shadow:0 24px 50px #00000026}.sp-card:hover img{transform:scale(1.12) translateY(-2%)}}
 
-.sp-pager{display:grid;grid-template-columns:1fr 1fr;background:#000;border-top:1px solid #ffffff1a}
+.sp-pager{display:grid;grid-template-columns:1fr 1fr;background:#08090B;border-top:1px solid #ffffff1a}
 .sp-pager a{display:flex;flex-direction:column;gap:8px;padding:48px max(7%,calc((100% - 1400px)/2));font-size:clamp(22px,2.2vw,32px);font-weight:600;letter-spacing:-.03em;color:#f5f5f7;transition:background .4s}
 .sp-pager a+a{text-align:right;border-left:1px solid #ffffff1a;align-items:flex-end}
 .sp-pager a:hover{background:#1d1d1f}
@@ -787,7 +787,7 @@ body[data-page="builder"] .header{background:#000}
    Loaded last on every page; it supersedes the earlier serif, green and ornament layers. */
 :root{
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,"Helvetica Neue",Arial,sans-serif;
-  --black:#000;--graphite:#1d1d1f;--graphite-2:#2c2c2e;
+  --black:#08090B;--graphite:#1d1d1f;--graphite-2:#2c2c2e;
   --light:#f5f5f7;--white:#fff;
   --grey-1:#86868b;--grey-2:#6e6e73;--hair:#d2d2d7;--hair-dark:#ffffff1f;
   --ink:#1d1d1f;--paper:#f5f5f7;--display:var(--sans);
@@ -926,7 +926,7 @@ footer{background:var(--black);color:var(--grey-1)}
   .pq-mark{display:flex;flex-direction:column;font-size:20pt;font-weight:600;letter-spacing:.14em;line-height:1}
   .pq-mark span{font-size:6.5pt;letter-spacing:.6em;margin-top:5pt}
   .pq-meta{display:flex;flex-direction:column;align-items:flex-end;gap:2pt;font-size:9pt;color:#6e6e73}
-  .pq-meta strong{font-size:10pt;letter-spacing:.12em;text-transform:uppercase;color:#E11D2E}
+  .pq-meta strong{font-size:10pt;letter-spacing:.12em;text-transform:uppercase;color:#E31B2D}
   .print-quote h1{margin:26pt 0 6pt;font-size:24pt;font-weight:700;letter-spacing:-.02em}
   .pq-note{margin:0 0 18pt;color:#6e6e73;font-size:11pt}
   .print-quote table{width:100%;border-collapse:collapse;margin-top:14pt}
@@ -948,3 +948,75 @@ body[data-page="shows"] .header:not(.is-scrolled) .lang-switch span.on{backgroun
 .lang-switch-mobile{display:none}
 @media(max-width:760px){.header>.lang-switch{display:none}.mobile-nav .lang-switch-mobile{display:inline-flex;align-self:flex-start;margin:14px 0 0}}
 .hero-visual video{object-fit:cover}
+
+/* ---------- Brand lockup: ZY ribbon mark + ZAYA / EVENTS ---------- */
+.wordmark{display:inline-grid;grid-template-columns:auto auto;column-gap:.46em;align-items:center;justify-items:center}
+.wordmark::before{content:'';grid-column:1;grid-row:1/3;width:2.95em;aspect-ratio:4160/1924;background:url(assets/brand/zy.svg?v=2) no-repeat center/contain}
+.wordmark>span{grid-column:2}
+.about-signature .wordmark::before{width:3.1em}
+.pq-brand{display:flex;align-items:center;gap:10pt}
+.pq-brand img{width:58pt;height:auto}
+.header .wordmark,.header.is-scrolled .wordmark,footer .wordmark,footer>.wordmark{width:auto}
+
+/* Lockup v2: one line — ZAYA (ink) EVENTS (red), bold, wide tracking */
+.wordmark{grid-template-columns:auto auto auto;column-gap:0;font-family:var(--sans);font-weight:700;font-size:17px;letter-spacing:.42em;padding-left:0}
+.wordmark::before{grid-row:1;width:74px;margin-right:18px}
+.wordmark>span{grid-column:3;grid-row:1;display:inline;margin:0 0 0 .42em;padding:0;font:inherit;letter-spacing:inherit;color:var(--red);opacity:1}
+.header.is-scrolled .wordmark{font-size:15px}.header.is-scrolled .wordmark::before{width:64px}
+.header.is-scrolled .wordmark span{font-size:inherit;margin-top:0}
+.about-signature .wordmark{font-size:17px}.about-signature .wordmark::before{width:74px}
+@media(max-width:760px){.wordmark{font-size:12.5px;letter-spacing:.34em}.wordmark::before{width:54px;margin-right:12px}.wordmark span{font-size:inherit;margin-top:0}.header.is-scrolled .wordmark{font-size:12px}.header.is-scrolled .wordmark::before{width:50px}}
+@media print{.pq-mark{flex-direction:row;font-size:12pt;font-weight:700;letter-spacing:.42em}.pq-mark span{font-size:inherit;letter-spacing:inherit;margin:0 0 0 .42em;color:#C91B2C}}
+
+/* Home strip: slower, softer expand. Width eases out long; text leaves fast, arrives late. */
+.flick-card{transition:flex-grow .95s cubic-bezier(.22,1,.36,1),flex-basis .95s cubic-bezier(.22,1,.36,1),min-width .95s cubic-bezier(.22,1,.36,1)}
+.flick-card .flick-image{transition:filter .9s cubic-bezier(.22,1,.36,1),transform 1.2s cubic-bezier(.22,1,.36,1)}
+.flick-spine{transition:opacity .45s .35s ease}
+.is-open .flick-spine{transition:opacity .2s ease}
+.flick-body{transition:opacity .2s ease,transform .2s ease}
+.is-open .flick-body{transition:opacity .6s .38s ease,transform .8s .38s cubic-bezier(.22,1,.36,1)}
+@media(prefers-reduced-motion:reduce){.flick-card,.flick-card .flick-image,.flick-body,.is-open .flick-body,.flick-spine{transition:none}}
+/* Strip, slower still */
+.flick-card{transition:flex-grow 1.3s cubic-bezier(.22,1,.36,1),flex-basis 1.3s cubic-bezier(.22,1,.36,1),min-width 1.3s cubic-bezier(.22,1,.36,1)}
+.is-open .flick-body{transition:opacity .8s .55s ease,transform 1s .55s cubic-bezier(.22,1,.36,1)}
+.flick-spine{transition:opacity .6s .5s ease}
+@media(prefers-reduced-motion:reduce){.flick-card,.is-open .flick-body,.flick-spine{transition:none}}
+
+/* Separate pages (Hizmetler / Hakkında / İletişim): content starts below the header */
+body.subpage main>section:first-child{padding-top:calc(104px + 72px)}
+body.subpage main{min-height:calc(100svh - 120px)}
+@media(max-width:760px){body.subpage main>section:first-child{padding-top:calc(84px + 44px)}}
+.desktop-nav a.is-current:after{transform:scaleX(1)}
+
+/* Hakkında page: light ground, dark header like the shows page */
+/* Catalogue page opens on a light ground: dark header until it turns solid on scroll. */
+body[data-page="about"] .header:not(.is-scrolled){color:var(--ink);border-bottom-color:#1115161f}
+body[data-page="about"] .header:not(.is-scrolled) .wordmark,
+body[data-page="about"] .header:not(.is-scrolled) .desktop-nav a,
+body[data-page="about"] .header:not(.is-scrolled) .nav-cta,
+body[data-page="about"] .header:not(.is-scrolled) .menu-toggle{color:var(--ink);border-color:#11151640}
+body[data-page="about"] .header:not(.is-scrolled) .lang-switch{background:#1d1d1f14}
+body[data-page="about"] .header:not(.is-scrolled) .lang-switch span.on{background:#1d1d1f;color:#fff}
+.about-copy .about-close{color:var(--ink)!important;font-weight:600;margin-top:8px}
+.why-promise{font-size:clamp(24px,2.2vw,34px);line-height:1.3;letter-spacing:-.02em;font-weight:600;color:var(--ink);max-width:460px}
+
+/* Show detail page sits on a dark ground: keep the header light (overrides the shows-page dark header) */
+body.show-detail[data-page="shows"] .header:not(.is-scrolled){color:var(--paper);border-bottom-color:#ffffff16}
+body.show-detail[data-page="shows"] .header:not(.is-scrolled) .wordmark,
+body.show-detail[data-page="shows"] .header:not(.is-scrolled) .desktop-nav a,
+body.show-detail[data-page="shows"] .header:not(.is-scrolled) .nav-cta,
+body.show-detail[data-page="shows"] .header:not(.is-scrolled) .menu-toggle{color:var(--paper);border-color:#ffffff60}
+body.show-detail[data-page="shows"] .header:not(.is-scrolled) .lang-switch{background:#ffffff1a}
+body.show-detail[data-page="shows"] .header:not(.is-scrolled) .lang-switch span.on{background:#fff;color:#1d1d1f}
+
+/* Catalogue page: content starts clear of the header line */
+body[data-page="shows"]:not(.show-detail) .catalog{padding-top:calc(104px + 36px)}
+@media(max-width:760px){body[data-page="shows"]:not(.show-detail) .catalog{padding-top:calc(84px + 28px)}}
+/* Segmented control: red pill, white label */
+.catalog .catalog-filters{position:relative}
+.filter-indicator{background:var(--red);box-shadow:0 2px 10px #e31b2d33}
+.catalog .catalog-filters button{position:relative;z-index:1;transition:color .35s ease}
+.catalog .catalog-filters button[aria-pressed=true]{color:#fff}
+.filter-indicator{background:#C91B2C;box-shadow:0 2px 10px #c91b2c33}
+.contact-person{display:flex;flex-direction:column;gap:6px;font-size:21px;font-weight:600;letter-spacing:-.02em;color:#f5f5f7}
+.contact-person small{font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--grey-1)}
