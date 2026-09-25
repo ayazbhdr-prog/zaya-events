@@ -1025,3 +1025,119 @@ body[data-page="shows"]:not(.show-detail) .catalog{padding-top:calc(104px + 36px
 footer .wordmark,footer>.wordmark{font-size:0;letter-spacing:0;column-gap:0}
 footer .wordmark>span{display:none}
 footer .wordmark::before{width:56px;margin-right:0}
+
+/* References: always one sliding row, also on phones and under reduced motion */
+@media(prefers-reduced-motion:reduce){
+  .logo-track{animation:hotel-flow 60s linear infinite;width:max-content}
+  .logo-set{flex-wrap:nowrap;width:auto}
+  .logo-set[aria-hidden=true]{display:flex}
+  .logo-marquee{mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+  .hotel-logo{width:225px;padding:20px 40px}
+}
+@media(max-width:760px){
+  .logo-track,.logo-set{flex-wrap:nowrap}
+  .hotel-logo{width:150px;height:80px;padding:12px 22px}
+  .hotel-logo img{max-width:112px;max-height:48px}
+}
+
+/* Home: closing call to action */
+.home-cta{background:var(--black);color:var(--paper);padding:96px 6% 104px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;border-top:1px solid #ffffff14}
+.home-cta h2{font-size:clamp(34px,4.2vw,60px);line-height:1.08;letter-spacing:-.045em;font-weight:600}
+.cta-button{display:inline-flex;align-items:center;gap:14px;min-height:56px;padding:0 26px 0 30px;border-radius:999px;background:#C91B2C;color:#fff;font-size:16px;font-weight:600;transition:background .3s,transform .3s}
+.cta-button:hover{background:#b3172a}.cta-button svg{width:20px;height:20px;transition:transform .3s}.cta-button:hover svg{transform:translate(3px,-3px)}
+@media(max-width:760px){.home-cta{padding:64px 6% 72px;flex-direction:column;align-items:flex-start}.cta-button{width:100%;justify-content:center}}
+
+/* Mobile readability and tap targets */
+@media(max-width:760px){
+  .eyebrow,.scene-example,.scene-timeline strong,.references-heading .eyebrow{font-size:11.5px!important}
+  .showcase-all,.sp-back{display:inline-flex;align-items:center;min-height:44px}
+  .sp-crumb a{display:inline-flex;align-items:center;min-height:44px}
+  .hero-shade{background:linear-gradient(0deg,#000000e0 0%,#0000008c 45%,#00000059 100%)!important}
+  .hero-signature em{color:#d0d0d5!important}
+  .hero::after{content:'';position:absolute;z-index:3;left:50%;bottom:26px;width:22px;height:36px;margin-left:-11px;border:1.5px solid #ffffff8c;border-radius:12px;background:linear-gradient(#fff,#fff) center 8px/2px 7px no-repeat;animation:scroll-hint 1.8s ease-in-out infinite}
+}
+@keyframes scroll-hint{0%,100%{background-position:center 8px}50%{background-position:center 16px}}
+@media(prefers-reduced-motion:reduce){.hero::after{animation:none}}
+
+/* Home CTA second line */
+.home-cta h2 span{color:var(--grey-1,#86868b)}
+
+/* Contact page */
+.contact-page .cp-top{display:grid;grid-template-columns:1.1fr 1fr;gap:6%;align-items:end}
+.cp-intro{font-size:18px;line-height:1.65;color:#a1a1a6;max-width:440px;padding-bottom:10px}
+.cp-person{margin-top:72px;display:flex;flex-direction:column;gap:8px}
+.cp-person small,.cp-channel small{font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:#86868b}
+.cp-person strong{font-size:clamp(28px,2.6vw,38px);font-weight:600;letter-spacing:-.03em;color:#f5f5f7}
+.cp-channels{margin-top:36px;border-top:1px solid #ffffff1f}
+.cp-channel{display:grid;grid-template-columns:160px 1fr auto;align-items:center;gap:24px;padding:30px 4px;border-bottom:1px solid #ffffff1f;color:#f5f5f7;transition:color .3s,padding .4s cubic-bezier(.22,1,.36,1)}
+.cp-channel span{font-size:clamp(24px,2.4vw,34px);font-weight:600;letter-spacing:-.03em}
+.cp-channel svg{width:26px;height:26px;color:#86868b;transition:transform .3s,color .3s}
+.cp-channel:hover{color:#fff;padding-left:14px}.cp-channel:hover svg{color:#C91B2C;transform:translate(3px,-3px)}
+.cp-steps{margin-top:96px}
+.cp-steps ol{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.cp-steps li span{display:block;font-size:13px;font-weight:600;color:#C91B2C;margin-bottom:14px}
+.cp-steps li strong{display:block;font-size:21px;font-weight:600;letter-spacing:-.02em;color:#f5f5f7;margin-bottom:8px}
+.cp-steps li p{font-size:15px;line-height:1.6;color:#a1a1a6}
+.contact-page .contact-lines{display:none}
+@media(max-width:760px){
+  .contact-page .cp-top{grid-template-columns:1fr;gap:22px}.cp-intro{font-size:16px}
+  .cp-person{margin-top:44px}
+  .cp-channel{grid-template-columns:1fr auto;gap:6px 16px;padding:22px 2px}.cp-channel small{grid-column:1/-1}
+  .cp-steps{margin-top:64px}.cp-steps ol{grid-template-columns:1fr;gap:28px}
+}
+
+/* Performer cut-outs on the inner pages */
+.people-art{margin:0;pointer-events:none}
+.people-art img{width:100%;height:auto;object-fit:contain}
+.contact-page,.services{position:relative;overflow:hidden}
+.contact-page>*:not(.people-art){position:relative;z-index:1}
+.hat-art{position:absolute;right:4%;top:120px;width:min(30vw,400px);z-index:0}
+.hat-art::before{content:'';position:absolute;inset:-12% -30% 0;background:radial-gradient(50% 45% at 50% 45%,#ffffff26,#ffffff0a 55%,transparent 72%);z-index:-1}
+.hat-art img{filter:drop-shadow(0 20px 40px #000a)}
+.contact-page .cp-top{grid-template-columns:1fr}.contact-page .cp-intro{margin-top:24px}
+.contact-page .cp-top,.contact-page .cp-person,.contact-page .cp-channels{max-width:62%}
+.mirror-art{position:absolute;right:5%;top:96px;width:min(24vw,330px);opacity:.95}
+.services .service-list{position:relative;z-index:1}
+.about-lead{display:flex;flex-direction:column;gap:48px}
+.hoop-art{width:100%;max-width:520px}
+@media(max-width:760px){
+  .hat-art{position:relative;right:auto;top:auto;width:70%;margin:8px auto 24px;order:-1}
+  .contact-page .cp-top,.contact-page .cp-person,.contact-page .cp-channels{max-width:none}
+  .mirror-art{position:relative;right:auto;top:auto;width:62%;margin:0 0 20px auto}
+  .hoop-art{max-width:none;margin-top:-8px}
+}
+.mirror-art img{-webkit-mask-image:linear-gradient(180deg,#000 62%,transparent 98%);mask-image:linear-gradient(180deg,#000 62%,transparent 98%)}
+.mirror-art{top:110px;z-index:0}
+
+/* Neden ZAYA: dancer fills the right column, promise sits under it as a quiet caption */
+.why-evidence{display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+.why-art{position:static!important;width:min(100%,420px)!important;top:auto;right:auto;margin:0 auto}
+.why-art img{-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 99%);mask-image:linear-gradient(180deg,#000 70%,transparent 99%)}
+.why-promise{font-size:17px!important;line-height:1.55!important;font-weight:500!important;letter-spacing:-.01em!important;color:var(--grey-2,#6e6e73)!important;max-width:360px!important;text-align:center;margin-top:8px}
+@media(max-width:760px){.why-art{width:78%!important;margin-top:32px}}
+
+/* Performer placement v2 */
+.hat-art{top:220px}
+.why-art{margin-top:96px!important}
+.cp-channel span{white-space:nowrap}
+@media(max-width:1100px) and (min-width:761px){
+  .hat-art{width:26vw;top:260px;right:2%}
+  .contact-page .cp-top,.contact-page .cp-person,.contact-page .cp-channels{max-width:68%}
+  .cp-channel{grid-template-columns:110px 1fr auto;gap:16px}
+  .cp-channel span{font-size:clamp(20px,2.6vw,28px)}
+}
+@media(max-width:760px){
+  .contact-page{display:flex;flex-direction:column}
+  .hat-art{order:99;width:48%!important;margin:48px auto 0!important;position:relative!important;top:auto!important;right:auto!important}
+  .why-art{width:58%!important;margin-top:40px!important}
+}
+
+/* Contact v3: dancer lives in its own right column, feet on the last contact line */
+@media(min-width:761px){
+  .contact-page{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,34%);column-gap:5%;align-items:start}
+  .contact-page>.eyebrow,.contact-page>.cp-top,.contact-page>.cp-person,.contact-page>.cp-channels{grid-column:1}
+  .contact-page .cp-top,.contact-page .cp-person,.contact-page .cp-channels{max-width:none!important}
+  .contact-page>.cp-steps{grid-column:1/-1}
+  .hat-art{position:relative!important;grid-column:2;grid-row:1/span 4;align-self:end;justify-self:center;top:auto!important;right:auto!important;width:min(100%,380px)!important;margin:0 0 6px}
+  .contact-page .cp-top{grid-row:2}.contact-page>.eyebrow{grid-row:1}.contact-page .cp-person{grid-row:3}.contact-page .cp-channels{grid-row:4}
+}
